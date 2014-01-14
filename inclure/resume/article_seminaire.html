@@ -1,0 +1,20 @@
+[(#REM)
+
+  Squelette Presentation resumee d'un article dans une liste
+  Distribue sous licence GPL
+
+]
+<BOUCLE_articles(ARTICLES) {id_article}{seminaire = on} {statut?}>
+<article class="entry article hentry">
+	[<time pubdate="pubdate" datetime="[(#DATE|date_iso)]">(#DATE|affdate_jourcourt)</time>]
+	<strong class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+		class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+	<BOUCLE_evenements(EVENEMENTS){id_article}> </BOUCLE_evenements>
+	[<p><strong><:seminaire:info_seminaire:></strong>(#TOTAL_BOUCLE|singulier_ou_pluriel{seminaire:info_seances_une,seminaire:info_seances_nb})</p>]
+	</B_evenements>
+	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
+	<p class="meta-publi">
+		<B_mots_art><span class="sep">|</span> <BOUCLE_mots_art(MOTS){id_article=#_article_evt:ID_ARTICLE}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>
+	</p>
+</article>
+</BOUCLE_articles>

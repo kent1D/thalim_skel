@@ -1,0 +1,29 @@
+<body>
+	<div class="page">
+		<div class="container">
+			<div class="header" id="header">
+				<INCLURE{fond=header/#ENV{type-page},env} />
+			</div>
+			<div class="maincontainer" id="maincontainer">
+				[<div class="navbar navbar-inverse navbar-responsive" id="nav">
+					(#INCLURE{fond=inclure/nav,env}|navbar_responsive)
+				</div>]
+				<div class="wrapper" id="wrapper">
+					<div class="content primary" id="content">
+						<INCLURE{fond=content/#ENV{type-page},env} />
+					</div>
+				</div>
+				<div class="aside secondary col" id="aside">
+						<INCLURE{fond=aside/#ENV{type-page},env,ajax} />
+					</div>
+					<div class="extra secondary col" id="extra">
+						<INCLURE{fond=extra/#ENV{type-page},env,ajax} />
+					</div>
+					<div class="clearfix"></div>
+			</div>
+			<div class="footer" id="footer">
+				<INCLURE{fond=footer/#ENV{type-page},env} />
+			</div>
+		</div>
+	</div>
+</body>

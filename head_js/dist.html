@@ -1,0 +1,25 @@
+<script type="text/javascript">
+	var title_svg = function(){
+		$('h1').each(function(){
+			if($(this).has('svg').length >= 1){return; }
+			var text = $(this).text();
+			$(this).html('<svg height="40">'
+				+'<text x="2" y="30" fill="black"style="font-size:23px;font-style:normal;font-weight:normal;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial">'+text+'<\/text>'
+				+'<text x="2" y="30" style="font-size:23px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;font-family:Arial">'+text+'<\/text><\/svg>');
+		});
+		$('h2').each(function(){
+			if($(this).has('svg').length >= 1){return; }
+
+				var text = $(this).text();
+				$(this).html('<svg height="30">'
+					+'<text x="3" y="20" fill="black"style="font-size:18px;font-style:normal;font-weight:normal;fill:none;fill-opacity:1;stroke:#000000;stroke-width:6px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial">'+text+'<\/text>'
+					+'<text x="3" y="20" style="font-size:18px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;font-family:Arial">'+text+'<\/text><\/svg>')
+				.css({'margin':0});
+
+		});
+	}
+	$(document).ready(function(){
+		//title_svg();
+		//onAjaxLoad(title_svg);
+	});
+</script>

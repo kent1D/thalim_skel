@@ -1,0 +1,20 @@
+<BOUCLE_extra2_article(ARTICLES){id_article}>
+<B_evenements>
+<div class="liste evenements seminaires">
+	<h2 class="h2"><:thalim:titre_seances_seminaire:></h2>
+	<ul class="liste-items">
+	<BOUCLE_evenements(EVENEMENTS){id_article}{par date_debut}>
+		<li class="item">
+			[(#ENV{id_evenement}|=={#ID_EVENEMENT}|non)
+			[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]
+			<br /><a href="[(#SELF|parametre_url{id_evenement,#ID_EVENEMENT})]" class="ajax">#TITRE</a>]
+			[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
+			[(#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT})]]
+		</li>
+	</BOUCLE_evenements>
+	</ul>
+</div>
+</B_evenements>
+
+
+</BOUCLE_extra2_article>

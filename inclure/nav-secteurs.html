@@ -1,0 +1,14 @@
+<B_rubriques>
+  <div class="menu menu-container navbar-inner">
+	 <ul class="menu-items menu-liste nav">
+		 <li class="item menu-entree[ (#SI_PAGE{sommaire})on active]">
+			 <a href="#URL_SITE_SPIP/"><:zcore:accueil:></a>
+		 </li>
+		 <BOUCLE_rubriques(RUBRIQUES) {racine} {par num titre, titre}>
+		 <li class="item menu-entree[ (#EXPOSE{on active})]">
+			<a href="#URL_RUBRIQUE">[(#TITRE|couper{80})]</a>
+		</li>
+	 </BOUCLE_rubriques>
+	 </ul>
+  </div>
+</B_rubriques>

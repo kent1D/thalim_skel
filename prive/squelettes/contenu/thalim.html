@@ -1,0 +1,49 @@
+#BOITE_OUVRIR
+
+<B_seminaires>
+<h3>#GRAND_TOTAL (Séminaire%)</h3>
+<ul>
+<BOUCLE_seminaires(ARTICLES){titre LIKE Séminaire%}{par titre}>
+<li><a href="[(#ID_ARTICLE|generer_url_entite{article})]">#TITRE</a></li>
+</BOUCLE_seminaires>
+</ul>
+</B_seminaires>
+
+<B_colloques>
+<h3>#GRAND_TOTAL (Colloque%)</h3>
+<ul>
+<BOUCLE_colloques(ARTICLES){titre LIKE Colloque%}{par titre}>
+<li><a href="[(#ID_ARTICLE|generer_url_entite{article})]">#TITRE</a></li>
+</BOUCLE_colloques>
+</ul>
+</B_colloques>
+#BOITE_FERMER
+
+#BOITE_OUVRIR
+<B_auteurs_ss_qualite>
+<h3>#GRAND_TOTAL auteurs sans qualité</h3>
+<ul>
+<BOUCLE_auteurs_ss_qualite(AUTEURS spip_articles){articles.id_secteur IN 17,15,8}{membre_qualite = ''}>
+<li><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></li>
+</BOUCLE_auteurs_ss_qualite>
+</ul>
+</B_auteurs_ss_qualite>
+
+<B_auteurs_ss_role>
+<h3>#GRAND_TOTAL auteurs sans role</h3>
+<ul>
+<BOUCLE_auteurs_ss_role(AUTEURS spip_articles){articles.id_secteur IN 17,15,8}{role = ''}>
+<li><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></li>
+</BOUCLE_auteurs_ss_role>
+</ul>
+</B_auteurs_ss_role>
+
+<B_auteurs_ss_mot_groupe>
+<h3>#GRAND_TOTAL auteurs sans groupe de recherche</h3>
+<ul>
+<BOUCLE_auteurs_ss_mot_groupe(AUTEURS spip_articles){!id_mot IN 630,120,274,275,592,677,803,849,913}{articles.id_secteur IN 17,15,8}>
+<li><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></li>
+</BOUCLE_auteurs_ss_mot_groupe>
+</ul>
+</B_auteurs_ss_mot_groupe>
+#BOITE_FERMER

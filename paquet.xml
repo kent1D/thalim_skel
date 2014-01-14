@@ -1,0 +1,15 @@
+<paquet
+	prefix="thalim_skel"
+	categorie="squelette"
+	version="0.1.0"
+	etat="stable"
+	compatibilite="[3.0.0;3.1.*]"
+>
+
+	<nom>Thalim</nom>
+
+	<auteur lien="http://www.kent1.info">kent1</auteur>
+	<necessite nom="spipr_dist" />
+	<necessite nom="seminaire" />
+	<necessite nom="pages" />
+</paquet>

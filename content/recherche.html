@@ -1,0 +1,17 @@
+<section>
+	[<header class="cartouche">
+		<h1><:resultats_recherche:>
+			<small>&#171;&nbsp;(#RECHERCHE)&nbsp;&#187;</small>
+		</h1>
+	</header>]
+
+	<div class="main">
+		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,3}{par num titre}>
+		<INCLURE{fond=liste/articles-recherche,id_secteur=#ID_RUBRIQUE,pagination=10,titre=#TITRE,env,ajax} />
+		</BOUCLE_secteur>
+		<BOUCLE_groupes_mots(GROUPES_MOTS){par num titre}>
+		<INCLURE{fond=liste/mots-recherche,id_groupe,pagination=10,titre=#TITRE,env,ajax} />
+		</BOUCLE_groupes_mots>
+	</div>
+
+</section>

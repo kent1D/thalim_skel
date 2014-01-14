@@ -1,0 +1,18 @@
+<B_articles>
+	#ANCRE_PAGINATION
+	[<h2 class="h2">(#ENV{titre})</h2>]
+	<ul class="liste-items">
+		<BOUCLE_articles(ARTICLES){id_rubrique?}{id_secteur?}{id_mot?} {!par date}{!id_article IN #ENV{articles_exclus,#ARRAY}} {pagination #ENV{nb,5}}>
+		<BOUCLE_evenement(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
+		<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+		</BOUCLE_evenement>
+		</B_evenement>
+		[(#SEMINAIRE|=={on}|oui)
+		<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>]
+		[(#SEMINAIRE|=={on}|non)
+		<li class="item">#INCLURE{fond=inclure/resume/article,id_article,env}</li>]
+		<//B_evenement>
+		</BOUCLE_articles>
+	</ul>
+	[<div class="pagination">(#PAGINATION)</div>]
+</B_articles>

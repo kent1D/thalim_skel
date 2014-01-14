@@ -1,0 +1,48 @@
+<BOUCLE_content(MOTS) {id_mot} {doublons}>
+<section>
+
+	<header class="cartouche">
+		<h1 class="#EDIT{titre}">[(#LOGO_MOT|image_reduire)]#TITRE</h1>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
+	</div>
+
+	<aside>
+		[(#REM) Articles lies au mot-cle ]
+		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,3}{par num titre}>
+		<INCLURE{fond=liste/articles-resume,id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />
+		</BOUCLE_secteur>
+
+		[(#REM) Rubriques liees au mot-cle ]
+		<B_rubriques>
+		<div class="liste rubriques">
+			<h2 class="h2"><:rubriques:></h2>
+			<ul class="liste-items">
+				<BOUCLE_rubriques(RUBRIQUES) {id_mot} {par titre} {pagination 50}>
+				<li class="item"><a href="#URL_RUBRIQUE">#TITRE</a></li>
+				</BOUCLE_rubriques>
+			</ul>
+			[<div class="pagination">(#PAGINATION)</div>]
+		</div>
+		</B_rubriques>
+
+		[(#REM) Sites web lies au mot-cle ]
+		<B_sites>
+		<div class="liste sites">
+			<h2 class="h2"><:sites_web:></h2>
+			<ul class="liste-items">
+				<BOUCLE_sites(SITES) {id_mot} {par nom_site} {pagination 50}>
+				<li class="item"><a href="[(#ID_SYNDIC|generer_url_entite{site,'','',#CONNECT})]">#NOM_SITE</a></li>
+				</BOUCLE_sites>
+			</ul>
+			[<div class="pagination">(#PAGINATION)</div>]
+		</div>
+		</B_sites>
+	</aside>
+	[<footer>
+		<div class="notes"><hr />(#NOTES)</div>
+	</footer>]
+</section>
+</BOUCLE_content>
