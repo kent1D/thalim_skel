@@ -10,15 +10,17 @@
 	<meta itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]" />
 	<meta itemprop="endDate" content="[(#DATE_FIN|date_iso)]" />
 	<div class="entry-content">
-	#SET{intro,''}<BOUCLE_art(ARTICLES){si #ENV{sinon_intro_article,oui}|=={non}|ou{#ENV{intro}|=={non}}|non}{id_article}>#SET{intro,#INTRODUCTION{#ENV{coupe,300}}</BOUCLE_art>
-	[(#ENV{intro,oui}|=={non}|non)[<div class="introduction #EDIT{descriptif}" itemprop="description">(#DESCRIPTIF|sinon{#GET{intro}})</div>]]
+	#SET{intro,''}<BOUCLE_art(ARTICLES){si #ENV{sinon_intro_article,oui}|=={non}|ou{#ENV{intro}|=={non}}|non}{id_article}>#SET{intro,#INTRODUCTION{#ENV{coupe,200}}</BOUCLE_art>
+	[(#ENV{intro,oui}|=={non}|non)[<div class="introduction #EDIT{descriptif}" itemprop="description">(#DESCRIPTIF|couper{200}|sinon{#GET{intro}})</div>]]
 
-	[<p class="location" itemprop="location"><span class="lieu #EDIT{lieu}">(#LIEU)</span>[<br /><span class="adresse #EDIT{adresse}">(#ADRESSE|PtoBR)</span>]</p>]
+	[(#ENV{afficher_lieu}|=={oui}|oui)
+	[<p class="location" itemprop="location"><span class="lieu #EDIT{lieu}">(#LIEU)</span>[<br /><span class="adresse #EDIT{adresse}">(#ADRESSE|PtoBR)</span>]</p>]]
 	</div>
+	<B_mots_art>
 	<p class="meta-publi">
-		[(#INSCRIPTION|?{' ',''})<span class="inscrits"><span class="sep">|</span> <i class="icon-user" title="#NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)] <:agenda:inscrits|attribut_html:>"></i> #NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)]</span>]
-		<B_mots_art><span class="sep">|</span> <BOUCLE_mots_art(MOTS){id_article=#_article_evt:ID_ARTICLE}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>
+		<span class="sep">|</span> <BOUCLE_mots_art(MOTS){si #ENV{afficher_tags}|=={oui}}{id_article=#_article_evt:ID_ARTICLE}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>
 	</p>
+	</B_mots_art>
 </article>
 </BOUCLE_vevent>
 </BOUCLE_article_evt>
