@@ -2,7 +2,7 @@
 	#ANCRE_PAGINATION
 	[<h2 class="h2">&bull; (#ENV{titre})</h2>]
 	<ul class="liste-items">
-		<BOUCLE_articles(ARTICLES){id_rubrique?}{id_auteur ?}{id_secteur?}{id_mot?} {!par date}{!id_article IN #ENV{articles_exclus,#ARRAY}} {pagination #ENV{nb,5}}>
+		<BOUCLE_articles(ARTICLES){id_rubrique?}{id_auteur ?}{id_secteur?}{id_mot?} {!par date}{!id_article IN #ENV{articles_exclus,#ARRAY}} {pagination #ENV{nb,5}  #ENV{param_page}}>
 		<BOUCLE_evenement(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
 		<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
 		</BOUCLE_evenement>
