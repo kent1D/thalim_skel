@@ -4,6 +4,8 @@
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
+	'date_fmt_jour_mois' => '<span class="jour_debut">@jour@</span> @nommois@',
+	'date_fmt_jour_mois_annee' => '<span class="jour_debut">@jour@</span> @nommois@ @annee@',
 	'info_rechercher_02' => 'Rechercher sur le site',
 );
 
