@@ -9,11 +9,11 @@
 		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247,3}{par num titre}{tout}>
 		[(#COMPTEUR_BOUCLE|=={1}|ou{#COMPTEUR_BOUCLE|=={3}}|oui)
 		<div class="row">]
-		<div class="liste long articles span4">
+		<div class="liste long articles span4">#SET{titre,#TITRE|strtolower}
 		[(#AGENDA|=={1}|non)
-		<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />]
+		<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
 		[(#AGENDA|=={1}|oui)
-		<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />]
+		<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
 		</div>
 		[(#COMPTEUR_BOUCLE|=={2}|ou{#COMPTEUR_BOUCLE|=={4}}|oui)</div>]
 		</BOUCLE_rubriques_homes>
