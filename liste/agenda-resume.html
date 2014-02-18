@@ -1,6 +1,6 @@
 <B_agenda>
 	#ANCRE_PAGINATION
-	[<h2 class="h2">&bull; (#ENV{titre,<:derniers_articles:>})</h2>]
+	[<h2 class="h2">&bull; (#ENV{titre})</h2>]
 	<ul class="liste-items">
 		<BOUCLE_agenda(EVENEMENTS){id_secteur?}{id_mot?}{!par date}{!id_article IN #ENV{articles_exclus,#ARRAY}}{!par date_debut} {pagination #ENV{nb,5} #ENV{param_page}}>
 		<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement}</li>

@@ -2,6 +2,44 @@
 
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
+function thalim_role_chaine($texte,$small=false){
+	switch ($texte) {
+		case 'cdd_doctorant':
+			$texte = ($small ? '' : _T('thalim:info_cdd_doctorant'));
+			break;
+		case 'charge_recherche':
+			$texte = ($small ? 'CR' : _T('thalim:info_charge_recherche'));
+			break;
+		case 'directeur_recherche':
+			$texte = ($small ? 'DR' : _T('thalim:info_directeur_recherche'));
+			break;
+		case 'maitre_conference':
+			$texte = ($small ? 'MCF' : _T('thalim:info_maitre_conference'));
+			break;
+		case 'post_doctorant':
+			$texte = ($small ? '' : _T('thalim:info_post_doctorant'));
+			break;
+		case 'prof_emerite':
+			$texte = ($small ? 'PREM' : _T('thalim:info_prof_emerite'));
+			break;
+		case 'professeur':
+			$texte = ($small ? 'PR' : _T('thalim:info_professeur'));
+			break;
+		case '10_secretaire_gestionnaire':
+			$texte = ($small ? '' : _T('thalim:info_10_secretaire_gestionnaire'));
+			break;
+		case '20_communication':
+			$texte = ($small ? '' : _T('thalim:info_20_communication'));
+			break;
+		case '30_conception_graphique':
+			$texte = ($small ? '' : _T('thalim:info_30_conception_graphique'));
+			break;
+		default:
+			break;
+	}
+	return $texte;
+}
+
 function thalim_agenda_affdate_debut_fin($date_debut, $date_fin, $horaire = 'oui', $forme=''){
 	$abbr = '';
 	if (strpos($forme,'abbr')!==false) $abbr = 'abbr';

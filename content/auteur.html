@@ -1,15 +1,27 @@
-<BOUCLE_content(AUTEURS){id_auteur}>
+<BOUCLE_content(AUTEURS){id_auteur}{tout}>
 <section class="vcard" itemscope itemtype="http://schema.org/Person"> [(#REM) microformat vcard]
 	<header class="cartouche">
 		<h1 class="#EDIT{qui} fn" itemprop="name">[(#LOGO_AUTEUR|image_reduire|inserer_attribut{itemprop,image})]#NOM</h1>
 	</header>
 
 	<div class="main">
+		[<p class="role">(#ROLE)</p>]
 		[<div class="#EDIT{bio} chapo bio">(#BIO|adaptive_images)</div>]
-		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		<B_themes>
+		<p class="themes_recherche"><strong>[(#GRAND_TOTAL|singulier_ou_pluriel{thalim:info_theme_recherche,thalim:info_themes_recherche})]</strong>
+		<BOUCLE_themes(MOTS){id_auteur}{id_groupe = 2}{', '}>
+		<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_themes>
+		</p></B_themes>
+		[<p class="#EDIT{hyperlien} hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		[<div class="publications">
+			<h2><:thalim:titre_publications:></h2>
+			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
+		</div>]
 	</div>
 
 	<aside>
+		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247,3}{0,1}>
+		<h2><:thalim:titre_activites:></h2>
 		<B_rubriques_homes>
 		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247,3}{par num titre}{tout}>
 		[(#COMPTEUR_BOUCLE|=={1}|ou{#COMPTEUR_BOUCLE|=={3}}|oui)
@@ -23,7 +35,7 @@
 		[(#COMPTEUR_BOUCLE|=={2}|ou{#COMPTEUR_BOUCLE|=={4}}|oui)</div>]
 		</BOUCLE_rubriques_homes>
 		</B_rubriques_homes>
-		
+		</BOUCLE_activite>
 		#FORMULAIRE_ECRIRE_AUTEUR
 	</aside>
 

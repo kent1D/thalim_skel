@@ -3,39 +3,20 @@
 (#INCLURE{fond=inclure/menu, env, identifiant=barright})
 </div>]
 
-[(#REM)
-	Barre de navigation, ouverte sur la hierarchie courante
-
-	On fait un plan, et, quand on avance vers une rubrique,
-	on l'affiche si son parent est expose ou est la racine du site. ]
-<B_rubriques>
-
 	<ul class="nav nav-list">
-	<BOUCLE_rubriques(RUBRIQUES) {racine}{id_rubrique IN 3,250,251,247,253} {par num titre, titre}>
-		<li class="#EXPOSE{active}">
-			<a href="#URL_RUBRIQUE"[ class="(#EXPOSE)"]>[(#TITRE|couper{80})]</a>
 
-			<B_sous_rubriques>
-			<ul class="nav nav-list">
-				<BOUCLE_sous_rubriques(RUBRIQUES) {id_parent} {par num titre, titre}><BOUCLE_test_expose(RUBRIQUES) {id_enfant}>#EXPOSE{' '}</BOUCLE_test_expose>
-					<li class="#EXPOSE{active}"><a href="#URL_RUBRIQUE"[ class="(#EXPOSE)"]>[(#TITRE|couper{80})]</a><BOUCLE_re(BOUCLE_sous_rubriques)></BOUCLE_re>	</li>
-				</B_test_expose></BOUCLE_sous_rubriques>
-			</ul>
-			</B_sous_rubriques>
-
-		</li>
-	</BOUCLE_rubriques>
 	<BOUCLE_partenaires(ARTICLES){page = partenaires}>
 		<li class="#EXPOSE{active}">
 			<a href="#URL_ARTICLE"[ class="(#EXPOSE)"]>#TITRE</a>
 		</li>
 	</BOUCLE_partenaires>
+	<li class="[(#ENV{page}|=={membres}|oui)active]">
+		<a href="#URL_PAGE{membres}"[ class="(#ENV{page}|=={membres}|oui)active"]><:thalim:lien_membres:></a>
+	</li>
 	<BOUCLE_contact(ARTICLES){page = contact}>
 		<li class="#EXPOSE{active}">
 			<a href="#URL_ARTICLE"[ class="(#EXPOSE)"]>#TITRE</a>
 		</li>
 	</BOUCLE_contact>
 	</ul>
-
-</B_rubriques>
 </div>

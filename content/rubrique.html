@@ -1,6 +1,5 @@
 <BOUCLE_content(RUBRIQUES){id_rubrique}>
-<section>
-
+<section class="span6 offset1">
 	<header class="cartouche">
 		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
 		<h1 class="#EDIT{titre}">#TITRE</h1>
@@ -11,7 +10,12 @@
 
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
-			<INCLURE{fond=liste/articles-resume,env,ajax,afficher_date} />
+			[(#AGENDA|=={1}|non)
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
+			[(#AGENDA|=={1}|oui)
+			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env,ajax} />
+			[(#REM)
+			<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]]
 			</div>
 		</BOUCLE_articles>
 

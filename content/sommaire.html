@@ -2,22 +2,9 @@
 	<header class="cartouche hide">
 		<h1>#NOM_SITE_SPIP</h1>
 	</header>
-
-	<div class="main">
-		[<div id="descriptif_site_spip">(#DESCRIPTIF_SITE_SPIP)</div>]
-		<B_rubriques_homes>
-		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247,3}{par num titre}{tout}>
-		[(#COMPTEUR_BOUCLE|=={1}|ou{#COMPTEUR_BOUCLE|=={3}}|oui)
-		<div class="row">]
-		<div class="liste long articles span4">#SET{titre,#TITRE|strtolower}
-		[(#AGENDA|=={1}|non)
-		<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
-		[(#AGENDA|=={1}|oui)
-		<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
-		</div>
-		[(#COMPTEUR_BOUCLE|=={2}|ou{#COMPTEUR_BOUCLE|=={4}}|oui)</div>]
-		</BOUCLE_rubriques_homes>
-		</B_rubriques_homes>
+	<div class="main row">
+		[<div id="descriptif_site_spip" class="span6 offset1">(#DESCRIPTIF_SITE_SPIP)</div>]
+		<INCLURE{fond=inclure/axes_transersaux} />
+		<INCLURE{fond=inclure/prochains_evenements} />
 	</div>
-
 </section>

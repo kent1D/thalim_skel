@@ -4,15 +4,22 @@
 	version="0.1.0"
 	etat="stable"
 	compatibilite="[3.0.0;3.1.*]"
+	logo="images/thalim-64.png"
 >
 
 	<nom>Thalim</nom>
 
 	<auteur lien="http://www.kent1.info">kent1</auteur>
-	
+
+	<pipeline nom="pre_boucle" inclure="thalim_pipelines.php" />
 	<pipeline nom="recuperer_fond" inclure="thalim_pipelines.php" />
-	
+	<pipeline nom="autoriser" inclure="thalim_pipelines.php" />
+
 	<necessite nom="spipr_dist" />
 	<necessite nom="seminaire" />
 	<necessite nom="pages" />
+	<necessite nom="cextras" />
+	<necessite nom="agenda" />
+	<necessite nom="compositions" />
+	<utilise nom="crayons" />
 </paquet>
