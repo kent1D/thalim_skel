@@ -1,0 +1,36 @@
+[(#REM)
+
+	Controleur pour le crayon 'auteur_qui', uniquement html
+
+]
+#CACHE{0}
+
+<BOUCLE_a(AUTEURS){id_auteur}{tous}>
+<ul>
+	<li class="fieldset">
+		<h3 class="legend"><:crayons:legend_controleur_qui:></h3>
+		<ul>
+			<li class="editer_nom">
+				<label for="nom"><:ecrire:info_nom:> :</label>
+				<input type="text" class="crayon-active text" name="#ENV{name_nom}" id="nom"
+	 				size="40" value="[(#NOM**|entites_html)]" />
+	 		</li>
+			<li class="editer_email">
+	 			<label for="email"><:ecrire:email_2|ucfirst:></label>
+				<input type="text" class="crayon-active text" name="#ENV{name_email}" id="email"
+	 				size="40" value="[(#EMAIL**|entites_html)]" />
+			</li>
+			<li class="editer_prenom">
+	 			<label for="email"><:thalim:label_prenom:></label>
+				<input type="text" class="crayon-active text" name="#ENV{name_prenom}" id="prenom"
+	 				size="40" value="[(#PRENOM**|entites_html)]" />
+			</li>
+			<li class="editer_nom_famille">
+	 			<label for="email"><:thalim:label_nom_famille:></label>
+				<input type="text" class="crayon-active text" name="#ENV{name_nom_famille}" id="nom_famille"
+	 				size="40" value="[(#NOM_FAMILLE**|entites_html)]" />
+			</li>
+		</ul>
+	</li>
+</ul>
+</BOUCLE_a>

@@ -1,0 +1,19 @@
+<BOUCLE_content(AUTEURS){id_auteur}{tout}>
+<section> [(#REM) microformat vcard]
+	<header class="cartouche">
+		<h1 class="#EDIT{qui} fn" itemprop="name">[<div class="#EDIT{logo}">(#LOGO_AUTEUR|image_reduire|inserer_attribut{itemprop,image})</div>]#NOM</h1>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{bio} chapo bio">(#BIO|adaptive_images)</div>]
+		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+	</div>
+
+	<aside>
+		[(#FORMULAIRE_EDITER_AUTEUR{#ENV{id_auteur},[(#SELF|parametre_url{vue,''})]})]
+	</aside>
+
+	<footer>
+	</footer>
+</section>
+</BOUCLE_content>

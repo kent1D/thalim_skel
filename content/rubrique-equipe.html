@@ -2,23 +2,32 @@
 <section class="span6 offset1">
 	<header class="cartouche">
 		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
-		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><span class="titre">#TITRE</span></h1>
+		<h1 class="#EDIT{titre} ellipse"><div class="ovale"></div><span class="titre">#TITRE</span></h1>
 	</header>
 
 	<div class="main">
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
 
-		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
-			<div class="liste articles">
-			[(#AGENDA|=={1}|non)
-			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
-			[(#AGENDA|=={1}|oui)
-			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env,ajax} />
-			[(#REM)
-			<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]]
-			</div>
-		</BOUCLE_articles>
-
+		<B_articles>
+		<div class="liste articles">
+			<ul class="liste-items liste-puce">
+			<BOUCLE_articles(ARTICLES){id_rubrique}{par num titre}>
+				<li class="item">
+					<article class="entry article hentry">
+						<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+						[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
+						<BOUCLE_chercheurs(AUTEURS){id_article}{0,1}{tout}>
+						<div class="chercheurs"><:thalim:lien_chercheurs:><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]"><i class="icon-chevron-right"> </i></a></div>
+						</BOUCLE_chercheurs>
+						<div class="chercheurs"><:thalim:lien_activites:><a href="[(#URL_ARTICLE|ancre_url{activites})]"><i class="icon-chevron-right"> </i></a></div>
+						<div class="publications"><:thalim:lien_publications:><a href="[(#URL_ARTICLE|ancre_url{publications})]"><i class="icon-chevron-right"> </i></a></div>
+					</article>
+				</li>
+			</BOUCLE_articles>
+			</ul>
+		</div>
+		</B_articles>
 		[(#REM) Si aucun article, affiche un plan de la rubrique ]
 		<B_sous_rubriques>
 		<div class="menu rubriques">

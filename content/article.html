@@ -7,7 +7,7 @@
 			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
 		]</h1>
 
-		[<p class="publication"><i class="icon-user"></i> <:par_auteur:> (#LESAUTEURS)</span></p>]
+		[<p class="publication"><i class="icon-user"></i> <:thalim:info_membres_lies:> (#LESAUTEURS)</span></p>]
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
 			#MODELE{article_traductions}
@@ -44,6 +44,9 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
+		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 
 		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]

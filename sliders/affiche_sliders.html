@@ -1,0 +1,24 @@
+[(#ENV**{liste_articles}|foreach)]
+[(#SET{fx,[(#ENV{fx,fade})]})]
+[(#SET{duree,[(#ENV{duree,5000})]})]
+[(#SET{largeur,[(#ENV{largeur,200})]})]
+[(#SET{hauteur,[(#ENV{hauteur,0})]})]
+<B_affiches>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	$('#sjcycle_sites_#ENV{id_slider}').cycle({ 
+		fx:'#GET{fx}',
+		speed:1500, 
+		timeout:[(#GET{duree})],
+		pause:1
+	});
+});
+</script>
+<div id="sjcycle_affiches_#ENV{id_slider}">
+	<BOUCLE_affiches(DOCUMENTS){id_article IN #ENV{liste_articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture,programme}}>
+	[<div class="sjcycle_affiches_img">
+		<a href="#URL_ARTICLE">(#LOGO_DOCUMENT|image_reduire{#GET{largeur},#GET{hauteur}}|inserer_attribut{alt,#NOM_SITE|texte_backend})</a>
+	</div>]
+	</BOUCLE_affiches>
+</div>
+</B_affiches>

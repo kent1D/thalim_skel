@@ -1,0 +1,39 @@
+[(#REM) Portfolio : album d'images ]
+<B_documents_affiche>
+<div class="affiche_programme">
+	<ul>
+	<BOUCLE_documents_affiche(DOCUMENTS){id_article}{document_type IN affiche,programme,couverture,sommaire,bibliographie,appel,flyer}{doublons}>
+		<li><a href="#URL_DOCUMENT">[(#VAL{thalim:document_}|concat{#DOCUMENT_TYPE}|_T)] (#EXTENSION)</a></li>
+	</BOUCLE_documents_affiche>
+	</ul>
+</div>
+</B_documents_affiche>
+<B_documents_portfolio>
+<div class="liste documents documents_portfolio">
+	<h2 class="h2"><:medias:info_portfolio:></h2>
+	<BOUCLE_documents_portfolio(DOCUMENTS) {id_article?}{id_rubrique?}{objet?}{id_objet?} {mode=document}{extension IN png,jpg,gif} {par num titre, date}{vu=non}{doublons}>[
+	<a href="(#URL_DOCUMENT)"
+		 type="#MIME_TYPE"
+		 rel="documents_portfolio[-a(#ID_ARTICLE)][-r(#ID_RUBRIQUE)]"
+	[ title="(#TITRE|attribut_html|couper{80})"]>[(#FICHIER
+		|image_reduire{0,100}
+		|inserer_attribut{class,spip_logos}
+		|inserer_attribut{alt,[(#TITRE|attribut_html|couper{80})]})]</a>
+	]</BOUCLE_documents_portfolio>
+</div>
+</B_documents_portfolio>
+
+
+[(#REM)
+	Liste des autres documents joints
+]
+<B_documents_joints>
+	<div class="liste documents documents_joints">
+	<h2 class="h2"><:medias:titre_documents_joints:></h2>
+	<ul class="liste-items">
+		<BOUCLE_documents_joints(DOCUMENTS) {id_article?}{id_rubrique?}{objet?}{id_objet?} {extension !IN gif,jpg,png} {vu=non}{par num titre, date}{doublons}>
+		<li class="item">#INCLURE{fond=inclure/resume/document,id_document}</li>
+		</BOUCLE_documents_joints>
+	</ul>
+	</div>
+</B_documents_joints>

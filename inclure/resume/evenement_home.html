@@ -2,11 +2,11 @@
 <BOUCLE_vevent(EVENEMENTS){id_evenement=#ENV{id,#ENV{id_evenement}}}{tout}>
 [(#SET{annee,#DATE_DEBUT|annee})][(#SET{mois,#DATE_DEBUT|nom_mois})][(#SET{jour,#DATE_DEBUT|jour})]
 <article class="entry hentry vevent id_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
-	[<time>(#DATE_DEBUT|thalim_agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]
-	<strong class="entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]">[(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">[(#TITRE|couper{90})]</span><span
-			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+	<div class="entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]">[(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">[(#TITRE|couper{90})]</span><span
+			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></div>
 	[(#_article_evt:SEMINAIRE|=={on}|oui)
-	[<p><strong><:seminaire:info_seminaire:></strong><a href="#URL_ARTICLE">(#_article_evt:TITRE)</a></p>]]
+	[<p><:seminaire:info_seminaire:> <a href="#URL_ARTICLE">(#_article_evt:TITRE)</a></p>]]
+	[<strong><time>(#DATE_DEBUT|thalim_agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time></strong>]
 	<meta itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]" />
 	<meta itemprop="endDate" content="[(#DATE_FIN|date_iso)]" />
 	<div class="entry-content">
@@ -16,6 +16,13 @@
 	[(#ENV{afficher_lieu}|=={oui}|oui)
 	[<p class="location" itemprop="location"><span class="lieu #EDIT{lieu}">(#LIEU)</span>[<br /><span class="adresse #EDIT{adresse}">(#ADRESSE|PtoBR)</span>]</p>]]
 	</div>
+	<B_documents>
+	<p>
+	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,programme}{' '}>
+	<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_programme:>})]</a>
+	</BOUCLE_documents>
+	</p>
+	</B_documents>
 	<B_mots_art>
 	<p class="meta-publi">
 		<span class="sep">|</span> <BOUCLE_mots_art(MOTS){si #ENV{afficher_tags}|=={oui}}{id_article=#_article_evt:ID_ARTICLE}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>

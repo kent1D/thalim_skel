@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Equipe</nom>
+	<description>Composition dédiée à chaque rubrique d'équipe</description>
+	<branche type="article" composition="equipe" />
+</composition>

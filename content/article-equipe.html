@@ -1,0 +1,86 @@
+<BOUCLE_content(ARTICLES){id_article}>
+<article class="span6 offset1">
+	<header class="cartouche">
+		[(#LOGO_ARTICLE|image_reduire{200,200})]
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+		<h1><span class="#EDIT{titre}">#TITRE</span>[
+			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
+		]</h1>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			#MODELE{article_traductions}
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
+			<B_tags>
+			<p>
+			<span class="tags">
+				<ul class="inline">
+					<li><strong>#TITRE : </strong></li>
+					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
+					</BOUCLE_tags>
+				</ul>
+			</span>
+			</p>
+			</B_tags>
+			</BOUCLE_groupes_mots>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+	</div>
+
+	<footer>
+		[<div class="#EDIT{ps} ps surlignable"><h2><:info_ps:></h2>(#PS|adaptive_images)</div>]
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+	<aside>
+		<B_membres>
+		<div class="membres" id="chercheurs">
+			<h2><:thalim:titre_membres_pole:></h2>
+			<ul class="liste-items liste-membres">
+			<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{tout}>
+			<li class="item">
+				<strong><a href="#URL_AUTEUR">#NOM</a></strong>
+			</li>
+			</BOUCLE_membres>
+			</ul>
+		</div>
+		</B_membres>
+		<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
+		<div class="activites" id="activites">
+			<h2><:thalim:titre_activites:></h2>
+			<B_activites>
+			<ul class="liste-items liste-activites">
+			<BOUCLE_activites(ARTICLES){id_mot}{id_secteur IN #LISTE{251,247,250}}{!par date}>
+			<li class="item">
+				<strong><a href="#URL_ARTICLE">#TITRE</a></strong>
+			</li>
+			</BOUCLE_activites>
+			</ul>
+			</B_activites>
+			<p><:thalim:message_pole_aucune_activite:></p>
+			<//B_activites>
+		</div>
+		<div class="publications" id="publications">
+			<h2><:thalim:titre_publications:></h2>
+			<B_publications>
+			<ul class="liste-items liste-publications">
+			<BOUCLE_publications(ARTICLES){id_mot}{id_secteur IN #LISTE{3}}{!par date}>
+			<li class="item">
+				<strong><a href="#URL_ARTICLE">#TITRE</a></strong>
+			</li>
+			</BOUCLE_publications>
+			</ul>
+			</B_publications>
+			<p><:thalim:message_pole_aucune_publication:></p>
+			<//B_publications>
+		</div>
+		</BOUCLE_mots>
+	</aside>
+
+</article>
+</BOUCLE_content>

@@ -1,0 +1,38 @@
+#SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
+#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
+[(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
+[(#GET{date_debut}|annee|unique{annee}|non)]
+<div id="agenda-liste_images" class="liste-images">
+<B_ev_colloque>
+#SET{evenements,#ARRAY}
+<div class="colloque_image evt_image">
+	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+		#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
+	</BOUCLE_ev_colloque>
+	[(#INCLURE{fond=sliders/affiche_sliders,id_sliders=colloques,liste_articles=#GET{evenements}})]
+</div>
+</B_ev_colloque>
+<B_publications>
+#SET{evenements,#ARRAY}
+<div class="colloque_image evt_image">
+	<BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut}}{date <= #GET{date_fin}}{par date}>
+		#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
+	</BOUCLE_publications>
+	[(#INCLURE{fond=sliders/affiche_sliders,id_sliders=publications,liste_articles=#GET{evenements}})]
+</div>
+</B_publications>
+<BOUCLE_rubriques(RUBRIQUES){id_rubrique IN 247,251}>
+<B_ev>
+	#SET{evenements,#ARRAY}
+	<div class="colloque_image evt_image">
+	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+		#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
+	</BOUCLE_ev>
+		[(#INCLURE{fond=sliders/affiche_sliders,id_sliders=#ID_RUBRIQUE,liste_articles=#GET{evenements}})]
+	</div>
+</B_ev>
+</BOUCLE_rubriques>
+</div>
