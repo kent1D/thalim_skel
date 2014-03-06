@@ -20,7 +20,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_chercheurs_cnrs></p>
+			<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_chercheurs_cnrs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_chercheurs_cnrs>
 			</div>
@@ -33,7 +33,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_enseignants_chercheurs></p>
+			<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_enseignants_chercheurs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_enseignants_chercheurs>
 			</div>
@@ -46,7 +46,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_doctorants></p>
+			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_doctorants></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_doctorants>
 			</BOUCLE_roles_doctorants>
@@ -60,7 +60,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_autres></p>
+			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_autres></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_autres>
 			</BOUCLE_roles_autres>
@@ -68,7 +68,7 @@
 			</B_roles_autres>
 		</BOUCLE_auteurs_plusieurs>
 		</B_auteurs_plusieurs>
-		<BOUCLE_auteur_mot(AUTEURS){id_mot}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteur_mot>
+		<BOUCLE_auteur_mot(AUTEURS){id_mot}{tout}><a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteur_mot>
 		<//B_auteurs_plusieurs>
 		</div>
 		</BOUCLE_mots>

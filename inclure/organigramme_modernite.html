@@ -27,7 +27,34 @@
 			</B_roles_enseignants_chercheurs>
 			[(#COMPTEUR_BOUCLE|in_array{#LISTE{2,3}}|oui)</div>]
 			</BOUCLE_ec>
-			
 		</div>
+		<B_chercheurs_cnrs>
+		<div class="chercheurs_cnrs">
+		<h3><:thalim:roles_chercheurs_cnrs:></h3>
+		[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
+			<h4>#ROLE</h4>]
+		<p>
+		<BOUCLE_chercheurs_cnrs(AUTEURS){role IN #LISTE{charge_recherche}}{id_mot}{par nom_famille}{'<br />'}{tout}>
+		[(#GRAND_TOTAL|=={1}|oui)<h4>#ROLE : </h4>]
+		[(#GRAND_TOTAL|>{1}|et{#COMPTEUR_BOUCLE|=={1}}|oui)<h4>#ROLE</h4>]<a href="#URL_AUTEUR">#NOM</a>
+		</BOUCLE_chercheurs_cnrs></p>
+			[(#GRAND_TOTAL|>{1}|oui)</div>]
 		</div>
+		</B_chercheurs_cnrs>
+		<B_roles_doctorants>
+		<div class="doctorants_modernite">
+		<BOUCLE_roles_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{post_doctorant}}{fusion role}{par role}{tout}>
+		<B_auteurs_role_doctorants>
+		[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
+			<h3>#ROLE</h3>]
+		<p>
+		<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
+		[(#GRAND_TOTAL|=={1}|oui)<h3>#ROLE</h3>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_doctorants>
+		</p>
+		[(#GRAND_TOTAL|>{1}|oui)</div>]
+		</B_auteurs_role_doctorants>
+		</BOUCLE_roles_doctorants>
+		</div>
+		</B_roles_doctorants>
+	</div>
 </BOUCLE_mots>

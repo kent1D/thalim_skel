@@ -1,6 +1,6 @@
 <BOUCLE_mots(MOTS){id_mot}>
 <div class="fonctions_orga span5 arias">
-			<h2 class="#EDIT{titre} ellipse"><div class="ovale"></div><span class="titre">#TITRE</span></h2>
+			<h2 class="#EDIT{titre} ellipse"><span class="titre">#TITRE</span><div class="ovale"></div></h2>
 			<div style="clear:both">
 			<B_articles>
 			<div class="articles">
@@ -19,7 +19,7 @@
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
 				<h4>#ROLE</h4>]
 			<p>
-			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{', '}{tout}>
+			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{tout}>
 			<a href="#URL_AUTEUR">#NOM</a><br /></BOUCLE_auteurs_role_chercheurs_cnrs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_chercheurs_cnrs>
@@ -38,38 +38,39 @@
 			</BOUCLE_roles_enseignants_chercheurs>
 			</div>
 			</B_roles_enseignants_chercheurs>
-			<B_roles_doctorants>
-			<div class="doctorants">
-			<BOUCLE_roles_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{cdd_doctorant,post_doctorant}}{fusion role}{!par role}{tout}>
-			<B_auteurs_role_doctorants>
-			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
-				<h4>#ROLE</h4>]
-			<p>
-			<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_doctorants></p>
-			[(#GRAND_TOTAL|>{1}|oui)</div>]
-			</B_auteurs_role_doctorants>
-			</BOUCLE_roles_doctorants>
-			</div>
-			</B_roles_doctorants>
-			<B_roles_autres>
-			<div class="autres">
-			<BOUCLE_roles_autres(AUTEURS){id_auteur IN #GET{auteurs}}{role !IN #LISTE{directeur_recherche,charge_recherche,professeur,prof_emerite,maitre_conference,cdd_doctorant,post_doctorant}}{fusion role}{par role}{tout}>
-			<B_auteurs_role_autres>
-			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
-				<h4>#ROLE</h4>]
-			<p>
-			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_autres></p>
-			[(#GRAND_TOTAL|>{1}|oui)</div>]
-			</B_auteurs_role_autres>
-			</BOUCLE_roles_autres>
-			</div>
-			</B_roles_autres>
+			
 		</BOUCLE_auteurs_plusieurs>
 		</B_auteurs_plusieurs>
 		<BOUCLE_auteur_mot(AUTEURS){id_mot}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteur_mot>
 		<//B_auteurs_plusieurs>
+		<B_roles_doctorants>
+		<div class="doctorants">
+		<BOUCLE_roles_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{cdd_doctorant,post_doctorant}}{fusion role}{par role}{tout}>
+		<B_auteurs_role_doctorants>
+		[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
+			<h3>#ROLE</h3>]
+		<p>
+		<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
+		[(#GRAND_TOTAL|=={1}|oui)<h3>#ROLE</h3>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_doctorants></p>
+		[(#GRAND_TOTAL|>{1}|oui)</div>]
+		</B_auteurs_role_doctorants>
+		</BOUCLE_roles_doctorants>
+		</div>
+		</B_roles_doctorants>
+		<B_roles_autres>
+		<div class="autres">
+		<BOUCLE_roles_autres(AUTEURS){id_auteur IN #GET{auteurs}}{role !IN #LISTE{directeur_recherche,charge_recherche,professeur,prof_emerite,maitre_conference,cdd_doctorant,post_doctorant}}{fusion role}{par role}{tout}>
+		<B_auteurs_role_autres>
+		[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
+			<h3>#ROLE</h3>]
+		<p>
+		<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
+		[(#GRAND_TOTAL|=={1}|oui)<h3>#ROLE</h3>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_autres></p>
+		[(#GRAND_TOTAL|>{1}|oui)</div>]
+		</B_auteurs_role_autres>
+		</BOUCLE_roles_autres>
+		</div>
+		</B_roles_autres>
 		</div>
 	</div>
 </BOUCLE_mots>
