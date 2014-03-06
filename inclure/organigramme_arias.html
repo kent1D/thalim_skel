@@ -1,14 +1,14 @@
-<article class="span6 offset1">
-	<header class="cartouche">
-		<h1 class="ellipse"><div class="ovale"></div><span class="titre"><:thalim:titre_membres:></span></h1>
-	</header>
-	<div class="menu_membres">
-		<a href="#URL_PAGE{organigramme}"><:thalim:titre_organigramme:></a>
-	</div>
-	<div class="main">
-		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>
-		<div class="fonctions">
-		<h2 class="#EDIT{titre}">#TITRE</h2>
+<BOUCLE_mots(MOTS){id_mot}>
+<div class="fonctions_orga span5 arias">
+			<h2 class="#EDIT{titre} ellipse"><div class="ovale"></div><span class="titre">#TITRE</span></h2>
+			<div style="clear:both">
+			<B_articles>
+			<div class="articles">
+			<BOUCLE_articles(ARTICLES){id_mot}{id_secteur=252}{par num titre,titre}{'<br />'}>
+				<a href="#URL_ARTICLE">#TITRE</a>
+			</BOUCLE_articles>
+			</div>
+			</B_articles>
 			#SET{auteurs,#ARRAY}
 			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
 			<BOUCLE_auteurs_plusieurs(CONDITION){si #GET{auteurs}|count|>{1}}>
@@ -20,7 +20,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_chercheurs_cnrs></p>
+			<a href="#URL_AUTEUR">#NOM</a><br /></BOUCLE_auteurs_role_chercheurs_cnrs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_chercheurs_cnrs>
 			</div>
@@ -32,8 +32,8 @@
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
 				<h4>#ROLE</h4>]
 			<p>
-			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_enseignants_chercheurs></p>
+			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
+			<a href="#URL_AUTEUR">#NOM</a><br /></BOUCLE_auteurs_role_enseignants_chercheurs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_enseignants_chercheurs>
 			</div>
@@ -45,7 +45,7 @@
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
 				<h4>#ROLE</h4>]
 			<p>
-			<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
+			<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
 			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_doctorants></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_doctorants>
@@ -59,7 +59,7 @@
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
 				<h4>#ROLE</h4>]
 			<p>
-			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
+			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
 			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs_role_autres></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_autres>
@@ -71,12 +71,5 @@
 		<BOUCLE_auteur_mot(AUTEURS){id_mot}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteur_mot>
 		<//B_auteurs_plusieurs>
 		</div>
-		</BOUCLE_mots>
 	</div>
-	<footer>
-	</footer>
-
-	<aside>
-
-	</aside>
-</article>
+</BOUCLE_mots>

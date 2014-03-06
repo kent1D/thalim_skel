@@ -20,6 +20,7 @@
 	<necessite nom="seminaire" />
 	<necessite nom="pages" />
 	<necessite nom="cextras" />
+	<necessite nom="iextras" />
 	<necessite nom="agenda" />
 	<necessite nom="compositions" />
 	<utilise nom="crayons" />

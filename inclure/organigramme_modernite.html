@@ -1,0 +1,33 @@
+<BOUCLE_mots(MOTS){id_mot}>
+<div class="fonctions_orga span5 modernite">
+			<h2 class="#EDIT{titre} ellipse"><div class="ovale"></div><span class="titre">#TITRE</span></h2>
+			<B_articles>
+			<div class="articles">
+			<BOUCLE_articles(ARTICLES){id_mot}{id_secteur=252}{par num titre,titre}{'<br />'}>
+				<a href="#URL_ARTICLE">#TITRE</a>
+			</BOUCLE_articles>
+			</div>
+			</B_articles>
+			<h3 class="center"><:thalim:roles_enseignants_chercheurs:></h3>
+			<div style="clear:both">
+			#SET{auteurs,#ARRAY}
+			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
+
+			<BOUCLE_ec(DATA){source table,#LISTE{professeur,prof_emerite,maitre_conference}}>
+			
+			[(#COMPTEUR_BOUCLE|in_array{#LISTE{1,3}}|oui)<div class="enseignants_chercheurs">]
+			<h4>[(#VALEUR|thalim_role_chaine)]</h4>
+			<B_roles_enseignants_chercheurs>
+			<BOUCLE_roles_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{role = #VALEUR }{fusion role}{!par role}{tout}>
+			<p>
+			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>
+			<a href="#URL_AUTEUR">#NOM</a><br /></BOUCLE_auteurs_role_enseignants_chercheurs></p>
+			[(#GRAND_TOTAL|>{1}|oui)</div>]
+			</BOUCLE_roles_enseignants_chercheurs>
+			</B_roles_enseignants_chercheurs>
+			[(#COMPTEUR_BOUCLE|in_array{#LISTE{2,3}}|oui)</div>]
+			</BOUCLE_ec>
+			
+		</div>
+		</div>
+</BOUCLE_mots>

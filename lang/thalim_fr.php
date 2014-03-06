@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_couverture' => 'Couverture',
 	'document_programme' => 'Programme',
 	'document_flyer' => 'Flyer',
+	'document_resumes' => 'Résumés',
 	'document_sommaire' => 'Sommaire',
 	
 	// I
@@ -54,6 +55,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_activites' => 'Activités scientifiques',
 	'titre_membres' => 'Membres de l\'unité',
 	'titre_membres_pole' => 'Chercheurs du pôle',
+	'titre_organigramme' => 'Organigramme',
 	'titre_publications' => 'Publications',
 	'titre_seances_seminaire' => 'Séances du séminaire',
 	'titre_seances_seminaires_avenir' => 'À venir',

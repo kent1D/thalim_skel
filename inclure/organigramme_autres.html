@@ -1,0 +1,21 @@
+<BOUCLE_mots(MOTS){id_mot}>
+<B_roles_autres>
+<div class="row row_autres">
+	<h3 class="#EDIT{titre}">#TITRE</h3>
+<BOUCLE_roles_autres(AUTEURS){id_mot}{role !IN #LISTE{directeur_recherche,charge_recherche,professeur,prof_emerite,maitre_conference,cdd_doctorant,post_doctorant}}{fusion role}{par role}{tout}>
+#SET{auteurs,#ARRAY}
+<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
+<B_auteurs_role_autres>
+[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
+	<h4>#ROLE</h4>]
+<p>
+<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
+<div class="autres">
+[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE</strong><br />]<a href="#URL_AUTEUR">#NOM</a>
+</div></BOUCLE_auteurs_role_autres></p>
+[(#GRAND_TOTAL|>{1}|oui)</div>]
+</B_auteurs_role_autres>
+</BOUCLE_roles_autres>
+</div>
+</B_roles_autres>
+</BOUCLE_mots>

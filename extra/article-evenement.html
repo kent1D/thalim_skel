@@ -1,3 +1,8 @@
+<BOUCLE_article(ARTICLES){id_article}>
 <BOUCLE_ev(EVENEMENTS){id_article}>
-	<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement,intro=" "}</div>
+	<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
 </BOUCLE_ev>
+<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|oui}{id_article}{document_type IN affiche,couverture}>
+	[<div class="affiche"><div class="ovale"></div><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
+</BOUCLE_documents>
+</BOUCLE_article>

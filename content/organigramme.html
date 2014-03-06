@@ -1,19 +1,35 @@
-<article class="span6 offset1">
+<article class="span10 offset1">
 	<header class="cartouche">
-		<h1 class="ellipse"><div class="ovale"></div><span class="titre"><:thalim:titre_membres:></span></h1>
+		<h1 class="ellipse"><div class="ovale"></div><span class="titre"><:thalim:titre_organigramme:></span></h1>
 	</header>
 	<div class="menu_membres">
-		<a href="#URL_PAGE{organigramme}"><:thalim:titre_organigramme:></a>
+		<a href="#URL_PAGE{membres}"><:thalim:titre_membres:></a>
 	</div>
-	<div class="main">
-		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>
-		<div class="fonctions">
-		<h2 class="#EDIT{titre}">#TITRE</h2>
+	<div class="main row">
+		
+		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>#SET{compte,#COMPTEUR_BOUCLE}
+		<BOUCLE_si_arias(CONDITION){si #GET{compte}|=={3}|oui}>
+			<div class="row organigramme_main" style="clear:both">
+				<INCLURE{fond=inclure/organigramme_arias,id_mot=#_mots:ID_MOT} />
+		</BOUCLE_si_arias>
+		</B_si_arias>
+		<BOUCLE_si_modernite(CONDITION){si #GET{compte}|=={4}|oui}>
+				<INCLURE{fond=inclure/organigramme_modernite,id_mot=#_mots:ID_MOT} />
+			</div>
+		</BOUCLE_si_modernite>
+		</B_si_modernite>
+		<BOUCLE_si_autres(CONDITION){si #GET{compte}|=={5}|oui}>
+			<INCLURE{fond=inclure/organigramme_autres,id_mot=#_mots:ID_MOT} />
+		</BOUCLE_si_autres>
+		</B_si_autres>
+		<div class="fonctions_orga[(#COMPTEUR_BOUCLE|<={2}|oui)span3 offset3 fonction_orga_top]">
+			<h2 class="#EDIT{titre}">#TITRE</h2>
+			[(#COMPTEUR_BOUCLE|>{2}|oui)<div class="row" style="clear:both">]
 			#SET{auteurs,#ARRAY}
 			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
 			<BOUCLE_auteurs_plusieurs(CONDITION){si #GET{auteurs}|count|>{1}}>
 			<B_roles_chercheurs_cnrs>
-			<div class="chercheurs_cnrs">
+			<div class="chercheurs_cnrs span2">
 			<h3><:thalim:roles_chercheurs_cnrs:></h3>
 			<BOUCLE_roles_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{directeur_recherche,charge_recherche}}{fusion role}{tout}>
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
@@ -26,7 +42,7 @@
 			</div>
 			</B_roles_chercheurs_cnrs>
 			<B_roles_enseignants_chercheurs>
-			<div class="enseignants_chercheurs">
+			<div class="enseignants_chercheurs span2">
 			<h3><:thalim:roles_enseignants_chercheurs:></h3>
 			<BOUCLE_roles_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{professeur,prof_emerite,maitre_conference}}{fusion role}{!par role}{tout}>
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
@@ -39,7 +55,7 @@
 			</div>
 			</B_roles_enseignants_chercheurs>
 			<B_roles_doctorants>
-			<div class="doctorants">
+			<div class="doctorants offset1 span2">
 			<BOUCLE_roles_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{cdd_doctorant,post_doctorant}}{fusion role}{!par role}{tout}>
 			<B_auteurs_role_doctorants>
 			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
@@ -71,6 +87,9 @@
 		<BOUCLE_auteur_mot(AUTEURS){id_mot}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteur_mot>
 		<//B_auteurs_plusieurs>
 		</div>
+		<//B_si_autres>
+		<//B_si_modernite>
+		<//B_si_arias>
 		</BOUCLE_mots>
 	</div>
 	<footer>
