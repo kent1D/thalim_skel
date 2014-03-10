@@ -2,7 +2,26 @@
 <BOUCLE_ev(EVENEMENTS){id_article}>
 	<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
 </BOUCLE_ev>
+<B_documents>
+<div class="liste documents_vignette">
 <BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|oui}{id_article}{document_type IN affiche,couverture}>
 	[<div class="affiche"><div class="ovale"></div><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 </BOUCLE_documents>
+</div>
+[(#GRAND_TOTAL|>{1}|oui)
+<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
+	$(document).ready(function() {
+		$(".documents_vignette").cycle({
+			fx:			"#CONFIG{sjcycle/fx}",
+			timeout:	"#CONFIG{sjcycle/timeout}",
+			speed:		"#CONFIG{sjcycle/speed}",
+			sync:		"#CONFIG{sjcycle/sync}",
+			pause:		"#CONFIG{sjcycle/pause}",
+			random:		"#CONFIG{sjcycle/random}",
+			cleartype: 1
+		});
+	});
+	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
+</script>]
+</B_documents>
 </BOUCLE_article>

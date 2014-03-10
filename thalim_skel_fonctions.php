@@ -35,6 +35,7 @@ function thalim_role_chaine($texte,$small=false){
 			$texte = ($small ? '' : _T('thalim:info_30_conception_graphique'));
 			break;
 		default:
+			$texte = ((strlen($texte) > 1) ? _T('thalim:info_'.$texte) : '');
 			break;
 	}
 	return $texte;

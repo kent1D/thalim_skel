@@ -18,13 +18,6 @@
 			</span>
 			]
 		<//B_nb_commentaires>
-		<BOUCLE_combien(SIGNATURES) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
-			<span class="signatures">
-			<span class="sep">|</span>
-			<a[ href="(#REM|ancre_url{petition})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_signature,zcore:info_nb_signatures}|attribut_html)"]>[<i class="icon-ok-circle"></i> (#TOTAL_BOUCLE)]</a>
-			</span>
-			]
-		<//B_combien>
 			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
 			<B_tags>
 			<p>
@@ -60,11 +53,6 @@
 	<aside>
 		[(#REM) Gestion du portfolio et des documents ]
 		[(#INCLURE{fond=inclure/documents,id_article})]
-
-		[(#REM) Petition :
-		La petition ayant une PAGINATION il faut absolument {env}
-		et pourquoi pas ajax
-		][(#PETITION|oui)<INCLURE{fond=inclure/petition,id_article,env,ajax} />]
 
 		[(#REM) Forum de l'article
 		NB : pour desactiver les forums de l'article, supprimez simplement la ligne ci-dessous ]

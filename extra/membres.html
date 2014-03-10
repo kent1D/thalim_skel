@@ -1,8 +1,7 @@
 #CACHE{0}
-[(#REM) Autres auteurs ]
 <B_auteurs_arias>
-<div class="liste auteurs_vignette">
-	<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}{0,1}>
+<div class="liste auteurs_vignette" id="auteurs_vignette_994">
+	<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
 		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
@@ -11,8 +10,8 @@
 </div>
 </B_auteurs_arias>
 <B_auteurs_ecriture>
-<div class="liste auteurs_vignette">
-	<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}{0,1}>
+<div class="liste auteurs_vignette" id="auteurs_vignette_1006">
+	<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
 		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
@@ -21,8 +20,8 @@
 </div>
 </B_auteurs_ecriture>
 <B_auteurs_autres>
-<div class="liste auteurs_vignette">
-	<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}{0,1}>
+<div class="liste auteurs_vignette" id="auteurs_vignette_1007">
+	<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
 		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
@@ -30,3 +29,17 @@
 	</BOUCLE_auteurs_autres>
 </div>
 </B_autres>
+<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
+	$(document).ready(function() {
+		$(".auteurs_vignette").cycle({
+			fx:			"#CONFIG{sjcycle/fx}",
+			timeout:	"#CONFIG{sjcycle/timeout}",
+			speed:		"#CONFIG{sjcycle/speed}",
+			sync:		"#CONFIG{sjcycle/sync}",
+			pause:		"#CONFIG{sjcycle/pause}",
+			random:		"#CONFIG{sjcycle/random}",
+			cleartype: 1
+		});
+	});
+	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
+</script>

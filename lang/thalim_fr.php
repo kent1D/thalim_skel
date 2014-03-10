@@ -11,6 +11,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_appel' => 'Appel à contribution',
 	'document_biblio' => 'Bibliographie',
 	'document_couverture' => 'Couverture',
+	'document_invitation' => 'Invitation',
+	'document_presentation_publication' => 'Présentation de la publication',
 	'document_programme' => 'Programme',
 	'document_flyer' => 'Flyer',
 	'document_resumes' => 'Résumés',
@@ -22,6 +24,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_30_conception_graphique' => 'Responsable de conception graphique et d’édition',
 	'info_cdd_doctorant' => 'CDD doctorant',
 	'info_charge_recherche' => 'Chargés de recherche (CR)',
+	'info_charge_cours' => 'Chargé(e) de cours',
+	'info_chercheur' => 'Chercheur',
+	'info_docteur' => 'Docteur',
+	'info_doctorant' => 'Doctorant(e)',
 	'info_directeur_recherche' => 'Directeurs de recherche (DR)',
 	'info_maitre_conference' => 'Maîtres de conférence (MCF)',
 	'info_membres' => 'Membres',
@@ -44,8 +50,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// M
 	'message_orga_thalim' => 'organisés par Thalim',
 	'message_par_membre_thalim' => 'des membres de Thalim',
-	'message_pole_aucune_activite' => 'Aucune activité scientifique pour ce pôle',
-	'message_pole_aucune_publication' => 'Aucune publication pour ce pôle',
+	'message_pole_aucune_activite' => 'Aucune activité scientifique',
+	'message_pole_aucune_publication' => 'Aucune publication',
 	
 	// R
 	'roles_chercheurs_cnrs' => 'CHERCHEURS CNRS',
@@ -54,7 +60,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// T
 	'titre_activites' => 'Activités scientifiques',
 	'titre_membres' => 'Membres de l\'unité',
-	'titre_membres_pole' => 'Chercheurs du pôle',
+	'titre_membres_pole' => 'Chercheurs',
 	'titre_organigramme' => 'Organigramme',
 	'titre_publications' => 'Publications',
 	'titre_seances_seminaire' => 'Séances du séminaire',

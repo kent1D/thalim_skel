@@ -21,7 +21,10 @@
 	<necessite nom="pages" />
 	<necessite nom="cextras" />
 	<necessite nom="iextras" />
+	<necessite nom="sjcycle" />
 	<necessite nom="agenda" />
+	<necessite nom="oembed" />
+	<necessite nom="multilang" />
 	<necessite nom="compositions" />
 	<utilise nom="crayons" />
 </paquet>
