@@ -4,7 +4,7 @@
 	<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
+		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
 	</div>
 	</BOUCLE_auteurs_arias>
 </div>
@@ -14,7 +14,7 @@
 	<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
+		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
 	</div>
 	</BOUCLE_auteurs_ecriture>
 </div>
@@ -24,7 +24,7 @@
 	<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}>
 	<div class="membre">
 		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">[(#NOM|couper{80})]</span></a>
+		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
 	</div>
 	</BOUCLE_auteurs_autres>
 </div>

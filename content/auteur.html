@@ -1,7 +1,7 @@
 <BOUCLE_content(AUTEURS){id_auteur}{tout}>
 <section class="vcard span5 offset1" itemscope itemtype="http://schema.org/Person"> [(#REM) microformat vcard]
 	<header class="cartouche">
-		<h1 class="#EDIT{qui} fn" itemprop="name">[(#LOGO_AUTEUR|image_reduire|inserer_attribut{itemprop,image})]#NOM</h1>
+		<h1 class="#EDIT{qui} fn" itemprop="name">[(#LOGO_AUTEUR|image_reduire{116,150}|inserer_attribut{itemprop,image})]#NOM</h1>
 	</header>
 
 	<div class="main">
@@ -18,27 +18,18 @@
 			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
 		</div>]
 	</div>
-
 	<aside>
 		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247,3}{0,1}>
-		<h2><:thalim:titre_activites:></h2>
-		[(#SET{compte,1})][(#SET{fermer,non})]
-		<B_rubriques_homes>
 		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247,3}{par num titre}{tout}>
 		[(#AGENDA|=={1}|non)
-		[[(#GET{compte}|=={1}|ou{#GET{compte}|=={3}}|oui)[(#SET{fermer,oui})]<div class="row">]
-		<div class="liste long articles span4">
+		[<div class="articles">
 		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax}|trim)
-		</div>
-		[(#GET{compte}|=={2}|ou{#GET{compte}|=={4}}|oui)</div>[(#SET{fermer,non})]]#SET{compte,#GET{compte}|plus{1}}]]
+		</div>]]
 		[(#AGENDA|=={1}|oui)
-		[[(#GET{compte}|=={1}|ou{#GET{compte}|=={3}}|oui)[(#SET{fermer,oui})]<div class="row">]
-		<div class="liste long articles span4">
-		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax}|trim)</div>
-		[(#GET{compte}|=={2}|ou{#GET{compte}|=={4}}|oui)</div>[(#SET{fermer,non})]]#SET{compte,#GET{compte}|plus{1}}]]
+		[<div class="articles">
+		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax}|trim)
+		</div>]]
 		</BOUCLE_rubriques_homes>
-		[(#GET{fermer}|=={oui}|oui)</div>]
-		</B_rubriques_homes>
 		</BOUCLE_activite>
 		#FORMULAIRE_ECRIRE_AUTEUR
 	</aside>
