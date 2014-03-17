@@ -3,7 +3,7 @@
 <div class="affiche_programme">
 	<ul>
 	<BOUCLE_documents_affiche(DOCUMENTS){id_article}{document_type IN affiche,programme,couverture,sommaire,bibliographie,appel,flyer,resumes,presentation_publication,invitation}{doublons}>
-		<li><a href="#URL_DOCUMENT">[(#VAL{thalim:document_}|concat{#DOCUMENT_TYPE}|_T)] ([(#DOCUMENT_TYPE|in_array{#LISTE{resumes}}|oui)#TITRE - ]#EXTENSION)</a></li>
+		<li><a href="#URL_DOCUMENT"[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|oui)class="mediabox"]>[(#VAL{thalim:document_}|concat{#DOCUMENT_TYPE}|_T)] ([(#DOCUMENT_TYPE|in_array{#LISTE{resumes}}|oui)#TITRE - ]#EXTENSION)</a></li>
 	</BOUCLE_documents_affiche>
 	</ul>
 </div>
@@ -22,7 +22,6 @@
 	]</BOUCLE_documents_portfolio>
 </div>
 </B_documents_portfolio>
-
 
 [(#REM)
 	Liste des autres documents joints

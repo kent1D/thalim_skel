@@ -14,7 +14,7 @@
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
 	<B_ev1>
 	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+	<BOUCLE_ev1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env}
@@ -46,7 +46,7 @@
 	<h3>#INFO_TITRE{rubrique,250}</h3>
 	<p><:thalim:message_orga_thalim:></p>
 	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
 		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}
@@ -58,7 +58,7 @@
 <B_publications>
 <h3>#INFO_TITRE{rubrique,3}</h3>
 <ul class="liste-items liste-puce evenements">
-<BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut}}{date <= #GET{date_fin}}{par date}>
+<BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut}}{date <= #GET{date_fin}}{!par date}>
 	<li>#INCLURE{fond=inclure/resume/article,id_article,env}</li>
 </BOUCLE_publications>
 </ul>
@@ -69,7 +69,7 @@
 	<h3>#TITRE</h3>
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
 	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env}

@@ -29,7 +29,10 @@
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
-		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
+			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
+			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		</p>]
 	</div>
 
 	<footer>

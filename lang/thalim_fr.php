@@ -4,6 +4,8 @@
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
+	// B
+	'bouton_retour_membre' => 'Retour à sa page membre',
 	// D
 	'date_fmt_du_au_meme_mois' => '<span class="jour_debut">@dtstart@@jour_debut@@dtabbr@</span> - @dtend@@jour_fin@ @nom_mois@ @annee@@dtabbr@',
 	'date_fmt_du_au_meme_annee' => '@dtstart@<span class="jour_debut">@jour_debut@</span> @nom_mois_debut@@dtabbr@ - @dtend@@jour_fin@ @nom_mois_fin@ @annee@@dtabbr@', // Du 21 avril au 30 mai 2014'
@@ -32,6 +34,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_maitre_conference' => 'Maîtres de conférence (MCF)',
 	'info_membres' => 'Membres',
 	'info_membres_autres' => 'Les autres membres',
+	'info_membre_lie' => 'Membre lié :',
 	'info_membres_lies' => 'Membres liés :',
 	'info_post_doctorant' => 'Postdoctorante',
 	'info_prof_emerite' => 'Professeurs émérites (PREM)',
@@ -46,6 +49,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'lien_chercheurs' => 'Chercheurs',
 	'lien_membres' => 'Membres de l\'unité',
 	'lien_publications' => 'Publications',
+	'lien_savoir_plus' => 'En savoir plus',
+	
 	
 	// M
 	'message_orga_thalim' => 'organisés par Thalim',
@@ -59,6 +64,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	
 	// T
 	'titre_activites' => 'Activités scientifiques',
+	'titre_ecrire_auteur' => 'Écrire à @nom@',
 	'titre_membres' => 'Membres de l\'unité',
 	'titre_membres_pole' => 'Chercheurs',
 	'titre_organigramme' => 'Organigramme',

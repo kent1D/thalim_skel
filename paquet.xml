@@ -14,15 +14,14 @@
 
 	<pipeline nom="pre_boucle" inclure="thalim_pipelines.php" />
 	<pipeline nom="recuperer_fond" inclure="thalim_pipelines.php" />
+	<pipeline nom="jquery_plugins" inclure="thalim_pipelines.php" />
 	<pipeline nom="autoriser" inclure="thalim_pipelines.php" />
 
 	<necessite nom="spipr_dist" />
 	<necessite nom="seminaire" />
 	<necessite nom="pages" />
-	<necessite nom="cextras" />
 	<necessite nom="iextras" />
 	<necessite nom="sjcycle" />
-	<necessite nom="agenda" />
 	<necessite nom="oembed" />
 	<necessite nom="multilang" />
 	<necessite nom="compositions" />

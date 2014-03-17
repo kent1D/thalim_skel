@@ -49,4 +49,10 @@ function thalim_skel_pre_boucle($boucle){
 	}
 	return $boucle;
 }
+
+function thalim_skel_jquery_plugins($plugins){
+	if(!test_espace_prive())
+		$plugins[] = 'javascript/thalim.js';
+	return $plugins;
+}
 ?>

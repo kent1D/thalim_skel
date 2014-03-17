@@ -18,10 +18,10 @@
 							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
 						[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
 						<BOUCLE_chercheurs(AUTEURS){id_article}{0,1}{tout}>
-						<div class="chercheurs"><:thalim:lien_chercheurs:><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]"><i class="icon-chevron-right"> </i></a></div>
+						<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
 						</BOUCLE_chercheurs>
-						<div class="chercheurs"><:thalim:lien_activites:><a href="[(#URL_ARTICLE|ancre_url{activites})]"><i class="icon-chevron-right"> </i></a></div>
-						<div class="publications"><:thalim:lien_publications:><a href="[(#URL_ARTICLE|ancre_url{publications})]"><i class="icon-chevron-right"> </i></a></div>
+						<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{activites})]" class="lien_important"><:thalim:lien_activites:></a></div>
+						<div class="publications"><a href="[(#URL_ARTICLE|ancre_url{publications})]" class="lien_important"><:thalim:lien_publications:></a></div>
 					</article>
 				</li>
 			</BOUCLE_articles>
@@ -59,43 +59,6 @@
 	<aside>
 		[(#REM) Gestion du portfolio et des documents ]
 		[(#INCLURE{fond=inclure/documents,id_rubrique})]
-
-		[(#REM) Breves du secteur ]
-			<B_breves>
-			<div class="liste breves">
-					#ANCRE_PAGINATION
-					<h2 class="h2"><:breves:breves:></h2>
-					<ul class="liste-items">
-							<BOUCLE_breves(BREVES) {id_rubrique} {par date}{inverse} {pagination 5}>
-							<li class="item short">#INCLURE{fond=inclure/resume/breve,id_breve}</li>
-							</BOUCLE_breves>
-					</ul>
-					[<div class="pagination">(#PAGINATION)</div>]
-			</div>
-			</B_breves>
-
-			[(#REM) Sites de la rubrique ]
-			<B_sites>
-			<div class="liste sites">
-					<h2 class="h2"><:sur_web:></h2>
-					<ul class="liste-items">
-							<BOUCLE_sites(SITES) {id_rubrique} {par nom_site}>
-							<li class="item short">#INCLURE{fond=inclure/resume/site,id_syndic}
-									<B_syndic>
-									<ul class="spip">
-											<BOUCLE_syndic(SYNDIC_ARTICLES) {id_syndic} {age<180} {par date}{inverse} {0,3}>
-											<li class="short with-publication-inline">#INCLURE{fond=inclure/resume/syndic_article,id_syndic_article}</li>
-											</BOUCLE_syndic>
-									</ul>
-									</B_syndic>
-							</li>
-							</BOUCLE_sites>
-					</ul>
-			</div>
-			</B_sites>
-
-		[(#REM) Proposer un site ]
-		#FORMULAIRE_SITE
 	</aside>
 
 	<footer>

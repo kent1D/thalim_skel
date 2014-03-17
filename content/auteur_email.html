@@ -1,0 +1,18 @@
+<BOUCLE_auteurs(AUTEURS){email=#ENV{a}|concat{@}|concat{#ENV{b}}}{tout}>
+<section class="span5 offset1">
+	<header class="cartouche">
+		<h1>[(#LOGO_AUTEUR|image_reduire{116,150}|inserer_attribut{itemprop,image})]<:thalim:titre_ecrire_auteur{nom=#NOM}:></h1>
+	</header>
+	<aside>
+	<p><a class="btn" href="#URL_AUTEUR"><:thalim:bouton_retour_membre:></a></p>
+	#FORMULAIRE_ECRIRE_AUTEUR
+	</aside>
+	</BOUCLE_auteurs>
+	</B_auteurs>
+	<p>Pas de membre avec cette adresse email</p>
+	<script type="text/javascript">
+		function mc_lancerlien(a,b){x='ma'+'ilto'+':'+a+'@'+b.replace(/\.\..t\.\./g,'@'); return x;}
+		location.href=mc_lancerlien('#ENV{a}','#ENV{b}');
+	</script>
+	<//B_auteurs>
+</section>

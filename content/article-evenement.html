@@ -6,8 +6,10 @@
 		<h1><span class="#EDIT{titre}">#TITRE</span>[
 			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
 		]</h1>
-
-		<p class="publication">[<span class="authors"><i class="icon-user"></i> <:thalim:info_membres_lies:> (#LESAUTEURS)</span>]</p>
+		
+		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
+			<p class="publication">[<span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+		</B_auteurs>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
 			#MODELE{article_traductions}
@@ -37,7 +39,10 @@
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 
-		[<p class="#EDIT{hyperlien} hyperlien"><:voir_en_ligne:> : <a href="(#URL_SITE)" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
+			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
+			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		</p>]
 	</div>
 
 	<footer>

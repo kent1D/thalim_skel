@@ -6,6 +6,7 @@
 
 	<div class="main">
 		[<p class="role">(#ROLE)</p>]
+		[<p class="email">(#EMAIL|oui)[(#VAL{<a href="mailto:#EMAIL" class="spip_mail">#EMAIL</a>}|mailcrypt)]</p>]
 		[<div class="#EDIT{bio} chapo bio">(#BIO|adaptive_images)</div>]
 		<B_themes>
 		<p class="themes_recherche"><strong>[(#GRAND_TOTAL|singulier_ou_pluriel{thalim:info_theme_recherche,thalim:info_themes_recherche})]</strong>
@@ -31,7 +32,6 @@
 		</div>]]
 		</BOUCLE_rubriques_homes>
 		</BOUCLE_activite>
-		#FORMULAIRE_ECRIRE_AUTEUR
 	</aside>
 
 	<footer>
