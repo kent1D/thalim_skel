@@ -64,6 +64,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	
 	// T
 	'titre_activites' => 'Activités scientifiques',
+	'titre_annuaire' => 'Annuaire',
 	'titre_ecrire_auteur' => 'Écrire à @nom@',
 	'titre_membres' => 'Membres de l\'unité',
 	'titre_membres_pole' => 'Chercheurs',

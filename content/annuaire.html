@@ -1,0 +1,30 @@
+<article class="span6 offset1">
+	<header class="cartouche">
+		<h1 class="ellipse"><div class="ovale"></div><span class="titre"><:thalim:titre_annuaire:></span></h1>
+	</header>
+	<div class="menu_membres">
+		<a href="#URL_PAGE{membres}"><:thalim:titre_membres:></a>
+		<BOUCLE_document_organigramme(DOCUMENTS){titre = organigramme}{extension=pdf}{tout}>
+		<a href="#URL_DOCUMENT"><:thalim:titre_organigramme:></a>
+		</BOUCLE_document_organigramme>
+	</div>
+	<div class="main">
+		#SET{mots,#ARRAY}
+		<BOUCLE_mots(MOTS){id_groupe = 9}> #SET{mots,#GET{mots}|push{#ID_MOT}}</BOUCLE_mots>
+		<div class="annuaire">
+			<B_auteurs_mot>
+			<ul class="liste-items">
+			<BOUCLE_auteurs_mot(AUTEURS){id_mot IN #GET{mots}}{par nom_famille}{tout}>
+				<li class="item"><a href="#URL_AUTEUR">#NOM</a></li>
+			</BOUCLE_auteurs_mot>
+			</ul>
+			</B_auteurs_mot>
+		</div>
+	</div>
+	<footer>
+	</footer>
+
+	<aside>
+
+	</aside>
+</article>

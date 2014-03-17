@@ -3,7 +3,10 @@
 		<h1 class="ellipse"><div class="ovale"></div><span class="titre"><:thalim:titre_membres:></span></h1>
 	</header>
 	<div class="menu_membres">
-		<a href="#URL_PAGE{organigramme}"><:thalim:titre_organigramme:></a>
+		<BOUCLE_document_organigramme(DOCUMENTS){titre = organigramme}{extension=pdf}{tout}>
+		<a href="#URL_DOCUMENT"><:thalim:titre_organigramme:></a>
+		</BOUCLE_document_organigramme>
+		<a href="#URL_PAGE{annuaire}"><:thalim:titre_annuaire:></a>
 	</div>
 	<div class="main">
 		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>
