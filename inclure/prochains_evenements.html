@@ -8,16 +8,30 @@
 	<a href="[(#URL_PAGE{agenda})]">[(#CHEMIN{images/icone_actualites.png}|balise_img|inserer_attribut{width,140})]</a>
 	</div>
 	<div class="span4">
-	<ul class="liste-items liste-actualites liste-puce">
-	<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247}{date_debut >= #ENV{date}}{par date_debut}{0,5}>
+		<div class="liste_evenements">
+	<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247}{date_debut >= #ENV{date}}{par date_debut}>
+	[(#COMPTEUR_BOUCLE|alterner{'<ul class="liste-items liste-actualites liste-puce">','','','',''})]
 		<li class="item">
 			<article class="entry evenement vevent id_#ID_EVENEMENT" id="evenement_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
 				<strong class="h3-like summary entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"><span itemprop="name">#TITRE</span></a></strong>
 				<p class="info-publi">[<time>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]</p>
 			</article>
 		</li>
+	[(#COMPTEUR_BOUCLE|alterner{'','','','','</ul>'})]
 	</BOUCLE_prochains_evenements>
-	</ul>
+	</div>
 	</div>
 </div>
+<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
+	$(window).load(function() {
+		$(".liste_evenements").cycle({
+			fx:			"#CONFIG{sjcycle/fx}",
+			timeout:	"20",
+			speed:		"#CONFIG{sjcycle/speed}",
+			sync:		"#CONFIG{sjcycle/sync}",
+			pause:		true
+		});
+	});
+	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
+</script>
 </B_prochains_evenements>

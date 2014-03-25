@@ -1,0 +1,68 @@
+<BOUCLE_content(ARTICLES){id_article}>
+<article class="offset1 span6">
+	<header class="cartouche">
+		[(#LOGO_ARTICLE|image_reduire{200,200})]
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+		<h1 class="ellipse"><div class="ovale"> </div><span class="titre #EDIT{titre}">#TITRE</span>[
+			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
+		]</h1>
+
+		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
+			<p class="publication">[<span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+		</B_auteurs>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			#MODELE{article_traductions}
+		<BOUCLE_nb_commentaires(FORUMS) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
+			<span class="comments">
+			<span class="sep">|</span>
+			<a[ href="(#REM|ancre_url{comments})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_commentaire,zcore:info_nb_commentaires}|attribut_html)"]>[<i class="icon-comment"></i> (#TOTAL_BOUCLE)]</a>
+			</span>
+			]
+		<//B_nb_commentaires>
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
+			<B_tags>
+			<p>
+			<span class="tags">
+				<ul class="inline">
+					<li><strong>#TITRE : </strong></li>
+					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
+					</BOUCLE_tags>
+				</ul>
+			</span>
+			</p>
+			</B_tags>
+			</BOUCLE_groupes_mots>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
+		</BOUCLE_documents>
+		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+
+		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
+			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
+			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		</p>]
+	</div>
+
+	<footer>
+		[<div class="#EDIT{ps} ps surlignable"><h2><:info_ps:></h2>(#PS|adaptive_images)</div>]
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+	<aside>
+		[(#REM) Gestion du portfolio et des documents ]
+		[(#INCLURE{fond=inclure/documents,id_article})]
+
+		[(#REM) Forum de l'article
+		NB : pour desactiver les forums de l'article, supprimez simplement la ligne ci-dessous ]
+		<INCLURE{fond=inclure/forum,id_article,repondre_url=(#PARAMETRES_FORUM|url_reponse_forum),repondre_titre=<:repondre_article:>} />
+	</aside>
+
+</article>
+</BOUCLE_content>

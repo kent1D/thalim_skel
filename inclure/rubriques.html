@@ -13,8 +13,8 @@
 			<a href="#URL_ARTICLE"[ class="(#EXPOSE)"]>#TITRE</a>
 		</li>
 	</BOUCLE_partenaires>
-		<li[ class="(#ENV{page}|=={membres}|oui)active"]>
-			<a href="#URL_PAGE{membres}"[ class="(#ENV{page}|=={membres}|oui)active"]><:thalim:lien_membres:></a>
+		<li[ class="(#ENV{page}|in_array{#LISTE{membres,annuaire}}|oui)active"]>
+			<a href="#URL_PAGE{membres}"[ class="(#ENV{page}|in_array{#LISTE{membres,annuaire}}|oui)active"]><:thalim:lien_membres:></a>
 		</li>
 	<BOUCLE_contact(ARTICLES){page = contact}>
 		<li[ class="(#EXPOSE{active})"]>

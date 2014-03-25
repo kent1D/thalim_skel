@@ -20,6 +20,14 @@ function thalim_skel_recuperer_fond($flux){
 			$flux['args']['contexte']['composition'] = 'evenement';
 			$flux['data'] = evaluer_fond('structure', $flux['args']['contexte']);
 	}
+	else if(isset($flux['args']['contexte']['id_article']) && isset($flux['args']['contexte']['type-page'])
+		&& ($flux['args']['fond'] == 'structure')
+		&& ($flux['args']['contexte']['id_article'] > 0)
+		&& $flux['args']['contexte']['type-page'] == 'article'
+		&& sql_getfetsel('id_rubrique','spip_articles','id_article='.intval($flux['args']['contexte']['id_article'])) == '-1'){
+			$flux['args']['contexte']['composition'] = 'unique';
+			$flux['data'] = evaluer_fond('structure', $flux['args']['contexte']);
+	}
 	else if(isset($flux['args']['contexte']['id_auteur']) && isset($flux['args']['contexte']['type-page'])
 		&& ($flux['args']['fond'] == 'structure')
 		&& ($flux['args']['contexte']['id_auteur'] > 0)
