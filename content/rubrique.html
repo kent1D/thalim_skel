@@ -12,9 +12,10 @@
 			[(#AGENDA|=={1}|non)
 			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]
 			[(#AGENDA|=={1}|oui)
-			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env,ajax} />
-			[(#REM)
-			<INCLURE{fond=liste/agenda-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env,ajax} />]]
+			[(#ID_RUBRIQUE|=={3}|oui)
+			<INCLURE{fond=inclure/agenda-liste_contributions,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,env,ajax} />]
+			[(#ID_RUBRIQUE|=={3}|non)
+			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env,ajax} />]]
 			</div>
 		</BOUCLE_articles>
 
