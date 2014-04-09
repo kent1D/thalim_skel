@@ -20,6 +20,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_resumes' => 'Résumés',
 	'document_sommaire' => 'Sommaire',
 	
+	// E
+	'erreur_doc_image_pdf' => 'Ce document ne peut être que de type image (jpg,gif,png) ou PDF',
+	'erreur_doc_pdf' => 'Ce document ne peut être que de type PDF',
+
+	// F
+	'form_legend_thalim_fichiers' => 'Fichiers',
+
 	// I
 	'info_10_secretaire_gestionnaire' => 'Secrétaire gestionnaire',
 	'info_20_communication' => 'Chargée de communication et des médias, chargée de l’action culturelle',
@@ -43,6 +50,16 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_themes_recherche' => 'Thèmes de recherche&nbsp;:',
 	
 	// L
+	'label_ajout_fichier_affiche' => 'Une affiche (Fichier image ou pdf)',
+	'label_ajout_fichier_affiche_court' => 'Affiche',
+	'label_ajout_fichier_appel' => 'Un appel à contribution (Fichier pdf)',
+	'label_ajout_fichier_appel_court' => 'Appel à contribution',
+	'label_ajout_fichier_couverture' => 'Une couverture (Fichier image ou pdf)',
+	'label_ajout_fichier_couverture_court' => 'Une couverture',
+	'label_ajout_fichier_programme' => 'Un programme (Fichier pdf)',
+	'label_ajout_fichier_programme_court' => 'Programme',
+	'label_ajout_fichier_sommaire' => 'Un sommaire (Fichier pdf)',
+	'label_ajout_fichier_sommaire_court' => 'Sommaire',
 	'label_prenom' => 'Prénom :',
 	'label_nom_famille' => 'Nom de famille :',
 	'lien_activites' => 'Activités scientifiques',
@@ -51,7 +68,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'lien_membres' => 'Membres de l\'unité',
 	'lien_publications' => 'Publications',
 	'lien_savoir_plus' => 'En savoir plus',
-	
 	
 	// M
 	'message_orga_thalim' => 'organisés par Thalim',

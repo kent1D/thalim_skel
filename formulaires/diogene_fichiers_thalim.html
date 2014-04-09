@@ -1,0 +1,28 @@
+<li class="thalim_fichiers_fieldset thalim_fichiers">
+	<fieldset>
+		<h3 class="legend"><:thalim:form_legend_thalim_fichiers:></h3>
+		<ul>
+			[(#VAL{fichier_affiche}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{input,fichier_affiche,
+				type=file,
+				label=<:thalim:label_ajout_fichier_affiche_court:>})]]
+			
+			[(#VAL{fichier_appel}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{input,fichier_appel,
+				type=file,
+				label=<:thalim:label_ajout_fichier_appel_court:>})]]
+			[(#VAL{fichier_couverture}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{input,fichier_couverture,
+				label=<:thalim:label_ajout_fichier_couverture_court:>
+				type=file})]]
+			[(#VAL{fichier_programme}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{input,fichier_programme,
+				type=file,
+				label=<:thalim:label_ajout_fichier_programme_court:>})]]
+			[(#VAL{fichier_sommaire}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{input,fichier_sommaire,
+				type=file,
+				label=<:thalim:label_ajout_fichier_sommaire_court:>})]]
+		</ul>
+	</fieldset>
+</li>
