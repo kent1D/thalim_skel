@@ -25,9 +25,8 @@
 			<p>
 			<span class="tags">
 				<ul class="inline">
-					<li><strong>#TITRE : </strong></li>
 					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
+					<li><a class="label" href="#URL_MOT">#TITRE</a></li>
 					</BOUCLE_tags>
 				</ul>
 			</span>
@@ -39,9 +38,6 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
-		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
-		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 
 		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">

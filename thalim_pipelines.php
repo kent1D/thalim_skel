@@ -266,7 +266,6 @@ function thalim_skel_diogene_traiter($flux){
 			|| in_array('fichier_sommaire',$champs_ajoutes))){
 			$id_objet = $flux['args']['id_objet'];
 			include_spip('inc/joindre_document');
-			spip_log('traiter thalim_skel','test.'._LOG_ERREUR);
 			$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
 			$files = array();
 			if (is_array($post)){
@@ -311,13 +310,12 @@ function thalim_skel_diogene_traiter($flux){
 				foreach($files as $name => $fichier){
 					$type_document = str_replace('fichier_','',$name);
 					if(in_array($type_document,array('affiche','couverture','programme','sommaire','appel'))){
-						$id_document = sql_getfetsel('doc.id_documents','spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document','lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
+						$id_document = sql_getfetsel('doc.id_document','spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document','lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
 						$nouveau_doc = $ajouter_documents($id_document,array($file),'article',$id_objet,$mode);
 						$test = document_modifier($nouveau_doc[0],array('document_type'=>$type_document));
 						$nb_docs++;
 					}
 				}
-				spip_log("$nb_docs ont été ajoutés à l'article $id_objet",'test.'._LOG_ERREUR);
 			}
 		}
 	}

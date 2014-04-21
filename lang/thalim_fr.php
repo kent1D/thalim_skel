@@ -11,6 +11,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'date_fmt_du_au_meme_annee' => '@dtstart@<span class="jour_debut">@jour_debut@</span> @nom_mois_debut@@dtabbr@ - @dtend@@jour_fin@ @nom_mois_fin@ @annee@@dtabbr@', // Du 21 avril au 30 mai 2014'
 	'document_affiche' => 'Affiche',
 	'document_appel' => 'Appel à contribution',
+	'document_article' => 'Article de presse',
 	'document_biblio' => 'Bibliographie',
 	'document_couverture' => 'Couverture',
 	'document_invitation' => 'Invitation',

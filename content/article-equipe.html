@@ -44,13 +44,9 @@
 		<B_membres>
 		<div class="membres" id="chercheurs">
 			<h2><:thalim:titre_membres_pole:></h2>
-			<ul class="liste-items liste-membres">
-			<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{tout}>
-			<li class="item">
-				<strong><a href="#URL_AUTEUR">#NOM</a></strong>
-			</li>
-			</BOUCLE_membres>
-			</ul>
+			<p>
+			<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{', '}{tout}><strong><a href="#URL_AUTEUR">#NOM</a></strong></BOUCLE_membres>
+			</p>
 		</div>
 		</B_membres>
 		<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
@@ -60,7 +56,7 @@
 			<ul class="liste-items liste-activites">
 			<BOUCLE_activites(ARTICLES){id_mot}{id_secteur IN #LISTE{251,247,250}}{!par date}>
 			<li class="item">
-				<strong><a href="#URL_ARTICLE">#TITRE</a></strong>
+				<strong><BOUCLE_type_evenement(MOTS){id_groupe=3}{id_article}>#TITRE </BOUCLE_type_evenement>&laquo;&nbsp;<a href="#URL_ARTICLE">#TITRE</a>&nbsp;&raquo;</strong>
 			</li>
 			</BOUCLE_activites>
 			</ul>
