@@ -11,8 +11,7 @@
 	<div class="main">
 		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>
 		<div class="fonctions">
-		<h2 class="#EDIT{titre}">#TITRE</h2>
-			#SET{auteurs,#ARRAY}
+		<h2 class="#EDIT{titre}">#TITRE</h2>#SET{auteurs,#ARRAY}
 			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
 			<BOUCLE_auteurs_plusieurs(CONDITION){si #GET{auteurs}|count|>{1}}>
 			<B_roles_chercheurs_cnrs>
@@ -76,10 +75,8 @@
 		</div>
 		</BOUCLE_mots>
 	</div>
-	<footer>
-	</footer>
 
-	<aside>
+	<footer></footer>
 
-	</aside>
+	<aside></aside>
 </article>
