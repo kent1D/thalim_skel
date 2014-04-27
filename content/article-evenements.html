@@ -6,7 +6,7 @@
 		<h1><span class="#EDIT{titre}">#TITRE</span>[
 			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
 		]</h1>
-
+		
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
 			<p class="publication">[<span class="authors"> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
 		</B_auteurs>
@@ -17,22 +17,14 @@
 			<span class="comments">
 			<span class="sep">|</span>
 			<a[ href="(#REM|ancre_url{comments})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_commentaire,zcore:info_nb_commentaires}|attribut_html)"]>[<i class="icon-comment"></i> (#TOTAL_BOUCLE)]</a>
-			</span>
-			]
+			</span>]
 		<//B_nb_commentaires>
-		<BOUCLE_combien(SIGNATURES) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
-			<span class="signatures">
-			<span class="sep">|</span>
-			<a[ href="(#REM|ancre_url{petition})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_signature,zcore:info_nb_signatures}|attribut_html)"]>[<i class="icon-ok-circle"></i> (#TOTAL_BOUCLE)]</a>
-			</span>
-			]
-		<//B_combien>
 			<B_tags>
 			<span class="tags">
 				<span class="sep">|</span>
 				<ul class="inline">
-					<BOUCLE_tags(MOTS){id_article}>
-					<li><a class="label" href="#URL_MOT"> #TITRE</a></li>
+					<BOUCLE_tags(MOTS){id_groupe !IN 3}{id_article}>
+					<li><a class="label" href="#URL_MOT" rel="tag">#TITRE</a></li>
 					</BOUCLE_tags>
 				</ul>
 			</span>
@@ -42,8 +34,8 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
-		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|non}{id_article}{document_type IN affiche,couverture}>
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 

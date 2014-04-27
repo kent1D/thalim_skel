@@ -1,4 +1,7 @@
 <BOUCLE_article(ARTICLES){id_article}>
+<BOUCLE_ev(EVENEMENTS){id_article}>
+	<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
+</BOUCLE_ev>
 <B_documents>
 <div class="liste documents_vignette">
 <BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|oui}{id_article}{document_type IN affiche,couverture}>
