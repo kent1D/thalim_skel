@@ -3,26 +3,34 @@
 		<h3 class="legend"><:thalim:form_legend_thalim_fichiers:></h3>
 		<ul>
 			[(#VAL{fichier_affiche}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
-			[(#SAISIE{input,fichier_affiche,
-				type=file,
+			[(#SAISIE{fichier_thalim,fichier_affiche,
+				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_affiche_court:>})]]
-			
+
 			[(#VAL{fichier_appel}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
-			[(#SAISIE{input,fichier_appel,
-				type=file,
+			[(#SAISIE{fichier_thalim,fichier_appel,
+				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_appel_court:>})]]
+
 			[(#VAL{fichier_couverture}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
-			[(#SAISIE{input,fichier_couverture,
-				label=<:thalim:label_ajout_fichier_couverture_court:>
-				type=file})]]
+			[(#SAISIE{fichier_thalim,fichier_couverture,
+				id_article=#ENV{id_article},
+				label=<:thalim:label_ajout_fichier_couverture_court:>})]]
+
 			[(#VAL{fichier_programme}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
-			[(#SAISIE{input,fichier_programme,
-				type=file,
+			[(#SAISIE{fichier_thalim,fichier_programme,
+				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_programme_court:>})]]
+
 			[(#VAL{fichier_sommaire}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
-			[(#SAISIE{input,fichier_sommaire,
-				type=file,
+			[(#SAISIE{fichier_thalim,fichier_sommaire,
+				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_sommaire_court:>})]]
+
+			[(#VAL{fichier_invitation}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{fichier_thalim,fichier_invitation,
+				id_article=#ENV{id_article},
+				label=<:thalim:label_ajout_fichier_invitation_court:>})]]
 		</ul>
 	</fieldset>
 </li>

@@ -1,0 +1,21 @@
+[(#REM) 
+
+  Parametres supplementaire :
+  - class : classe(s) css ajoutes a l'input
+  - disable : champ insaisissable ? 'oui' (defaut : '')
+  - id_article
+
+]
+<input type="file" name="#ENV{nom}" class="#GET{type}[ (#ENV{class})]" id="champ_[(#ENV{id,#ENV{nom}}|saisie_nom2classe)]"[ value="(#ENV{valeur_forcee,#ENV{valeur,#ENV{defaut}}})"][ disabled="(#ENV{disable})"][ readonly="(#ENV{readonly})"][(#ENV{obligatoire}|et{#ENV{obligatoire}!={non}}|et{#HTML5}|oui) required="required"][ (#ENV*{attributs})] />
+<B_document>
+<div class="explication">
+<p><:thalim:info_fichier_remplacer:></p>
+<BOUCLE_document(DOCUMENTS){id_article}{document_type=#ENV{nom}|replace{'fichier_',''}}{statut ?}>
+<a href="#URL_DOCUMENT"[ class="(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{mediabox,''})"]>[(#LOGO_DOCUMENT|image_reduire{200,200})]</a>
+</BOUCLE_document>
+<div class="choix">
+	<input type="checkbox" name="supprimer_#ENV{nom}" id="supprimer_#ENV{nom}"[(#ENV{supprimer_#ENV{nom}}|oui)checked="checked"]>
+	<label for="supprimer_#ENV{nom}"><:thalim:label_supprimer_fichier:></label>
+</div>
+</div>
+</B_document>

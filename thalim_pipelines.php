@@ -18,7 +18,11 @@ function thalim_skel_recuperer_fond($flux){
 		&& $flux['args']['contexte']['type-page'] == 'article'
 		&& sql_getfetsel('id_evenement','spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']))
 		&& sql_getfetsel('seminaire','spip_articles','id_article='.intval($flux['args']['contexte']['id_article'])) != 'on'){
-			$flux['args']['contexte']['composition'] = 'evenement';
+			$nb_events = sql_countsel('spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']));
+			if(count($nb_events) > 1){
+				$flux['args']['contexte']['composition'] = 'evenements';
+			}else
+				$flux['args']['contexte']['composition'] = 'evenement';
 			$flux['data'] = evaluer_fond('structure', $flux['args']['contexte']);
 	}
 	else if(isset($flux['args']['contexte']['id_article']) 
@@ -96,6 +100,7 @@ function thalim_skel_diogene_objets($flux){
 		$flux['article']['champs_sup']['fichier_affiche'] = _T('thalim:label_ajout_fichier_affiche');
 		$flux['article']['champs_sup']['fichier_couverture'] = _T('thalim:label_ajout_fichier_couverture');
 		$flux['article']['champs_sup']['fichier_programme'] = _T('thalim:label_ajout_fichier_programme');
+		$flux['article']['champs_sup']['fichier_invitation'] = _T('thalim:label_ajout_fichier_invitation');
 		$flux['article']['champs_sup']['fichier_sommaire'] = _T('thalim:label_ajout_fichier_sommaire');
 	}
 	return $flux;
@@ -141,12 +146,14 @@ function thalim_skel_editer_contenu_objet($flux){
  * 		Le contexte modifié passé aux suivants
  */
 function thalim_skel_diogene_ajouter_saisies($flux){
-	if(is_array(unserialize($flux['args']['champs_ajoutes'])) && 
-		(in_array('fichier_affiche',unserialize($flux['args']['champs_ajoutes']))
-			|| in_array('fichier_appel',unserialize($flux['args']['champs_ajoutes']))
-			|| in_array('fichier_couverture',unserialize($flux['args']['champs_ajoutes']))
-			|| in_array('fichier_programme',unserialize($flux['args']['champs_ajoutes']))
-			|| in_array('fichier_sommaire',unserialize($flux['args']['champs_ajoutes'])))){
+	$champs_ajoutes = unserialize($flux['args']['champs_ajoutes']);
+	$fichier = false;
+	$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+	foreach($types_fichier as $type){
+		if(in_array($type,$champs_ajoutes))
+			$fichier = true;
+	}
+	if(is_array($champs_ajoutes) && $fichier){
 		$objet = $flux['args']['type'];
 		$id_table_objet = id_table_objet($flux['args']['type']);
 		$id_objet = $flux['args']['contexte'][$id_table_objet];
@@ -170,14 +177,14 @@ function thalim_skel_diogene_verifier($flux){
 	if(($id_diogene = intval(_request('id_diogene'))) && $id_diogene > 0){
 		$champs_ajoutes = unserialize(sql_getfetsel("champs_ajoutes","spip_diogenes","id_diogene=".intval($id_diogene)));
 		$erreurs = $flux['args']['erreurs'];
-		if (is_array($champs_ajoutes)
-			&& (in_array('fichier_affiche',$champs_ajoutes)
-			|| in_array('fichier_appel',$champs_ajoutes)
-			|| in_array('fichier_couverture',$champs_ajoutes)
-			|| in_array('fichier_programme',$champs_ajoutes)
-			|| in_array('fichier_sommaire',$champs_ajoutes))){
+		$fichier = false;
+		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+		foreach($types_fichier as $type){
+			if(in_array($type,$champs_ajoutes))
+				$fichier = true;
+		}
+		if (is_array($champs_ajoutes) && $fichier){
 			include_spip('inc/joindre_document');
-			spip_log('verifier thalim_skel','test.'._LOG_ERREUR);
 			$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
 			$files = array();
 			if (is_array($post)){
@@ -214,30 +221,27 @@ function thalim_skel_diogene_verifier($flux){
 					}
 				}
 			}
-			if(in_array('fichier_affiche',$champs_ajoutes) && isset($files['fichier_affiche'])){
-				$infos_doc = fixer_extension_document($files['fichier_affiche']);
-				if(!in_array($infos_doc[0],array('pdf','jpg','gif','png')))
-					$erreurs['fichier_affiche'] = _T('thalim:erreur_doc_image_pdf');
+			/**
+			 * Ces fichiers peuvent être soit des PDFs, soit des images
+			 */
+			$pdf_image = array('fichier_affiche','fichier_couverture','fichier_invitation','fichier_sommaire');
+			foreach($pdf_image as $type_fichier_pdf_image){
+				if(in_array($type_fichier_pdf_image,$champs_ajoutes) && isset($files[$type_fichier_pdf_image])){
+					$infos_doc = fixer_extension_document($files[$type_fichier_pdf_image]);
+					if(!in_array($infos_doc[0],array('pdf','jpg','gif','png')))
+						$erreurs[$type_fichier_pdf_image] = _T('thalim:erreur_doc_image_pdf');
+				}
 			}
-			if(in_array('fichier_couverture',$champs_ajoutes) && isset($files['fichier_couverture'])){
-				$infos_doc = fixer_extension_document($files['fichier_couverture']);
-				if(!in_array($infos_doc[0],array('pdf','jpg','gif','png')))
-					$erreurs['fichier_couverture'] = _T('thalim:erreur_doc_image_pdf');
-			}
-			if(in_array('fichier_programme',$champs_ajoutes) && isset($files['fichier_programme'])){
-				$infos_doc = fixer_extension_document($files['fichier_programme']);
-				if(!in_array($infos_doc[0],array('pdf')))
-					$erreurs['fichier_programme'] = _T('thalim:erreur_doc_pdf');
-			}
-			if(in_array('fichier_sommaire',$champs_ajoutes) && isset($files['fichier_sommaire'])){
-				$infos_doc = fixer_extension_document($files['fichier_sommaire']);
-				if(!in_array($infos_doc[0],array('pdf')))
-					$erreurs['fichier_sommaire'] = _T('thalim:erreur_doc_pdf');
-			}
-			if(in_array('fichier_appel',$champs_ajoutes) && isset($files['fichier_appel'])){
-				$infos_doc = fixer_extension_document($files['fichier_appel']);
-				if(!in_array($infos_doc[0],array('pdf')))
-					$erreurs['fichier_appel'] = _T('thalim:erreur_doc_pdf');
+			/**
+			 * Ces fichiers doivent être des PDFs
+			 */
+			$pdf = array('fichier_programme','fichier_appel');
+			foreach($pdf as $type_fichier_pdf){
+				if(in_array($type_fichier_pdf,$champs_ajoutes) && isset($files[$type_fichier_pdf])){
+					$infos_doc = fixer_extension_document($files[$type_fichier_pdf]);
+					if(!in_array($infos_doc[0],array('pdf')))
+						$erreurs[$type_fichier_pdf] = _T('thalim:erreur_doc_pdf');
+				}
 			}
 		}
 		$flux['data'] = array_merge($flux['data'], $erreurs);
@@ -257,17 +261,18 @@ function thalim_skel_diogene_verifier($flux){
 function thalim_skel_diogene_traiter($flux){
 	if(($id_diogene = intval(_request('id_diogene'))) && $id_diogene > 0){
 		$champs_ajoutes = unserialize(sql_getfetsel("champs_ajoutes","spip_diogenes","id_diogene=".intval($id_diogene)));
-		$erreurs = $flux['args']['erreurs'];
-		if (is_array($champs_ajoutes)
-			&& (in_array('fichier_affiche',$champs_ajoutes)
-			|| in_array('fichier_appel',$champs_ajoutes)
-			|| in_array('fichier_couverture',$champs_ajoutes)
-			|| in_array('fichier_programme',$champs_ajoutes)
-			|| in_array('fichier_sommaire',$champs_ajoutes))){
+		$fichier = false;
+		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+		foreach($types_fichier as $type){
+			if(in_array($type,$champs_ajoutes))
+				$fichier = true;
+		}
+		if (is_array($champs_ajoutes) && $fichier){
 			$id_objet = $flux['args']['id_objet'];
 			include_spip('inc/joindre_document');
 			$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
 			$files = array();
+			$fichiers_ajoutes = array();
 			if (is_array($post)){
 				include_spip('action/ajouter_documents');
 				foreach ($post as $name => $file) {
@@ -308,13 +313,31 @@ function thalim_skel_diogene_traiter($flux){
 				$mode = 'document';
 				$nb_docs = 0;
 				foreach($files as $name => $fichier){
-					$type_document = str_replace('fichier_','',$name);
-					if(in_array($type_document,array('affiche','couverture','programme','sommaire','appel'))){
-						$id_document = sql_getfetsel('doc.id_document','spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document','lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
-						$nouveau_doc = $ajouter_documents($id_document,array($file),'article',$id_objet,$mode);
-						$test = document_modifier($nouveau_doc[0],array('document_type'=>$type_document));
-						$nb_docs++;
+					if($fichier['name'] != '' && $fichier['error'] != 4){
+						$type_document = str_replace('fichier_','',$name);
+						if(in_array($type_document,array('affiche','couverture','programme','invitation','sommaire','appel'))){
+							$id_document = sql_getfetsel('doc.id_document',
+														 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+														 'lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
+							$nouveau_doc = $ajouter_documents($id_document,array($fichier),'article',$id_objet,$mode);
+							$test = document_modifier($nouveau_doc[0],array('document_type'=>$type_document));
+							$fichiers_ajoutes[] = $name;
+							$nb_docs++;
+						}
 					}
+				}
+			}
+			foreach($types_fichier as $type){
+				include_spip('action/dissocier_document');
+				if(_request('supprimer_'.$type) && !in_array($type,$fichiers_ajoutes)){
+					spip_log('suppression de '.$type,'test.'._LOG_ERREUR);
+					$type_document = str_replace('fichier_','',$type);
+					$id_document = sql_getfetsel('doc.id_document',
+												 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+												 'lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
+					spip_log('suppression de '.$id_document,'test.'._LOG_ERREUR);
+					if($id_document)
+						dissocier_document($id_document, 'article', $id_objet, true);
 				}
 			}
 		}
