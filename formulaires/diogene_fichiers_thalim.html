@@ -21,6 +21,16 @@
 			[(#SAISIE{fichier_thalim,fichier_programme,
 				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_programme_court:>})]]
+			
+			[(#VAL{fichier_flyer}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{fichier_thalim,fichier_flyer,
+				id_article=#ENV{id_article},
+				label=<:thalim:label_ajout_fichier_flyer_court:>})]]
+
+			[(#VAL{fichier_communication}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{fichier_thalim,fichier_communication,
+				id_article=#ENV{id_article},
+				label=<:thalim:label_ajout_fichier_communication_court:>})]]
 
 			[(#VAL{fichier_sommaire}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
 			[(#SAISIE{fichier_thalim,fichier_sommaire,

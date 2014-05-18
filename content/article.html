@@ -22,15 +22,11 @@
 		<//B_nb_commentaires>
 			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
 			<B_tags>
-			<p>
-			<span class="tags">
-				<ul class="inline">
-					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-					<li><a class="label" href="#URL_MOT">#TITRE</a></li>
-					</BOUCLE_tags>
-				</ul>
-			</span>
-			</p>
+			<ul class="tags inline">
+				<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+				<li><a class="label" href="#URL_MOT">#TITRE</a></li>
+				</BOUCLE_tags>
+			</ul>
 			</B_tags>
 			</BOUCLE_groupes_mots>
 		</div>
@@ -38,6 +34,9 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{600}|non}{id_article}{document_type IN affiche,couverture}>
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
+		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 
 		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">

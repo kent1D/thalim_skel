@@ -16,7 +16,7 @@ function thalim_skel_recuperer_fond($flux){
 		&& ($flux['args']['fond'] == 'structure')
 		&& ($flux['args']['contexte']['id_article'] > 0)
 		&& $flux['args']['contexte']['type-page'] == 'article'
-		&& sql_getfetsel('id_evenement','spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']))
+		&& sql_getfetsel('id_evenement','spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']).' AND statut="publie"')
 		&& sql_getfetsel('seminaire','spip_articles','id_article='.intval($flux['args']['contexte']['id_article'])) != 'on'){
 			$nb_events = sql_countsel('spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']));
 			if(count($nb_events) > 1){
@@ -100,6 +100,8 @@ function thalim_skel_diogene_objets($flux){
 		$flux['article']['champs_sup']['fichier_affiche'] = _T('thalim:label_ajout_fichier_affiche');
 		$flux['article']['champs_sup']['fichier_couverture'] = _T('thalim:label_ajout_fichier_couverture');
 		$flux['article']['champs_sup']['fichier_programme'] = _T('thalim:label_ajout_fichier_programme');
+		$flux['article']['champs_sup']['fichier_flyer'] = _T('thalim:label_ajout_fichier_flyer');
+		$flux['article']['champs_sup']['fichier_communication'] = _T('thalim:label_ajout_fichier_communication');
 		$flux['article']['champs_sup']['fichier_invitation'] = _T('thalim:label_ajout_fichier_invitation');
 		$flux['article']['champs_sup']['fichier_sommaire'] = _T('thalim:label_ajout_fichier_sommaire');
 	}
@@ -148,7 +150,7 @@ function thalim_skel_editer_contenu_objet($flux){
 function thalim_skel_diogene_ajouter_saisies($flux){
 	$champs_ajoutes = unserialize($flux['args']['champs_ajoutes']);
 	$fichier = false;
-	$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+	$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_flyer','fichier_communication','fichier_invitation','fichier_sommaire');
 	foreach($types_fichier as $type){
 		if(in_array($type,$champs_ajoutes))
 			$fichier = true;
@@ -178,7 +180,7 @@ function thalim_skel_diogene_verifier($flux){
 		$champs_ajoutes = unserialize(sql_getfetsel("champs_ajoutes","spip_diogenes","id_diogene=".intval($id_diogene)));
 		$erreurs = $flux['args']['erreurs'];
 		$fichier = false;
-		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_flyer','fichier_communication','fichier_invitation','fichier_sommaire');
 		foreach($types_fichier as $type){
 			if(in_array($type,$champs_ajoutes))
 				$fichier = true;
@@ -224,7 +226,7 @@ function thalim_skel_diogene_verifier($flux){
 			/**
 			 * Ces fichiers peuvent être soit des PDFs, soit des images
 			 */
-			$pdf_image = array('fichier_affiche','fichier_couverture','fichier_invitation','fichier_sommaire');
+			$pdf_image = array('fichier_affiche','fichier_couverture','fichier_flyer','fichier_invitation','fichier_sommaire');
 			foreach($pdf_image as $type_fichier_pdf_image){
 				if(in_array($type_fichier_pdf_image,$champs_ajoutes) && isset($files[$type_fichier_pdf_image])){
 					$infos_doc = fixer_extension_document($files[$type_fichier_pdf_image]);
@@ -235,7 +237,7 @@ function thalim_skel_diogene_verifier($flux){
 			/**
 			 * Ces fichiers doivent être des PDFs
 			 */
-			$pdf = array('fichier_programme','fichier_appel');
+			$pdf = array('fichier_programme','fichier_appel','fichier_communication');
 			foreach($pdf as $type_fichier_pdf){
 				if(in_array($type_fichier_pdf,$champs_ajoutes) && isset($files[$type_fichier_pdf])){
 					$infos_doc = fixer_extension_document($files[$type_fichier_pdf]);
@@ -262,7 +264,7 @@ function thalim_skel_diogene_traiter($flux){
 	if(($id_diogene = intval(_request('id_diogene'))) && $id_diogene > 0){
 		$champs_ajoutes = unserialize(sql_getfetsel("champs_ajoutes","spip_diogenes","id_diogene=".intval($id_diogene)));
 		$fichier = false;
-		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_invitation','fichier_sommaire');
+		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_flyer','fichier_communication','fichier_invitation','fichier_sommaire');
 		foreach($types_fichier as $type){
 			if(in_array($type,$champs_ajoutes))
 				$fichier = true;
@@ -315,7 +317,7 @@ function thalim_skel_diogene_traiter($flux){
 				foreach($files as $name => $fichier){
 					if($fichier['name'] != '' && $fichier['error'] != 4){
 						$type_document = str_replace('fichier_','',$name);
-						if(in_array($type_document,array('affiche','couverture','programme','invitation','sommaire','appel'))){
+						if(in_array($type_document,array('affiche','couverture','programme','flyer','invitation','sommaire','appel','communication'))){
 							$id_document = sql_getfetsel('doc.id_document',
 														 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
 														 'lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
@@ -330,12 +332,10 @@ function thalim_skel_diogene_traiter($flux){
 			foreach($types_fichier as $type){
 				include_spip('action/dissocier_document');
 				if(_request('supprimer_'.$type) && !in_array($type,$fichiers_ajoutes)){
-					spip_log('suppression de '.$type,'test.'._LOG_ERREUR);
 					$type_document = str_replace('fichier_','',$type);
 					$id_document = sql_getfetsel('doc.id_document',
 												 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
 												 'lien.objet="article" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
-					spip_log('suppression de '.$id_document,'test.'._LOG_ERREUR);
 					if($id_document)
 						dissocier_document($id_document, 'article', $id_objet, true);
 				}

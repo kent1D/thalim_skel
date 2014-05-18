@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Publications</nom>
+	<description>Composition dédiée à la rubrique des publications</description>
+	<branche type="article" composition="publication" />
+</composition>

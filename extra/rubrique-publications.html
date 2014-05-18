@@ -1,0 +1,33 @@
+<B_articles>
+<div class="liste documents_vignette" id="articles_vignette_994">
+	<BOUCLE_articles(ARTICLES){id_rubrique}{id_mot}{par hasard}>
+	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		[<div class="affiche">
+			<div class="ovale"></div>
+			<a href="#URL_ARTICLE">
+					(#LOGO_DOCUMENT**|image_reduire{198,''})
+			</a>
+			<span class="titre">[(#_articles:TITRE|couper{40})]</span>
+		</div>]
+	</BOUCLE_documents>
+	<div class="membre">
+		<div class="ovale"></div>
+		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
+	</div>
+	</BOUCLE_articles>
+</div>
+</B_articles>
+<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
+	$(window).load(function() {
+		$(".documents_vignette").cycle({
+			fx:			"#CONFIG{sjcycle/fx}",
+			timeout:	"#CONFIG{sjcycle/timeout}",
+			speed:		"#CONFIG{sjcycle/speed}",
+			sync:		"#CONFIG{sjcycle/sync}",
+			pause:		"#CONFIG{sjcycle/pause}",
+			random:		"#CONFIG{sjcycle/random}",
+			cleartype: 1
+		});
+	});
+	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
+</script>

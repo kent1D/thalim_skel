@@ -1,0 +1,22 @@
+[(#REM)
+
+  Squelette Presentation resumee d'un article dans une liste
+  Distribue sous licence GPL
+
+]
+<BOUCLE_articles(ARTICLES) {id_article} {statut?}>
+<article class="entry article hentry">
+	<strong class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+		class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong><B_mot> (<BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}>#TITRE</BOUCLE_mot>)</B_mot>
+	[<br /><strong><time>(#DATE|affdate_mois_annee|ucfirst)</time></strong>]
+	[<p class="lesauteurs">(#LESAUTEURS)</p>]
+	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
+	<B_documents>
+	<p>
+	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}{' '}>
+	<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
+	</BOUCLE_documents>
+	</p>
+	</B_documents>
+</article>
+</BOUCLE_articles>
