@@ -1,0 +1,54 @@
+<BOUCLE_content(HALS_PUBLICATIONS){id_hals_publication}>
+<article class="offset1 span6">
+	<header class="cartouche">
+		[(#LOGO_HALS_PUBLICATION|image_reduire{200,200})]
+		<h1><span class="#EDIT{titre}">#TITRE</span>
+			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]#TYPDOC - [(#DATE_PRODUCTION|hal_affdate{#DATE_PRODUCTION_FORMAT}|ucfirst)]</small>
+		</h1>
+
+		<B_auteurs>
+		<p class="publication"><span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ]
+		<BOUCLE_auteurs(AUTEURS){objet=hal}{id_objet=#ID_HAL}{tout}{', '}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs>
+		</span></p>
+		</B_auteurs>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
+			<B_tags>
+			<ul class="tags inline">
+				<BOUCLE_tags(MOTS){id_groupe}{id_hals_publication}>
+				<li><a class="label" href="#URL_MOT">#TITRE</a></li>
+				</BOUCLE_tags>
+			</ul>
+			</B_tags>
+			</BOUCLE_groupes_mots>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{descriptif} chapo surlignable">(#DESCRIPTIF|adaptive_images)</div>]
+		[(#DESCRIPTIF|concat{#CITATION_REF}|strlen|>{600}|non)
+			[<div class="affiche"><a href="#LOGO_HALS_PUBLICATION**" class="mediabox">(#LOGO_HALS_PUBLICATION|image_reduire{198,''})</a></div>]
+		]
+		[<div class="#EDIT{citation_reference} texte surlignable">(#CITATION_REFERENCE|adaptive_images)</div>]
+
+		[(#URL_PUBLICATION|oui)<p class="hyperlien">
+			<a href="#URL_PUBLICATION" class="spip_out"><:hal:lien_notice_complete:></a>
+		</p>]
+	</div>
+
+	<footer>
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+	<aside>
+		[(#REM) Gestion du portfolio et des documents ]
+		[(#INCLURE{fond=inclure/documents,id_hals_publication,objet=hals_publication,id_objet=#ID_HALS_PUBLICATION})]
+
+		[(#REM) Forum de l'article
+		NB : pour desactiver les forums de l'article, supprimez simplement la ligne ci-dessous ]
+		<INCLURE{fond=inclure/forum,id_hals_publication,repondre_url=(#PARAMETRES_FORUM|url_reponse_forum),repondre_titre=<:repondre_article:>} />
+	</aside>
+
+</article>
+</BOUCLE_content>

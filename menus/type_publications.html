@@ -1,0 +1,24 @@
+#CACHE{0}
+[(#ENV{appel_formulaire}|oui)
+	[(#SET{titre, #ENV{id_rubrique}|?{#ENV{id_rubrique}|=={courante}|?{<:menus:info_rubrique_courante:>,#INFO_TITRE{rubrique, #ENV{id_rubrique}}}, <:info_racine_site:>}})]
+	<div class="titre">#GET{titre}</div>
+	<div class="infos">
+	</div>
+]
+<BOUCLE_appel(CONDITION){si #ENV{appel_menu}|oui}>
+	<BOUCLE_rubrique(RUBRIQUES){id_rubrique=#ENV{id_rubrique}}>
+		<li class="menu-entree item rub#ID_RUBRIQUE">
+			<a href="#URL_RUBRIQUE" class="[ (#ID_RUBRIQUE|menus_exposer{rubrique,#ENV*{env}})]">#TITRE</a>
+			<ul class="menu-liste menu-items">
+				<li class="menu-entree item rub#ID_RUBRIQUE">
+					[(#URL_RUBRIQUE|parametre_url{publication_type,revues}|lien_ou_expose{<:thalim:titre_revues:>,#ENV*{env}|table_valeur{publication_type}|in_array{#LISTE{ouvrages,articles}}|non})]
+				</li>
+				<li class="menu-entree item rub#ID_RUBRIQUE">
+					[(#URL_RUBRIQUE|parametre_url{publication_type,ouvrages}|lien_ou_expose{<:thalim:titre_ouvrages:>,#ENV*{env}|table_valeur{publication_type}|=={ouvrages}})]
+				</li>
+				<li class="menu-entree item rub#ID_RUBRIQUE">
+					[(#URL_RUBRIQUE|parametre_url{publication_type,articles}|lien_ou_expose{<:thalim:titre_articles:>,#ENV*{env}|table_valeur{publication_type}|=={articles}})]
+				</li>
+			</ul>
+	</BOUCLE_rubrique>
+</BOUCLE_appel>

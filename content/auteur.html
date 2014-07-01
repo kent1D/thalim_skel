@@ -14,21 +14,56 @@
 		<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_themes>
 		</p></B_themes>
 		[<p class="#EDIT{hyperlien} hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		<B_hal>
+		<BOUCLE_hal(HALS){id_auteur}>
+			#SET{publications,#ARRAY}
+			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{!par date_production}>
+			[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+			</BOUCLE_ev2>
+			<BOUCLE_rubriques(RUBRIQUES){composition=publications}>
+			<BOUCLE_articles_pub(ARTICLES){id_auteur}>
+			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+			</BOUCLE_articles_pub>
+			</BOUCLE_rubriques>
+			<B_data_publications>
+			#ANCRE_PAGINATION
+			<div class="publications">
+				<h2>&bull; <:thalim:titre_publications:></h2>
+				<ul class="liste-items publications">
+				<BOUCLE_data_publications(DATA){source tableau,#GET{publications}}{!par cle}{pagination 10}>
+					<li class="item">
+						#VALEUR
+					</li>
+				</BOUCLE_data_publications>
+				</ul>
+				[<div class="pagination">(#PAGINATION)</div>]
+			</div>
+			</B_data_publications>
+			[<div class="publications">
+			<h2>&bull; <:thalim:titre_publications:></h2>
+			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
+			</div>]
+			<//B_data_publications>
+		</BOUCLE_hal>
+		</B_hal>
 		[<div class="publications">
 			<h2>&bull; <:thalim:titre_publications:></h2>
 			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
 		</div>]
+		<//B_hal>
 	</div>
 	<aside>
 		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247}{0,1}>
 		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247}{par num titre}{tout}>
 		[(#AGENDA|=={1}|non)
 		[<div class="articles">
-		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax}|trim)
+		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
 		</div>]]
 		[(#AGENDA|=={1}|oui)
 		[<div class="articles">
-		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax}|trim)
+		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
 		</div>]]
 		</BOUCLE_rubriques_homes>
 		</BOUCLE_activite>

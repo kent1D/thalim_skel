@@ -1,5 +1,5 @@
 <BOUCLE_content(ARTICLES){id_article}>
-<article>
+<article class="offset1 span6">
 	<header class="cartouche">
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
 		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
@@ -66,5 +66,45 @@
 		NB : pour desactiver les forums de l'article, supprimez simplement la ligne ci-dessous ]
 		<INCLURE{fond=inclure/forum,id_article,repondre_url=(#PARAMETRES_FORUM|url_reponse_forum),repondre_titre=<:repondre_article:>} />
 	</aside>
+	
+	<BOUCLE_extra2_article(ARTICLES){id_article}>
+		<BOUCLE_evenement_un(EVENEMENTS){id_article}{0,1}>
+		
+		<div class="liste evenements seminaires">
+			<h2 class="h2"><:thalim:titre_seances_seminaire:></h2>
+			<B_evenements>
+			<h3 class="h3"><:thalim:titre_seances_seminaires_avenir:></h3>
+			<ul class="liste-items">
+			<BOUCLE_evenements(EVENEMENTS){id_article}{par date_debut}{date_debut > #ENV{date}}>
+				<li class="item">
+					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|non)
+					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]
+					<br /><a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a>]
+					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
+					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT}</div>]
+				</li>
+			</BOUCLE_evenements>
+			</ul>
+			</B_evenements>
+			<B_evenements_passes>
+			<h3 class="h3"><:thalim:titre_seances_seminaires_passees:></h3>
+			<ul class="liste-items">
+			<BOUCLE_evenements_passes(EVENEMENTS){id_article}{!par date_debut}{date_debut <= #ENV{date}}>
+				<li class="item">
+					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|non)
+					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]
+					<br /><a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a>]
+					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
+					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT}</div>]
+				</li>
+			</BOUCLE_evenements_passes>
+			</ul>
+			</B_evenements_passes>
+		</div>
+		[(#REM)<p class="calendar_links">
+			<a href="[(#URL_PAGE{agenda-ical}|parametre_url{id_article,#ID_ARTICLE}|url_absolue|replace{http://,webcal://})]">webcal</a>
+		</p>]
+		</BOUCLE_evenement_un>
+		</BOUCLE_extra2_article>
 </article>
 </BOUCLE_content>

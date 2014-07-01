@@ -1,24 +1,5 @@
-<BOUCLE_article(ARTICLES){id_article}>
-<B_documents>
+<BOUCLE_publication(HALS_PUBLICATIONS){id_hals_publication}>
 <div class="liste documents_vignette">
-<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{600}|oui}{id_article}{document_type IN affiche,couverture}>
-	[<div class="affiche"><div class="ovale"></div><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
-</BOUCLE_documents>
+	[<div class="affiche"><div class="ovale"></div><a href="[(#LOGO_HALS_PUBLICATION|extraire_attribut{src})]" class="mediabox">(#LOGO_HALS_PUBLICATION|image_reduire{198,''})</a></div>]
 </div>
-[(#GRAND_TOTAL|>{1}|oui)
-<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
-	$(document).ready(function() {
-		$(".documents_vignette").cycle({
-			fx:			"#CONFIG{sjcycle/fx}",
-			timeout:	"#CONFIG{sjcycle/timeout}",
-			speed:		"#CONFIG{sjcycle/speed}",
-			sync:		"#CONFIG{sjcycle/sync}",
-			pause:		"#CONFIG{sjcycle/pause}",
-			random:		"#CONFIG{sjcycle/random}",
-			cleartype: 1
-		});
-	});
-	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
-</script>]
-</B_documents>
-</BOUCLE_article>
+</BOUCLE_publication>

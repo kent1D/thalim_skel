@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Evenements</nom>
+	<description>Composition dédiée à la rubrique des evenements</description>
+	<branche type="article" composition="evenement" />
+</composition>

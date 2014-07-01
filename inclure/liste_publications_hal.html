@@ -3,30 +3,55 @@
 #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
+
+[(#ENV{publication_type}|=={revues}|oui)
+	#SET{mots,#LISTE{372}}
+	#SET{type_hal,#LISTE}
+]
+[(#ENV{publication_type}|=={ouvrages}|oui)
+	#SET{mots,#LISTE{463}}
+	#SET{type_hal,#LISTE{OUV}}
+]
+[(#ENV{publication_type}|=={articles}|oui)
+	#SET{mots,#LISTE{495}}
+	#SET{type_hal,#LISTE{COUV,ART,COMM}}
+]
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
 <div id="agenda-liste" class="liste long evenements">
 <h2>[(#GET{date_debut}|affdate_periode{#GET{affichage_duree},#GET{affichage_debut}})]</h2>
 #SET{has_event,non}
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
+	#SET{publications,#ARRAY}
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
-	<B_ev1>
-	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev1(ARTICLES){date >= #GET{date_debut}}{date < #GET{date_fin}}{!par date}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-		<li class="item">
-			#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}
-		</li>
+
+	<BOUCLE_ev1(ARTICLES){id_mot IN #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{!par date}{id_article?}{id_mot?}{id_rubrique}>
+	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}}}}
 	</BOUCLE_ev1>
+	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}>
+	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+	</BOUCLE_ev2>
+
+	<ul class="liste-items liste-puce evenements">
+	<BOUCLE_data_publications(DATA){source tableau,#GET{publications}}{par cle}>
+		<li class="item">
+			#VALEUR
+		</li>
+	</BOUCLE_data_publications>
 	</ul>
-	</B_ev1>
+	</B_data_publications>
 	<p>Il n'y a pas de publication cette année</p>
-	<//B_ev1>
+	<//B_data_publications>
 </BOUCLE_rubriques>
 <div class="pagination">
 	#SET{hasprev,''}
 	<BOUCLE_prev(ARTICLES){id_article?}{id_rubrique?}{id_mot?}{date < #GET{date_prev}}{0,1}>#SET{hasprev,1}</BOUCLE_prev>
+	</B_prev><BOUCLE_prev2(HALS_PUBLICATIONS){id_mot?}{date_production < #GET{date_prev}}{0,1}>#SET{hasprev,1}</BOUCLE_prev2><//B_prev>
 	#SET{hasnext,''}
 	<BOUCLE_next(ARTICLES){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{date> #GET{date_fin}}{0,1}>#SET{hasnext,1}</BOUCLE_next>
+	</B_next><BOUCLE_next2(HALS_PUBLICATIONS){id_mot?}{date_production > #GET{date_fin}}{0,1}>#SET{hasnext,1}</BOUCLE_next2><//B_next>
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
@@ -79,3 +104,4 @@
 ]
 <//B_rubriques>
 </div>
+#FILTRE{trim}

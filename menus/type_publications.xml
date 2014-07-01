@@ -1,0 +1,8 @@
+<entree>
+	<nom>Types de publication</nom>
+	<rang>20</rang>
+	<description></description>
+	<icone>images/menus_rubriques.png</icone>
+	<parametre nom="id_rubrique" label="menus:entree_id_rubrique_ou_courante" />
+	<refuser_sous_menu/>
+</entree>

@@ -27,7 +27,6 @@ function thalim_recuperer_documents(){
 	$documents = sql_allfetsel('id_document','spip_documents','distant="oui"');
 	foreach($documents as $document){
 		$copier_local($document['id_document']);
-		spip_log($document['id_document'],'test.'._LOG_ERREUR);
 	}
 }
 

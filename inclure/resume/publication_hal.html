@@ -1,0 +1,24 @@
+[(#REM)
+
+  Squelette Presentation resumee d'une publication dans une liste
+  Distribue sous licence GPL
+
+]
+<BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
+<article class="entry article hentry">
+	<strong class="entry-title"><a href="#URL_HALS_PUBLICATION" rel="bookmark">#TITRE<span
+		class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong> (#TYPDOC)</B_mot>
+	[<br /><strong><time>(#DATE_PRODUCTION|hal_affdate{#DATE_PRODUCTION_FORMAT}|ucfirst)</time></strong>]
+	<B_auteurs>
+	<p class="lesauteurs">
+	<BOUCLE_auteurs(AUTEURS){si #ENV{afficher_auteur}|!={non}}{id_objet = #ID_HAL}{objet=hal}{par nom}{', '}>
+	<a href="#URL_AUTEUR">#NOM</a>
+	</BOUCLE_auteurs>
+	</p>
+	</B_auteurs>
+	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
+	[<p>
+	<a href="(#LOGO_HALS_PUBLICATION|extraire_attribut{src})" class="lien_document"><:thalim:document_couverture:></a>
+	</p>]
+</article>
+</BOUCLE_publication_hal>

@@ -1,14 +1,18 @@
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-#SET{date_fin,#GET{date_debut}|agenda_moisdecal{12,'Y-m-d H:i:00'}}
+#SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
+#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
 <B_articles>
 <div class="liste documents_vignette" id="articles_vignette_994">
-	<BOUCLE_articles(ARTICLES){id_rubrique}{id_mot ?}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
+	<BOUCLE_articles(EVENEMENTS){id_rubrique}{fusion id_article}{id_mot ?}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{par hasard}>
 	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
 		[<div class="affiche">
 			<div class="ovale"></div>
 			<a href="#URL_ARTICLE">
 					(#LOGO_DOCUMENT**|image_reduire{198,''})
 			</a>
+			<span class="titre">[(#INFO_TITRE{article,#ID_ARTICLE}|couper{40})]</span>
 		</div>]
 	</BOUCLE_documents>
 	</BOUCLE_articles>
