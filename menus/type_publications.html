@@ -7,17 +7,18 @@
 ]
 <BOUCLE_appel(CONDITION){si #ENV{appel_menu}|oui}>
 	<BOUCLE_rubrique(RUBRIQUES){id_rubrique=#ENV{id_rubrique}}>
-		<li class="menu-entree item rub#ID_RUBRIQUE">
-			<a href="#URL_RUBRIQUE" class="[ (#ID_RUBRIQUE|menus_exposer{rubrique,#ENV*{env}})]">#TITRE</a>
+		#SET{rubrique_expose,#ID_RUBRIQUE|menus_exposer{rubrique,#ENV*{env}}}
+		<li class="menu-entree item rub#ID_RUBRIQUE type_publication[(#GET{rubrique_expose}|oui) ouverte]">
+			<a href="#URL_RUBRIQUE" class="[ (#GET{rubrique_expose})]">#TITRE</a>
 			<ul class="menu-liste menu-items">
 				<li class="menu-entree item rub#ID_RUBRIQUE">
-					[(#URL_RUBRIQUE|parametre_url{publication_type,revues}|lien_ou_expose{<:thalim:titre_revues:>,#ENV*{env}|table_valeur{publication_type}|in_array{#LISTE{ouvrages,articles}}|non})]
+					[(#URL_RUBRIQUE|parametre_url{publication_type,revues}|lien_ou_expose{<:thalim:titre_revues:>,#ENV*{env}|table_valeur{publication_type}|in_array{#LISTE{ouvrages,articles}}|non|et{#GET{rubrique_expose}|=={'on active'}|oui}|oui})]
 				</li>
 				<li class="menu-entree item rub#ID_RUBRIQUE">
-					[(#URL_RUBRIQUE|parametre_url{publication_type,ouvrages}|lien_ou_expose{<:thalim:titre_ouvrages:>,#ENV*{env}|table_valeur{publication_type}|=={ouvrages}})]
+					[(#URL_RUBRIQUE|parametre_url{publication_type,ouvrages}|lien_ou_expose{<:thalim:titre_ouvrages:>,#ENV*{env}|table_valeur{publication_type}|=={ouvrages}|et{#GET{rubrique_expose}|=={'on active'}|oui}})]
 				</li>
 				<li class="menu-entree item rub#ID_RUBRIQUE">
-					[(#URL_RUBRIQUE|parametre_url{publication_type,articles}|lien_ou_expose{<:thalim:titre_articles:>,#ENV*{env}|table_valeur{publication_type}|=={articles}})]
+					[(#URL_RUBRIQUE|parametre_url{publication_type,articles}|lien_ou_expose{<:thalim:titre_articles:>,#ENV*{env}|table_valeur{publication_type}|=={articles}|et{#GET{rubrique_expose}|=={'on active'}|oui}})]
 				</li>
 			</ul>
 	</BOUCLE_rubrique>
