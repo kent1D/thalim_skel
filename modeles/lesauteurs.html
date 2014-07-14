@@ -7,4 +7,5 @@
 	
 ]
 <BOUCLE_auteurs(AUTEURS){id_objet}{objet}{par nom_famille,nom}{tout}{", "}>
-<span class="vcard author"><a class="url fn spip_in" href="#URL_AUTEUR">#NOM</a></span></BOUCLE_auteurs>
+<span class="vcard author"><a class="url fn spip_in" href="#URL_AUTEUR">#NOM</a></span></BOUCLE_auteurs>[, (#INFO_AUTRES_AUTEURS{#ENV{objet},#ENV{id_objet}})]
+</B_auteurs>
