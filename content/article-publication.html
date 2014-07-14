@@ -4,7 +4,7 @@
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
 		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
 		<h1><span class="#EDIT{titre}">#TITRE</span>
-			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}><a href="#URL_MOT">#TITRE</a></BOUCLE_mot> - </B_mot>[(#DATE|affdate_mois_annee|ucfirst)]</small>
+			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}><a href="#URL_MOT">#TITRE</a>#SET{id_mot,#ID_MOT}</BOUCLE_mot> - </B_mot>[(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</small>
 		</h1>
 
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
@@ -20,7 +20,7 @@
 			</span>
 			]
 		<//B_nb_commentaires>
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe !IN 12,9,7,11}{par num titre,titre}>
 			<B_tags>
 			<ul class="tags inline">
 				<BOUCLE_tags(MOTS){id_groupe}{id_article}>
@@ -34,7 +34,7 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{600}|non}{id_article}{document_type IN affiche,couverture}>
+		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{1500}|non}{id_article}{document_type IN affiche,couverture}>
 			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]

@@ -17,7 +17,6 @@
 						<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
 							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
 						[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
-						<div class="domaines"><a href="[(#URL_ARTICLE|ancre_url{domaines})]" class="lien_important"><:thalim:lien_domaines:></a></div>
 						<BOUCLE_chercheurs(AUTEURS){id_article}{0,1}{tout}>
 						<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
 						</BOUCLE_chercheurs>

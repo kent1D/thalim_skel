@@ -8,26 +8,27 @@
 		[<p class="role">(#ROLE)</p>]
 		[<p class="email">(#EMAIL|oui)[(#VAL{<a href="mailto:#EMAIL" class="spip_mail">#EMAIL</a>}|mailcrypt)]</p>]
 		[<div class="#EDIT{bio} chapo bio">(#BIO|adaptive_images)</div>]
-		<B_themes>
-		<p class="themes_recherche"><strong>[(#GRAND_TOTAL|singulier_ou_pluriel{thalim:info_theme_recherche,thalim:info_themes_recherche})]</strong>
-		<BOUCLE_themes(MOTS){id_auteur}{id_groupe = 2}{', '}>
-		<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_themes>
-		</p></B_themes>
+		[<div class="themes_recherche">
+			<p><:thalim:info_themes_recherche:></p>
+			(#DOMAINES_RECHERCHE)
+		</div>]
 		[<p class="#EDIT{hyperlien} hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		#SET{publications,#ARRAY}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
-			#SET{publications,#ARRAY}
 			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{!par date_production}>
 			[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev2>
-			<BOUCLE_rubriques(RUBRIQUES){composition=publications}>
-			<BOUCLE_articles_pub(ARTICLES){id_auteur}>
+		</BOUCLE_hal>
+		<BOUCLE_rubriques(RUBRIQUES){racine}{composition=publications}>
+			<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 			</BOUCLE_articles_pub>
-			</BOUCLE_rubriques>
-			<B_data_publications>
+		</BOUCLE_rubriques>
+		
+		<B_data_publications>
 			#ANCRE_PAGINATION
 			<div class="publications">
 				<h2>&bull; <:thalim:titre_publications:></h2>
@@ -39,6 +40,8 @@
 				</BOUCLE_data_publications>
 				</ul>
 				[<div class="pagination">(#PAGINATION)</div>]
+				[<h3>&bull; <:thalim:titre_autres_publications:></h3>
+				<div class="#EDIT{publications}">(#PUBLICATIONS)</div>]
 			</div>
 			</B_data_publications>
 			[<div class="publications">
@@ -46,13 +49,6 @@
 			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
 			</div>]
 			<//B_data_publications>
-		</BOUCLE_hal>
-		</B_hal>
-		[<div class="publications">
-			<h2>&bull; <:thalim:titre_publications:></h2>
-			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
-		</div>]
-		<//B_hal>
 	</div>
 	<aside>
 		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247}{0,1}>
