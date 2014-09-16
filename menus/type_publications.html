@@ -12,9 +12,6 @@
 			<a href="#URL_RUBRIQUE" class="[ (#GET{rubrique_expose})]">#TITRE</a>
 			<ul class="menu-liste menu-items">
 				<li class="menu-entree item rub#ID_RUBRIQUE">
-					[(#URL_RUBRIQUE|parametre_url{publication_type,revues}|lien_ou_expose{<:thalim:titre_revues:>,#ENV*{env}|table_valeur{publication_type}|in_array{#LISTE{ouvrages,articles}}|non|et{#GET{rubrique_expose}|=={'on active'}|oui}|oui})]
-				</li>
-				<li class="menu-entree item rub#ID_RUBRIQUE">
 					[(#URL_RUBRIQUE|parametre_url{publication_type,ouvrages}|lien_ou_expose{<:thalim:titre_ouvrages:>,#ENV*{env}|table_valeur{publication_type}|=={ouvrages}|et{#GET{rubrique_expose}|=={'on active'}|oui}})]
 				</li>
 				<li class="menu-entree item rub#ID_RUBRIQUE">
