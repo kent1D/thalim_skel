@@ -1,0 +1,15 @@
+<BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
+<div id="activites_editoriales-liste" class="liste long activites_editoriales">
+	<B_activites>
+	<ul class="liste-items liste-puce activites_editoriales">
+	<BOUCLE_activites(ARTICLES){id_rubrique}{par num titre}>
+		<li class="item">
+			&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+			[(#CHAPO)]
+		</li>
+	</BOUCLE_activites>
+	</ul>
+	</B_activites>
+</BOUCLE_rubriques>
+</div>
+</B_rubriques>

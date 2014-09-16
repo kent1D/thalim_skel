@@ -4,17 +4,13 @@
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
 
-[(#ENV{publication_type}|=={revues}|oui)
-	#SET{mots,#LISTE{372}}
-	#SET{type_hal,#LISTE}
-]
 [(#ENV{publication_type}|=={ouvrages}|oui)
 	#SET{mots,#LISTE{463}}
-	#SET{type_hal,#LISTE{OUV}}
+	#SET{type_hal,#LISTE{COUV,DOUV,OUV}}
 ]
 [(#ENV{publication_type}|=={articles}|oui)
 	#SET{mots,#LISTE{495}}
-	#SET{type_hal,#LISTE{COUV,ART,COMM}}
+	#SET{type_hal,#LISTE{ART,COMM}}
 ]
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
@@ -29,10 +25,14 @@
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 	#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}}}}
 	</BOUCLE_ev1>
-	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}>
+	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_production}{doublons hal}>
 	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev2>
+	<BOUCLE_ev3(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_ecriture == 0000-00-00 00:00:00}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal}>
+	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+	</BOUCLE_ev3>
 
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_data_publications(DATA){source tableau,#GET{publications}}{par cle}>
