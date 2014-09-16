@@ -123,4 +123,67 @@ function thalim_agenda_affdate_debut_fin($date_debut, $date_fin, $horaire = 'oui
 	}
 	return unicode2charset(charset2unicode($s,'AUTO'));	
 }
+
+function autoriser_auteur_modifierextra_these_titre_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_these_directeur_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_these_resume_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_domaines_recherche_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return !sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_publications_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return !sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_hal($faire, $type, $id, $qui, $opt) {
+	spip_log('on passe ici','test.'._LOG_ERREUR);
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return !sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
+function autoriser_auteur_modifierextra_role_dist($faire, $type, $id, $qui, $opt) {
+	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
+}
+
+function autoriser_auteur_modifierextra_membre_qualite_dist($faire, $type, $id, $qui, $opt) {
+	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
+}
+
+function autoriser_auteur_modifierextra_recherches_en_cours_dist($faire, $type, $id, $qui, $opt) {
+	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
+}
+
+function autoriser_auteur_modifierextra_fonction_complement_dist($faire, $type, $id, $qui, $opt) {
+	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
+}
+
+function autoriser_auteur_modifierextra_id_hal_dist() {
+	return false;
+}
 ?>
