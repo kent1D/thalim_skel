@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Activités éditoriales</nom>
+	<description>Composition dédiée à la rubrique des activités éditoriales</description>
+	<branche type="article" composition="activites_editoriales" />
+</composition>

@@ -8,17 +8,10 @@
 		]</h1>
 
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
-			<p class="publication">[<span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+			<p class="publication">[<span class="authors">[(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
 		</B_auteurs>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
-		<BOUCLE_nb_commentaires(FORUMS) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
-			<span class="comments">
-			<span class="sep">|</span>
-			<a[ href="(#REM|ancre_url{comments})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_commentaire,zcore:info_nb_commentaires}|attribut_html)"]>[<i class="icon-comment"></i> (#TOTAL_BOUCLE)]</a>
-			</span>
-			]
-		<//B_nb_commentaires>
 			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
 			<B_tags>
 			<ul class="tags inline">
@@ -37,10 +30,8 @@
 			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
-
-		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
-			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
-			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		[(#URL_SITE|oui)<p class="hyperlien">
+			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
 		</p>]
 	</div>
 

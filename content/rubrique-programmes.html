@@ -9,9 +9,17 @@
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
-			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},nb=20,env,ajax} />
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},nb=20,env,ajax} />
 			</div>
 		</BOUCLE_articles>
+		<BOUCLE_rubriques(RUBRIQUES){id_parent}>
+		<BOUCLE_articles_rub(ARTICLES){id_rubrique}{0,1}>
+			[<h2>(#_rubriques:TITRE)</h2>]
+			<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},nb=20,env,ajax} />
+			</div>
+		</BOUCLE_articles_rub>
+		</BOUCLE_rubriques>
 	<//B_articles>
 	</div>
 

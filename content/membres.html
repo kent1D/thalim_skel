@@ -62,7 +62,7 @@
 				<h4>#ROLE</h4>]
 			<p>
 			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>]<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_autres></p>
+			[(#GRAND_TOTAL|=={1}|oui)<strong>#ROLE : </strong>][(#STATUT|=={6forum}|?{#NOM[ ((#FONCTION_COMPLEMENT))],<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_autres></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_autres>
 			</BOUCLE_roles_autres>

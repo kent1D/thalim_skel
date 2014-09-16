@@ -4,9 +4,8 @@
 		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
 		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><span class="titre">#TITRE</span></h1>
 		<p class="soustitre">
-			[(#ENV{publication_type,revues}|=={revues}|oui)<:thalim:titre_revues:>]
-			[(#ENV{publication_type,revues}|=={ouvrages}|oui)<:thalim:titre_ouvrages:>]
-			[(#ENV{publication_type,revues}|=={articles}|oui)<:thalim:titre_articles:>]
+			[(#ENV{publication_type,ouvrages}|=={ouvrages}|oui)<:thalim:titre_ouvrages:>]
+			[(#ENV{publication_type,ouvrages}|=={articles}|oui)<:thalim:titre_articles:>]
 		</p>
 	</header>
 	<div class="main">
@@ -14,9 +13,9 @@
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
 			[(#PLUGIN{hal}|oui)
-			<INCLURE{fond=inclure/liste_publications_hal,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,publication_type=#ENV{publication_type,revues},env,ajax} />]
+			<INCLURE{fond=inclure/liste_publications_hal,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,publication_type=#ENV{publication_type,ouvrages},env,ajax} />]
 			[(#PLUGIN{hal}|non)
-			<INCLURE{fond=inclure/liste_publications,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,publication_type=#ENV{publication_type,revues},env,ajax} />]
+			<INCLURE{fond=inclure/liste_publications,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,publication_type=#ENV{publication_type,ouvrages},env,ajax} />]
 			</div>
 		</BOUCLE_articles>
 

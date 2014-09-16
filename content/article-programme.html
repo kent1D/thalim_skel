@@ -3,46 +3,32 @@
 	<header class="cartouche">
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
 		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
-		<h1 class="ellipse"><div class="ovale"> </div><span class="titre #EDIT{titre}">#TITRE</span>[
+		<h1><span class="#EDIT{titre}">#TITRE</span>[
 			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
 		]</h1>
 
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
-			<p class="publication">[<span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+			<p class="publication">[<span class="authors">[(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_responsables:>,<:thalim:info_responsable:>}) ](#LESAUTEURS)</span>]</p>
 		</B_auteurs>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
-			#MODELE{article_traductions}
-		<BOUCLE_nb_commentaires(FORUMS) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
-			<span class="comments">
-			<span class="sep">|</span>
-			<a[ href="(#REM|ancre_url{comments})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_commentaire,zcore:info_nb_commentaires}|attribut_html)"]>[<i class="icon-comment"></i> (#TOTAL_BOUCLE)]</a>
-			</span>
-			]
-		<//B_nb_commentaires>
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
 			<B_tags>
-			<p>
-			<span class="tags">
-				<ul class="inline">
-					<li><strong>#TITRE : </strong></li>
-					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
-					</BOUCLE_tags>
-				</ul>
-			</span>
+			<p class="tags">
+				<strong class="mots"><:thalim:info_relie_a:></strong>
+				<BOUCLE_tags(MOTS){id_groupe IN 10,8,13}{id_article}{', '}>
+				<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_tags>
 			</p>
 			</B_tags>
-			</BOUCLE_groupes_mots>
 		</div>
 	</header>
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
-		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{600}|non}{id_article}{document_type IN affiche,couverture}>
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+
 		[(#URL_SITE|oui)<p class="hyperlien">
 			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
 		</p>]

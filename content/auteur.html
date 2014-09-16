@@ -12,45 +12,95 @@
 			<p><:thalim:info_themes_recherche:></p>
 			(#DOMAINES_RECHERCHE)
 		</div>]
-		[<p class="#EDIT{hyperlien} hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
-		#SET{publications,#ARRAY}
+		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		#SET{publications_ouvrages,#ARRAY}
+		#SET{publications_articles,#ARRAY}
+		#SET{mots_ouvrages,#LISTE{463}}
+		#SET{type_hal_ouvrages,#LISTE{OUV}}
+		#SET{mots_articles,#LISTE{495}}
+		#SET{type_hal_articles,#LISTE{ART,COMM}}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
-			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{!par date_production}>
-			[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
-			[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN OUV,DOUV,COUV}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
+			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+			</BOUCLE_ev1>
+			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{typdoc IN OUV,DOUV,COUV}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev2>
+			<BOUCLE_ev3(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
+			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+			</BOUCLE_ev3>
+			<BOUCLE_ev4(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+			</BOUCLE_ev4>
 		</BOUCLE_hal>
 		<BOUCLE_rubriques(RUBRIQUES){racine}{composition=publications}>
-			<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur}>
+			<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_mot IN #GET{mots_ouvrages}}{id_auteur}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
-			#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+			#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+			</BOUCLE_ouvrages_pub>
+			<BOUCLE_articles_pub(ARTICLES){branche}{id_mot IN #GET{mots_articles}}{id_auteur}>
+			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			#SET{publications_articles,#GET{publications_articles}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 			</BOUCLE_articles_pub>
 		</BOUCLE_rubriques>
-		
-		<B_data_publications>
-			#ANCRE_PAGINATION
+		<BOUCLE_si_publications(CONDITION){si #GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui}>
 			<div class="publications">
 				<h2>&bull; <:thalim:titre_publications:></h2>
+				<B_data_publications>
+				#ANCRE_PAGINATION
+				<h3>Ouvrages</h3>
 				<ul class="liste-items publications">
-				<BOUCLE_data_publications(DATA){source tableau,#GET{publications}}{!par cle}{pagination 10}>
+				<BOUCLE_data_publications(DATA){source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
 					<li class="item">
 						#VALEUR
 					</li>
 				</BOUCLE_data_publications>
 				</ul>
 				[<div class="pagination">(#PAGINATION)</div>]
+				</B_data_publications>
+				<B_data_publications_articles>
+				#ANCRE_PAGINATION
+				<h3>Articles et chapitres d'ouvrages</h3>
+				<ul class="liste-items publications">
+				<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}{pagination 5}>
+					<li class="item">
+						#VALEUR
+					</li>
+				</BOUCLE_data_publications_articles>
+				</ul>
+				[<div class="pagination">(#PAGINATION)</div>]
+				</B_data_publications_articles>
 				[<h3>&bull; <:thalim:titre_autres_publications:></h3>
-				<div class="#EDIT{publications}">(#PUBLICATIONS)</div>]
+				<div class="#EDIT{publications}">(#PUBLICATIONS|propre)</div>]
 			</div>
-			</B_data_publications>
+		</BOUCLE_si_publications>
+		</B_si_publications>
 			[<div class="publications">
 			<h2>&bull; <:thalim:titre_publications:></h2>
-			<div class="#EDIT{publications}">(#PUBLICATIONS)</div>
+			<div class="#EDIT{publications}">(#PUBLICATIONS|propre)</div>
 			</div>]
-			<//B_data_publications>
+		<//B_si_publications>
 	</div>
 	<aside>
+		<B_activites_editoriales>
+		<div class="articles">
+			#ANCRE_PAGINATION
+			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264})</h2>]
+			<ul class="liste-items">
+			<BOUCLE_activites_editoriales(ARTICLES){id_auteur}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
+				<li class="item">
+					&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+					[(#CHAPO)]
+				</li>
+			</BOUCLE_activites_editoriales>
+			</ul>
+		</div>
+		</B_activites_editoriales>
 		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247}{0,1}>
 		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247}{par num titre}{tout}>
 		[(#AGENDA|=={1}|non)

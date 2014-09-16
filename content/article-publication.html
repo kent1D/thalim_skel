@@ -4,12 +4,10 @@
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
 		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
 		<h1><span class="#EDIT{titre}">#TITRE</span>
-			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}><a href="#URL_MOT">#TITRE</a>#SET{id_mot,#ID_MOT}</BOUCLE_mot> - </B_mot>[(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</small>
+			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}>[(#TITRE)]#SET{id_mot,#ID_MOT}</BOUCLE_mot> - </B_mot>[(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</small>
 		</h1>
 
-		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
-			<p class="publication">[<span class="authors"><i class="icon-user"></i> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
-		</B_auteurs>
+		<p class="publication">[(#LESAUTEURS), ][<em>(#TITRE)</em>, ][(#SURTITRE), ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</p>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
 			#MODELE{article_traductions}
@@ -20,15 +18,13 @@
 			</span>
 			]
 		<//B_nb_commentaires>
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe !IN 12,9,7,11}{par num titre,titre}>
 			<B_tags>
-			<ul class="tags inline">
-				<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-				<li><a class="label" href="#URL_MOT">#TITRE</a></li>
-				</BOUCLE_tags>
-			</ul>
+			<p class="tags">
+				<strong class="mots"><:thalim:info_relie_a:></strong>
+				<BOUCLE_tags(MOTS){id_groupe IN 10,8,13}{id_article}{', '}>
+				<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_tags>
+			</p>
 			</B_tags>
-			</BOUCLE_groupes_mots>
 		</div>
 	</header>
 
@@ -39,9 +35,8 @@
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
 
-		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
-			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
-			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		[(#URL_SITE|oui)<p class="hyperlien">
+			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
 		</p>]
 	</div>
 

@@ -9,7 +9,7 @@
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
 			#MODELE{article_traductions}
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
 			<B_tags>
 			<p>
 			<span class="tags">
@@ -29,9 +29,8 @@
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
-		[(#URL_SITE|oui)<p class="#EDIT{hyperlien} hyperlien">
-			[(#NOM_SITE*|oui)<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a>]
-			[(#NOM_SITE*|non)<a href="#URL_SITE" class="spip_out"><:thalim:lien_savoir_plus:></a>]
+		[(#URL_SITE|oui)<p class="hyperlien">
+			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
 		</p>]
 	</div>
 
@@ -53,31 +52,36 @@
 		<div class="activites" id="activites">
 			<h2><:thalim:titre_activites:></h2>
 			<B_activites>
-			<ul class="liste-items liste-activites">
-			<BOUCLE_activites(ARTICLES){id_mot}{id_secteur IN #LISTE{251,247,250}}{!par date}>
-			<li class="item">
-				<strong><BOUCLE_type_evenement(MOTS){id_groupe=3}{id_article}>#TITRE </BOUCLE_type_evenement>&laquo;&nbsp;<a href="#URL_ARTICLE">#TITRE</a>&nbsp;&raquo;</strong>
-			</li>
+			<BOUCLE_activites(RUBRIQUES){id_rubrique IN #LISTE{251,247,250,267}}>
+			<INCLURE{fond=liste/evenements-resume,id_mot=#_mots:ID_MOT,id_rubrique='',id_secteur=#ID_RUBRIQUE,titre=#TITRE,niveau_titre=3,env,ajax} />
 			</BOUCLE_activites>
-			</ul>
 			</B_activites>
-			<p><:thalim:message_pole_aucune_activite:></p>
-			<//B_activites>
 		</div>
 		<div class="publications" id="publications">
 			<h2><:thalim:titre_publications:></h2>
-			<B_publications>
-			<ul class="liste-items liste-publications">
-			<BOUCLE_publications(ARTICLES){id_mot}{id_secteur IN #LISTE{3}}{!par date}>
-			<li class="item">
-				<strong><a href="#URL_ARTICLE">#TITRE</a></strong>
-			</li>
-			</BOUCLE_publications>
-			</ul>
-			</B_publications>
-			<p><:thalim:message_pole_aucune_publication:></p>
-			<//B_publications>
+			<INCLURE{fond=liste/publications-resume,titre='',id_rubrique='',id_mot,env,ajax} />
 		</div>
+		<B_activites_editoriales>
+		<div class="activites_editoriales" id="activites_editoriales">
+			#ANCRE_PAGINATION
+			[<h2 class="h2">(#INFO_TITRE{rubrique,264})</h2>]
+			<ul class="liste-items liste-activites_editoriales">
+			<BOUCLE_activites_editoriales(ARTICLES){id_mot}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
+				<li class="item">
+					&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+					[(#CHAPO)]
+				</li>
+			</BOUCLE_activites_editoriales>
+			</ul>
+			[<div class="pagination">(#PAGINATION)</div>]
+		</div>
+		</B_activites_editoriales>
+		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
+			[<h2>(#INFO_TITRE{rubrique,257})</h2>]
+			<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
+			</div>
+		</BOUCLE_articles_rub>
 		</BOUCLE_mots>
 	</aside>
 
