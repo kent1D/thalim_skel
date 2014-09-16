@@ -1,0 +1,60 @@
+#SET{publications_ouvrages,#ARRAY}
+#SET{publications_articles,#ARRAY}
+#SET{mots_ouvrages,#LISTE{463}}
+#SET{type_hal_ouvrages,#LISTE{OUV}}
+#SET{mots_articles,#LISTE{495}}
+#SET{type_hal_articles,#LISTE{ART,COMM}}
+<BOUCLE_ev1(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN OUV,DOUV,COUV}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
+[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+</BOUCLE_ev1>
+<BOUCLE_ev2(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN OUV,DOUV,COUV}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+</BOUCLE_ev2>
+<BOUCLE_ev3(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
+[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+</BOUCLE_ev3>
+<BOUCLE_ev4(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+</BOUCLE_ev4>
+<BOUCLE_rubriques(RUBRIQUES){racine}{composition=publications}>
+	<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_mot IN #GET{mots_ouvrages}}>
+	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+	</BOUCLE_ouvrages_pub>
+	<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_mot IN #GET{mots_articles}}{id_auteur}>
+	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	#SET{publications_articles,#GET{publications_articles}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+	</BOUCLE_articles_pub>
+</BOUCLE_rubriques>
+<BOUCLE_si_publications(CONDITION){si #GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui}>
+	[<h2 class="h2">&bull; (#ENV{titre}|strtolower)</h2>]
+	<ul class="liste-items">
+	<B_data_publications>
+	#ANCRE_PAGINATION
+	<h3><:thalim:titre_ouvrages:></h3>
+	<ul class="liste-items publications">
+	<BOUCLE_data_publications(DATA){source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
+		<li class="item">
+			#VALEUR
+		</li>
+	</BOUCLE_data_publications>
+	</ul>
+	[<div class="pagination">(#PAGINATION)</div>]
+	</B_data_publications>
+	<B_data_publications_articles>
+	#ANCRE_PAGINATION
+	<h3><:thalim:titre_articles:></h3>
+	<ul class="liste-items publications">
+	<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}{pagination 5}>
+		<li class="item">
+			#VALEUR
+		</li>
+	</BOUCLE_data_publications_articles>
+	</ul>
+	[<div class="pagination">(#PAGINATION)</div>]
+	</B_data_publications_articles>
+</BOUCLE_si_publications>

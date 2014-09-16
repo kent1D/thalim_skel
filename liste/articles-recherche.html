@@ -1,0 +1,19 @@
+[(#REM) Articles trouves ]
+<B_articles>
+<div class="liste resultats articles">
+	#ANCRE_PAGINATION
+	<h2 class="h2">[(#ENV{titre}|sinon{<:articles:>})] (#GRAND_TOTAL)</h2>
+	<ul class="liste-items">
+		<BOUCLE_articles(ARTICLES) {recherche}{id_secteur?}{id_rubrique?}{par points}{inverse} {pagination #ENV{pagination}}>
+		<li class="item">
+			[(#ID_SECTEUR|=={3}|oui)
+			#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}]
+			<BOUCLE_evt(EVENEMENTS){si #ID_SECTEUR|=={3}|non}{id_article}{0,1}>
+			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,afficher_auteur=non,env}
+			</BOUCLE_evt>
+		</li>
+		</BOUCLE_articles>
+	</ul>
+	[<div class="pagination">(#PAGINATION)</div>]
+</div>
+</B_articles>
