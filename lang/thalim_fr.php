@@ -28,7 +28,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'erreur_doc_pdf' => 'Ce document ne peut être que de type PDF',
 
 	// F
-	'form_legend_thalim_fichiers' => 'Fichiers',
+	'form_legend_thalim_fichiers' => 'Fichiers joints',
 
 	// I
 	'info_10_secretaire_gestionnaire' => 'Secrétaire gestionnaire',
@@ -42,14 +42,21 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_doctorant' => 'Doctorant(e)',
 	'info_directeur_recherche' => 'Directeurs de recherche (DR)',
 	'info_fichier_remplacer' => 'Ce fichier remplacera celui ci :',
+	'info_intervenant' => 'Intervenant :',
+	'info_intervenants' => 'Intervenants :',
 	'info_maitre_conference' => 'Maîtres de conférence (MCF)',
 	'info_membres' => 'Membres',
 	'info_membres_autres' => 'Les autres membres',
 	'info_membre_lie' => 'Membre lié :',
 	'info_membres_lies' => 'Membres liés :',
+	'info_organisateur' => 'Organisateur :',
+	'info_organisateurs' => 'Organisateurs :',
 	'info_post_doctorant' => 'Postdoctorante',
 	'info_prof_emerite' => 'Professeurs émérites (PREM)',
 	'info_professeur' => 'Professeur (PR)',
+	'info_relie_a' => 'Voir aussi :',
+	'info_responsable' => 'Responsable :',
+	'info_responsables' => 'Responsables :',
 	'info_theme_recherche' => 'Thème de recherche&nbsp;:',
 	'info_themes_recherche' => 'Thèmes de recherche&nbsp;:',
 	
@@ -68,6 +75,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_ajout_fichier_invitation_court' => 'Une invitation',
 	'label_ajout_fichier_programme' => 'Un programme (Fichier pdf)',
 	'label_ajout_fichier_programme_court' => 'Programme',
+	'label_ajout_fichier_resumes' => 'Les résumés / biographies (Fichier pdf)',
+	'label_ajout_fichier_resumes_court' => 'Résumés / Bios',
 	'label_ajout_fichier_sommaire' => 'Un sommaire (Fichier pdf)',
 	'label_ajout_fichier_sommaire_court' => 'Sommaire',
 	'label_prenom' => 'Prénom :',
