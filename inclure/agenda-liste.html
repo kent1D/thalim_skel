@@ -10,8 +10,6 @@
 #SET{has_event,non}
 
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
-	
-	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
 	<B_ev1>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_ev1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
@@ -59,7 +57,7 @@
 <h3>#INFO_TITRE{rubrique,3}</h3>
 <ul class="liste-items liste-puce evenements">
 <BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut}}{date <= #GET{date_fin}}{!par date}>
-	<li>#INCLURE{fond=inclure/resume/article,id_article,env}</li>
+	<li>#INCLURE{fond=inclure/resume/publication,id_article,env}</li>
 </BOUCLE_publications>
 </ul>
 #SET{has_event,oui}
