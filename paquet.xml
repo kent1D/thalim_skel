@@ -12,10 +12,11 @@
 
 	<auteur lien="http://www.kent1.info">kent1</auteur>
 
-	<pipeline nom="pre_boucle" inclure="thalim_pipelines.php" />
+	<pipeline nom="pre_boucle" inclure="thalim_autoriser.php" />
 	<pipeline nom="recuperer_fond" inclure="thalim_pipelines.php" />
 	<pipeline nom="jquery_plugins" inclure="thalim_pipelines.php" />
 	<pipeline nom="autoriser" inclure="thalim_pipelines.php" />
+	<pipeline nom="diogene_avant_formulaire" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_objets" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_ajouter_saisies" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_verifier" inclure="thalim_pipelines.php" />
@@ -30,6 +31,8 @@
 	<necessite nom="oembed" />
 	<necessite nom="multilang" />
 	<necessite nom="compositions" />
+	<necessite nom="hal" />
+	<necessite nom="hal_auteurs" />
 	<utilise nom="crayons" />
 	<utilise nom="diogene" />
 </paquet>
