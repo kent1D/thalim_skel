@@ -1,0 +1,23 @@
+#CACHE{0}
+[(#REM)
+
+	Plugin Diogène Auteurs v1.x
+
+	Morceau de formulaire ajouté si on a configuré le Diogène pour lui permettre d'ajouter des auteurs
+
+]<li class="fieldset" id="diogene_auteurs">
+	<fieldset>
+		<h3 class="legend"><:diogene_gerer_auteurs:form_legend:></h3>
+		<ul>
+			<li class="editer editer_diogene_gerer_auteurs">
+				<label for="diogene_gerer_auteurs"><:diogene_gerer_auteurs:label_diogene_gerer_auteurs:></label>
+				<p class="explication"><:diogene_gerer_auteurs:explication_diogene_gerer_auteurs:></p>
+				<select name="diogene_gerer_auteurs[]" id="diogene_gerer_auteurs" multiple="multiple" class="chosen">
+					<BOUCLE_auteurs(AUTEURS){par nom_famille}{statut IN 0minirezo,1comite}{tout}>
+					<option value="#ID_AUTEUR"[(#ENV{id_article}|non)[(#ID_AUTEUR|=={#SESSION{id_auteur}}|oui)selected="selected"]][(#ID_AUTEUR|in_array{#ENV{auteurs,#ARRAY}}|oui)selected="selected"]>#NOM</option>
+					</BOUCLE_auteurs>
+				</select>
+			</li>
+		</ul>
+	</fieldset>
+</li>

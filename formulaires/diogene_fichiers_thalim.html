@@ -41,6 +41,11 @@
 			[(#SAISIE{fichier_thalim,fichier_invitation,
 				id_article=#ENV{id_article},
 				label=<:thalim:label_ajout_fichier_invitation_court:>})]]
+			
+			[(#VAL{fichier_resumes}|in_array{#ENV{champs_ajoutes,#ARRAY}}|oui)
+			[(#SAISIE{fichier_thalim,fichier_resumes,
+				id_article=#ENV{id_article},
+				label=<:thalim:label_ajout_fichier_resumes_court:>})]]
 		</ul>
 	</fieldset>
 </li>
