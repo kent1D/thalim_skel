@@ -1,7 +1,12 @@
  <div[ class="(#ENV{divclass,spip-admin-bloc})"] id='spip-admin' dir="#LANG_DIR">[
 	<a href="(#ENV{analyser})" class="spip-admin-boutons"
 		id="analyser"><:analyse_xml:>[ ((#ENV{xhtml_error}))]</a>]
-	[(#ENV{objet}|oui)
+	[(#ENV{objet}|!={article}|et{#ENV{id_article}}|oui)
+	[<a href="[(#ENV{voir_article})]" class="spip-admin-boutons"
+		id="voir_article">[(#VAL{article}|objet_info{texte_objet}|_T)]
+			((#ENV{id_article}))</a>]
+	]
+	[(#ENV{objet}|!={evenement}|oui)
 		[<a href="[(#ENV{voir_#ENV{objet}})]" class="spip-admin-boutons"
 		id="voir_#ENV{objet}">[(#ENV{objet}|objet_info{texte_objet}|_T)]
 			((#ENV{id_objet}))</a>]
