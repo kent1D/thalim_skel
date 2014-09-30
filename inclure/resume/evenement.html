@@ -3,8 +3,8 @@
 [(#SET{annee,#DATE_DEBUT|annee})][(#SET{mois,#DATE_DEBUT|nom_mois})][(#SET{jour,#DATE_DEBUT|jour})]
 <article class="entry evenement vevent id_#ID_EVENEMENT" id="evenement_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
 	[(#TITRE|=={#_article:TITRE}|non)
-	<strong class="h3-like summary entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]">[(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">#TITRE</span><span
-			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>]
+	<strong class="h3-like summary entry-title #EDIT{titre}">[(#ENV{afficher_lien,oui}|=={oui}|?{<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]">,''})][(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">#TITRE</span><span
+			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span>[(#ENV{afficher_lien,oui}|=={oui}|oui)</a>]</strong>]
 	[(#TITRE|=={#_article:TITRE}|oui)
 	<meta itemprop="name" content="[(#TITRE|attribut_html)]" />]
 	<meta itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]" />
