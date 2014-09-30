@@ -16,20 +16,21 @@
 		#SET{publications_ouvrages,#ARRAY}
 		#SET{publications_articles,#ARRAY}
 		#SET{mots_ouvrages,#LISTE{463}}
-		#SET{type_hal_ouvrages,#LISTE{OUV}}
+		#SET{type_hal_ouvrages,#LISTE{OUV,DOUV,COUV}}
 		#SET{mots_articles,#LISTE{495}}
-		#SET{type_hal_articles,#LISTE{ART,COMM}}
+		#SET{type_hal_articles,#LISTE{ART}}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
-			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN OUV,DOUV,COUV}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
+			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
 			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev1>
-			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{typdoc IN OUV,DOUV,COUV}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev2>
 			<BOUCLE_ev3(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
+			#TYPDOC
 			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev3>
@@ -45,17 +46,18 @@
 			</BOUCLE_ouvrages_pub>
 			<BOUCLE_articles_pub(ARTICLES){branche}{id_mot IN #GET{mots_articles}}{id_auteur}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
-			#SET{publications_articles,#GET{publications_articles}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_articles_pub>
 		</BOUCLE_rubriques>
-		<BOUCLE_si_publications(CONDITION){si #GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui}>
+		[(#GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui) #SET{publications,ok}]
+		<BOUCLE_si_publications(CONDITION){si #GET{publications}|=={ok}|oui}>
 			<div class="publications">
 				<h2>&bull; <:thalim:titre_publications:></h2>
 				<B_data_publications>
 				#ANCRE_PAGINATION
 				<h3>Ouvrages</h3>
 				<ul class="liste-items publications">
-				<BOUCLE_data_publications(DATA){source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
+				<BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
 					<li class="item">
 						#VALEUR
 					</li>
@@ -76,13 +78,13 @@
 				[<div class="pagination">(#PAGINATION)</div>]
 				</B_data_publications_articles>
 				[<h3>&bull; <:thalim:titre_autres_publications:></h3>
-				<div class="#EDIT{publications}">(#PUBLICATIONS|propre)</div>]
+				<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>]
 			</div>
 		</BOUCLE_si_publications>
 		</B_si_publications>
 			[<div class="publications">
 			<h2>&bull; <:thalim:titre_publications:></h2>
-			<div class="#EDIT{publications}">(#PUBLICATIONS|propre)</div>
+			<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>
 			</div>]
 		<//B_si_publications>
 	</div>
