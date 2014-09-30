@@ -5,7 +5,9 @@ if (!defined('_ECRIRE_INC_VERSION')) return;
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// B
+	'barre_exposant' => 'Exposant',
 	'bouton_retour_membre' => 'Retour à sa page membre',
+
 	// D
 	'date_fmt_du_au_meme_mois' => '<span class="jour_debut">@dtstart@@jour_debut@@dtabbr@</span> - @dtend@@jour_fin@ @nom_mois@ @annee@@dtabbr@',
 	'date_fmt_du_au_meme_annee' => '@dtstart@<span class="jour_debut">@jour_debut@</span> @nom_mois_debut@@dtabbr@ - @dtend@@jour_fin@ @nom_mois_fin@ @annee@@dtabbr@', // Du 21 avril au 30 mai 2014'
