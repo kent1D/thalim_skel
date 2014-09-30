@@ -346,7 +346,6 @@ function thalim_skel_diogene_traiter($flux){
 		}
 		if($id_diogene == 9){
 			sql_updateq('spip_articles',array('seminaire'=>'on'),'id_article='.$id_objet);
-			//set_request('seminaire','on');
 		}
 	}
 	return $flux;
