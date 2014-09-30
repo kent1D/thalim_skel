@@ -22,6 +22,8 @@
 	<pipeline nom="diogene_verifier" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_traiter" inclure="thalim_pipelines.php" />
 	<pipeline nom="editer_contenu_objet" inclure="thalim_pipelines.php" />
+	<pipeline nom="porte_plume_barre_pre_charger" inclure="thalim_pipelines.php" />
+	<pipeline nom="porte_plume_lien_classe_vers_icone" inclure="thalim_pipelines.php" />
 
 	<necessite nom="spipr_dist" />
 	<necessite nom="seminaire" />

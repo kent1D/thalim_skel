@@ -358,4 +358,33 @@ function thalim_skel_diogene_avant_formulaire($flux){
 	}
 	return $flux;
 }
+
+function thalim_skel_porte_plume_barre_pre_charger($barres){
+	$barre = &$barres['edition'];
+	
+	$barre->cacher('stroke_through');
+
+	$module_barre = "barre_outils";
+	if (intval($GLOBALS['spip_version_branche'])>2)
+		$module_barre = "barreoutils";
+
+	// Petites capitales
+	$barre->ajouterApres('italic', array(
+		"id"          => 'exposant',
+		"name"        => _T('thalim:barre_exposant'),
+		"className"   => "outil_exposant",
+		"openWith"    => "<sup>", 
+		"closeWith"   => "</sup>",
+		"display"     => true,
+		"selectionType" => "word",
+	));
+	
+	return $barres;
+}
+
+function thalim_skel_porte_plume_lien_classe_vers_icone($flux){
+	return array_merge($flux, array(
+		'outil_exposant' => array('exposant.png','0'),
+	));
+}
 ?>
