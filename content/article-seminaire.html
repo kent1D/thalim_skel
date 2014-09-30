@@ -57,10 +57,6 @@
 	<aside>
 		[(#REM) Gestion du portfolio et des documents ]
 		[(#INCLURE{fond=inclure/documents,id_article})]
-
-		[(#REM) Forum de l'article
-		NB : pour desactiver les forums de l'article, supprimez simplement la ligne ci-dessous ]
-		<INCLURE{fond=inclure/forum,id_article,repondre_url=(#PARAMETRES_FORUM|url_reponse_forum),repondre_titre=<:repondre_article:>} />
 	</aside>
 	
 	<BOUCLE_extra2_article(ARTICLES){id_article}>
@@ -77,7 +73,7 @@
 					<a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a><br />
 					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]]
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
-					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT}</div>]
+					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT,sinon_intro_article=non,afficher_lien=non}</div>]
 				</li>
 			</BOUCLE_evenements>
 			</ul>
@@ -91,7 +87,7 @@
 					<a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a><br />
 					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]]
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
-					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT}</div>]
+					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT,sinon_intro_article=non,afficher_lien=non}</div>]
 				</li>
 			</BOUCLE_evenements_passes>
 			</ul>
