@@ -246,6 +246,8 @@ function thalim_skel_diogene_verifier($flux){
 						$erreurs[$type_fichier_pdf] = _T('thalim:erreur_doc_pdf');
 				}
 			}
+			if(!_request('titre') || _request('titre') == "")
+				$erreurs['titre'] = _T('info_obligatoire');
 		}
 		$flux['data'] = array_merge($flux['data'], $erreurs);
 	}
@@ -341,6 +343,10 @@ function thalim_skel_diogene_traiter($flux){
 						dissocier_document($id_document, 'article', $id_objet, true);
 				}
 			}
+		}
+		if($id_diogene == 9){
+			sql_updateq('spip_articles',array('seminaire'=>'on'),'id_article='.$id_objet);
+			//set_request('seminaire','on');
 		}
 	}
 	return $flux;
