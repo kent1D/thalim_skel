@@ -1,30 +1,20 @@
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-#SET{date_fin,#GET{date_debut}|agenda_moisdecal{12,'Y-m-d H:i:00'}}
-<B_articles>
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{12,'Y-m-d 00:00:00'}}
+#SET{articles,#ARRAY}
+<BOUCLE_articles_set(ARTICLES){id_rubrique}{id_mot ?}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
+#SET{articles,#GET{articles}|push{#ID_ARTICLE}}
+</BOUCLE_articles_set>
+<BOUCLE_affiches(DOCUMENTS){id_article IN #GET{articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture}}{0,1}>
 <div class="liste documents_vignette" id="articles_vignette_994">
-	<BOUCLE_articles(ARTICLES){id_rubrique}{id_mot ?}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
+	<div class="ovale"></div>
+	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
+	<BOUCLE_articles(ARTICLES){id_article IN #GET{articles,#ARRAY}}>
 	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
-		[<div class="affiche">
-			<div class="ovale"></div>
-			<a href="#URL_ARTICLE">
-					(#LOGO_DOCUMENT**|image_reduire{198,''})
-			</a>
-		</div>]
+		[<a href="#URL_ARTICLE">
+			(#LOGO_DOCUMENT**|image_reduire{198,''})
+		</a>]
 	</BOUCLE_documents>
 	</BOUCLE_articles>
+	</div>
 </div>
-</B_articles>
-<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
-	$(window).load(function() {
-		$(".documents_vignette").cycle({
-			fx:			"#CONFIG{sjcycle/fx}",
-			timeout:	"#CONFIG{sjcycle/timeout}",
-			speed:		"#CONFIG{sjcycle/speed}",
-			sync:		"#CONFIG{sjcycle/sync}",
-			pause:		"#CONFIG{sjcycle/pause}",
-			random:		"#CONFIG{sjcycle/random}",
-			cleartype: 1
-		});
-	});
-	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
-</script>
+</BOUCLE_affiches>

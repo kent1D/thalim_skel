@@ -1,45 +1,43 @@
 #CACHE{0}
 <B_auteurs_arias>
-<div class="liste auteurs_vignette" id="auteurs_vignette_994">
-	<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}>
-	<div class="membre">
-		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
+<div class="liste auteurs_vignette " id="auteurs_vignette_994">
+	<div class="ovale"></div>
+	<div class="cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
+		<div class="cycle-overlay"></div>
+		<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}>
+			[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+			<a href="#URL_AUTEUR" data-cycle-title="#GET{title}" data-cycle-description="">
+			[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+			</a>
+		</BOUCLE_auteurs_arias>
 	</div>
-	</BOUCLE_auteurs_arias>
 </div>
 </B_auteurs_arias>
 <B_auteurs_ecriture>
 <div class="liste auteurs_vignette" id="auteurs_vignette_1006">
-	<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}>
-	<div class="membre">
-		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
+	<div class="ovale"></div>
+	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
+		<div class="cycle-overlay"></div>
+		<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}>
+		[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+		<a href="#URL_AUTEUR" data-cycle-title="#GET{title}" data-cycle-description="">
+			[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+		</a>
+		</BOUCLE_auteurs_ecriture>
 	</div>
-	</BOUCLE_auteurs_ecriture>
 </div>
 </B_auteurs_ecriture>
 <B_auteurs_autres>
 <div class="liste auteurs_vignette" id="auteurs_vignette_1007">
-	<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}>
-	<div class="membre">
-		<div class="ovale"></div>
-		<a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>#LOGO_AUTEUR<span class="nom">#PRENOM[(#NOM_FAMILLE|match{-}|?{<br />,' '})]#NOM_FAMILLE</span></a>
+	<div class="ovale"></div>
+	<div class="cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
+		<div class="cycle-overlay"></div>
+		<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}>
+			[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+			<a href="#URL_AUTEUR" data-cycle-title="#GET{title}" data-cycle-description="">
+			[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+			</a>
+		</BOUCLE_auteurs_autres>
 	</div>
-	</BOUCLE_auteurs_autres>
 </div>
 </B_autres>
-<script type="text/javascript">/*<!#EVAL{chr(91)}CDATA#EVAL{chr(91)}*/
-	$(window).load(function() {
-		$(".auteurs_vignette").cycle({
-			fx:			"#CONFIG{sjcycle/fx}",
-			timeout:	"#CONFIG{sjcycle/timeout}",
-			speed:		"#CONFIG{sjcycle/speed}",
-			sync:		"#CONFIG{sjcycle/sync}",
-			pause:		"#CONFIG{sjcycle/pause}",
-			random:		"#CONFIG{sjcycle/random}",
-			cleartype: 1
-		});
-	});
-	/*#EVAL{chr(93)}[(#EVAL{chr(93)})]>*/
-</script>
