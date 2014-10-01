@@ -6,13 +6,15 @@
 </BOUCLE_articles_set>
 <BOUCLE_affiches(DOCUMENTS){id_article IN #GET{articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture}}{0,1}>
 <div class="liste documents_vignette" id="articles_vignette_994">
-	<div class="ovale"></div>
-	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
+	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 	<BOUCLE_articles(ARTICLES){id_article IN #GET{articles,#ARRAY}}>
 	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+	<div class="affiche">
+		<div class="ovale"></div>
 		[<a href="#URL_ARTICLE">
-			(#LOGO_DOCUMENT**|image_reduire{198,''})
+			(#LOGO_DOCUMENT|image_passe_partout{127,165})
 		</a>]
+	</div>
 	</BOUCLE_documents>
 	</BOUCLE_articles>
 	</div>
