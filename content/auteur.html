@@ -21,21 +21,20 @@
 		#SET{type_hal_articles,#LISTE{ART}}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
-			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
-			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev1>
-			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
-			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			<BOUCLE_ev2(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev2>
-			<BOUCLE_ev3(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
-			#TYPDOC
-			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			<BOUCLE_ev3(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev3>
-			<BOUCLE_ev4(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
-			[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+			<BOUCLE_ev4(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_articles}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 			</BOUCLE_ev4>
 		</BOUCLE_hal>
@@ -103,8 +102,35 @@
 			</ul>
 		</div>
 		</B_activites_editoriales>
-		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,247}{0,1}>
-		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,247}{par num titre}{tout}>
+		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,267,247}{0,1}>
+		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,267,247}{par num titre}{tout}>
+		<BOUCLE_si_seminaire(CONDITION){si #ID_RUBRIQUE|=={247}}>
+		#SET{articles,#ARRAY}
+		<BOUCLE_articles(ARTICLES){id_secteur?}{id_mot?}{id_auteur?}{!par date}>
+		#SET{articles,#GET{articles}|push{#ID_ARTICLE}}
+		</BOUCLE_articles>
+		<B_agenda>
+			#ANCRE_PAGINATION
+			[<h2 class="h2">&bull; (#_rubriques_homes:TITRE)</h2>]
+			<ul class="liste-items">
+				<BOUCLE_agenda(EVENEMENTS){fusion id_article}{id_article IN #GET{articles}}{!date_fin}{pagination #ENV{nb,5} #ENV{param_page}}>
+				<li class="item evenement_home">
+					<BOUCLE_artevt(ARTICLES){id_article}>
+					<article class="entry hentry vevent id_#ID_ARTICLE">
+						<div class="entry-title"><a itemprop="url" class="url" href="[(#URL_ARTICLE)]"><span>[(#TITRE|couper{90})]</span><span
+								class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></div>
+						[<div class="introduction">(#INTRODUCTION)</div>]
+						<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,programme}{' '}>
+						<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_programme:>})]</a>
+						</BOUCLE_documents>
+					</BOUCLE_artevt>
+				</li>
+				</BOUCLE_agenda>
+			</ul>
+			[<div class="pagination">(#PAGINATION{page})</div>]
+		</B_agenda>
+		</BOUCLE_si_seminaire>
+		</B_si_seminaire>
 		[(#AGENDA|=={1}|non)
 		[<div class="articles">
 		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
@@ -113,6 +139,7 @@
 		[<div class="articles">
 		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
 		</div>]]
+		<//B_si_seminaire>
 		</BOUCLE_rubriques_homes>
 		</BOUCLE_activite>
 	</aside>
