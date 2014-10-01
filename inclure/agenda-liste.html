@@ -10,6 +10,34 @@
 #SET{has_event,non}
 
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
+	<BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
+	#SET{communications,#ARRAY}
+	<BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+	</BOUCLE_comm1>
+	<BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+	</BOUCLE_comm2>
+	<BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env})]})]})]})]
+	</BOUCLE_evcomm1>
+	<B_evcomm>
+	<ul class="liste-items liste-puce evenements">
+	<BOUCLE_evcomm(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
+		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
+		<li class="item">
+			#VALEUR
+		</li>
+	</BOUCLE_evcomm>
+	</ul>
+	</B_evcomm>
+	<p>Il n'y a pas d'événement ce mois-ci</p>
+	<//B_evcomm>
+	</BOUCLE_si_rub_communications>
+	</B_si_rub_communications>
 	<B_ev1>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_ev1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
@@ -22,12 +50,28 @@
 	</B_ev1>
 	<p>Il n'y a pas d'événement ce mois-ci</p>
 	<//B_ev1>
+	<//B_si_rub_communications>
 </BOUCLE_rubriques>
 <div class="pagination">
 	#SET{hasprev,''}
 	<BOUCLE_prev(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}>#SET{hasprev,1}</BOUCLE_prev>
+	</B_prev>
+	<BOUCLE_si_prevcomm(CONDITION){si #ENV{id_rubrique}|=={251}}>
+	<BOUCLE_prevcomm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture < #GET{date_debut}}{!par date_ecriture}{doublons hal_communications}>
+	#SET{hasprev,1}</BOUCLE_prevcomm1>
+	<BOUCLE_prevcomm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production < #GET{date_debut}}{!par date_production}{doublons hal_communications}>
+	#SET{hasprev,1}</BOUCLE_prevcomm2>
+	</BOUCLE_si_prevcomm>
+	<//B_prev>
 	#SET{hasnext,''}
 	<BOUCLE_next(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}>#SET{hasnext,1}</BOUCLE_next>
+	</B_next>
+	<BOUCLE_nextcomm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
+	#SET{hasnext,1}</BOUCLE_nextcomm1>
+	<BOUCLE_nextcomm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_fin}}{!par date_production}{doublons hal_communications}>
+	#SET{hasnext,1}</BOUCLE_nextcomm2>
+	</BOUCLE_si_nextcomm>
+	<//B_next>
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
@@ -62,11 +106,39 @@
 #SET{has_event,oui}
 </B_publications>
 <BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,267}>
+<BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
+#SET{communications,#ARRAY}
+	<BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+	</BOUCLE_comm12>
+	<BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+	</BOUCLE_comm22>
+	<BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env})]})]})]})]
+	</BOUCLE_evcomm12>
+	<B_evcomm2>
+	<h3>#_rubriques2:TITRE</h3>
+	<ul class="liste-items liste-puce evenements">
+	<BOUCLE_evcomm2(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
+		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
+		<li class="item">
+			#VALEUR
+		</li>
+	</BOUCLE_evcomm2>
+	</ul>
+	#SET{has_event,oui}
+	</B_evcomm2>
+</BOUCLE_si_communication>
+</B_si_communication>
 <B_ev>
 	<h3>#TITRE</h3>
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
 	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env}
@@ -75,6 +147,7 @@
 	</ul>
 	#SET{has_event,oui}
 </B_ev>
+<//B_si_communication>
 </BOUCLE_rubriques2>
 <div class="pagination">
 	#SET{hasprev,''}
