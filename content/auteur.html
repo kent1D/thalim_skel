@@ -41,11 +41,11 @@
 		<BOUCLE_rubriques(RUBRIQUES){racine}{composition=publications}>
 			<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_mot IN #GET{mots_ouvrages}}{id_auteur}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
-			#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
+			#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,sans_document=oui,env}}}}
 			</BOUCLE_ouvrages_pub>
 			<BOUCLE_articles_pub(ARTICLES){branche}{id_mot IN #GET{mots_articles}}{id_auteur}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
-			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env})]})]})]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,sans_document=oui,env})]})]})]})]
 			</BOUCLE_articles_pub>
 		</BOUCLE_rubriques>
 		[(#GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui) #SET{publications,ok}]
@@ -119,10 +119,6 @@
 					<article class="entry hentry vevent id_#ID_ARTICLE">
 						<div class="entry-title"><a itemprop="url" class="url" href="[(#URL_ARTICLE)]"><span>[(#TITRE|couper{90})]</span><span
 								class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></div>
-						[<div class="introduction">(#INTRODUCTION)</div>]
-						<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,programme}{' '}>
-						<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_programme:>})]</a>
-						</BOUCLE_documents>
 					</BOUCLE_artevt>
 				</li>
 				</BOUCLE_agenda>
@@ -133,11 +129,11 @@
 		</B_si_seminaire>
 		[(#AGENDA|=={1}|non)
 		[<div class="articles">
-		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
+		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
 		</div>]]
 		[(#AGENDA|=={1}|oui)
 		[<div class="articles">
-		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,env,ajax}|trim)
+		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
 		</div>]]
 		<//B_si_seminaire>
 		</BOUCLE_rubriques_homes>
