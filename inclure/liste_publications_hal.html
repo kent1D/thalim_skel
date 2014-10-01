@@ -1,8 +1,8 @@
 #SET{affichage_duree,12}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
-#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
 
 [(#ENV{publication_type}|=={ouvrages}|oui)
 	#SET{mots,#LISTE{463}}
@@ -25,12 +25,12 @@
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 	#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}}}}
 	</BOUCLE_ev1>
-	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_production}{doublons hal}>
+	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal}>
 	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev2>
-	<BOUCLE_ev3(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_ecriture == 0000-00-00 00:00:00}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal}>
-	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	<BOUCLE_ev3(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_production == 0000-00-00 00:00:00}{id_hals_publication?}{id_mot?}{id_hal?}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal}>
+	[(#SET{cle,[(#DATE_ECRITURE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
 	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev3>
 
