@@ -3,6 +3,13 @@
 #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
+[(#ENV{id_rubrique}|=={250}|oui)
+	#SET{affichage_duree,12} 
+	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+	#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
+	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+]
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
 <div id="agenda-liste" class="liste long evenements">
@@ -27,7 +34,6 @@
 	<B_evcomm>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_evcomm(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
-		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item">
 			#VALEUR
 		</li>
@@ -41,7 +47,6 @@
 	<B_ev1>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_ev1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env}
 		</li>
@@ -88,7 +93,6 @@
 	<h3>#INFO_TITRE{rubrique,250}</h3>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
-		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}
 		</li>
@@ -124,7 +128,6 @@
 	<h3>#_rubriques2:TITRE</h3>
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_evcomm2(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
-		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item">
 			#VALEUR
 		</li>
@@ -139,7 +142,6 @@
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
 	<ul class="liste-items liste-puce evenements">
 	<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-		[<li class="item item-header month[(#DATE_DEBUT|agenda_date_passee)fini]">(#GET{affichage_duree}|>{1}?{[(#DATE_DEBUT|nom_mois|unique{mois})[ (#DATE_DEBUT|annee|unique{annee})]]})</li>]
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env}
 		</li>
