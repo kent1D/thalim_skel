@@ -13,15 +13,15 @@
 	<BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
 	#SET{communications,#ARRAY}
 	<BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
-	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm1>
 	<BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
-	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm2>
 	<BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env})]})]})]})]
 	</BOUCLE_evcomm1>
 	<B_evcomm>
@@ -109,15 +109,15 @@
 <BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
 #SET{communications,#ARRAY}
 	<BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
-	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm12>
 	<BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
-	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm22>
 	<BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env})]})]})]})]
 	</BOUCLE_evcomm12>
 	<B_evcomm2>
