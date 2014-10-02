@@ -1,9 +1,9 @@
 #SET{publications_ouvrages,#ARRAY}
 #SET{publications_articles,#ARRAY}
 #SET{mots_ouvrages,#LISTE{463}}
-#SET{type_hal_ouvrages,#LISTE{OUV}}
+#SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 #SET{mots_articles,#LISTE{495}}
-#SET{type_hal_articles,#LISTE{ART,COMM}}
+#SET{type_hal_articles,#LISTE{ART,COUV}}
 <BOUCLE_ev1(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN OUV,DOUV,COUV}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]

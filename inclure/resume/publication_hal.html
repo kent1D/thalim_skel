@@ -6,7 +6,7 @@
 ]
 <BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
 <article class="entry article hentry">
-	[(#LESAUTEURS)[(#TYPDOC|=={DOUV}|oui)(dir.)], ]<span class="entry-title"><a href="#URL_HALS_PUBLICATION" rel="bookmark"><em>#TITRE</em></a></span>[, (#EDITEUR)][, (#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|hal_affdate{[(#TYPDOC**|in_array{#LISTE{OUV,COUV,DOUV}}|?{annee,#DATE_PRODUCTION_FORMAT})]}|ucfirst)]
+	[(#LESAUTEURS)[(#TYPDOC|=={DOUV}|oui)(dir.)], ]<span class="entry-title"><a href="#URL_HALS_PUBLICATION" rel="bookmark"><em>#TITRE</em></a></span>[, (#EDITEUR)][, (#TYPDOC|lcfirst)][, (#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|hal_affdate{[(#TYPDOC**|in_array{#LISTE{OUV,COUV,DOUV}}|?{annee,#DATE_PRODUCTION_FORMAT})]}|ucfirst)]
 	<B_auteurs>
 	<p class="lesauteurs">
 	<BOUCLE_auteurs(AUTEURS){si #ENV{afficher_auteur}|!={non}}{id_objet = #ID_HAL}{objet=hal}{par nom}{', '}>

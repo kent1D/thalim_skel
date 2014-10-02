@@ -4,13 +4,23 @@
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
 
+[(#REM)
+	Les publications sont :
+	- les ouvrages
+	- les directions d'ouvrage
+]
 [(#ENV{publication_type}|=={ouvrages}|oui)
 	#SET{mots,#LISTE{463}}
-	#SET{type_hal,#LISTE{COUV,DOUV,OUV}}
+	#SET{type_hal,#LISTE{DOUV,OUV}}
+]
+[(#REM)
+	Les articles sont :
+	- les articles
+	- les chapitres d'ouvrage
 ]
 [(#ENV{publication_type}|=={articles}|oui)
 	#SET{mots,#LISTE{495}}
-	#SET{type_hal,#LISTE{ART,COMM}}
+	#SET{type_hal,#LISTE{ART,COUV}}
 ]
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
