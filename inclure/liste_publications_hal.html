@@ -20,17 +20,16 @@
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 	#SET{publications,#ARRAY}
 	[(#ID_RUBRIQUE|=={251}|oui)<p><:thalim:message_par_membre_thalim:></p>]
-
-	<BOUCLE_ev1(ARTICLES){id_mot IN #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{!par date}{id_article?}{id_mot?}{id_rubrique}>
-	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	<BOUCLE_ev1(ARTICLES){id_mot IN #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{!par date}{id_rubrique}>
+	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications,#GET{publications}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}}}}
 	</BOUCLE_ev1>
 	<BOUCLE_ev2(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{id_hals_publication?}{id_mot?}{id_hal?}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal}>
-	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_PRODUCTION|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev2>
 	<BOUCLE_ev3(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_production == 0000-00-00 00:00:00}{id_hals_publication?}{id_mot?}{id_hal?}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal}>
-	[(#SET{cle,[(#DATE_ECRITURE|replace{-,''}|replace{:,''}|replace{' ',''})_]})]
+	[(#SET{cle,[(#DATE_ECRITURE|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{publications,[(#GET{publications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev3>
 
