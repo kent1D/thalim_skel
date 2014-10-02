@@ -171,6 +171,10 @@ function autoriser_auteur_modifierextra_role_dist($faire, $type, $id, $qui, $opt
 	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
 }
 
+function autoriser_auteur_modifierextra_role_complement_dist($faire, $type, $id, $qui, $opt) {
+	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
+}
+
 function autoriser_auteur_modifierextra_membre_qualite_dist($faire, $type, $id, $qui, $opt) {
 	return test_espace_prive() && in_array($qui['statut'], array('0minirezo'));
 }
