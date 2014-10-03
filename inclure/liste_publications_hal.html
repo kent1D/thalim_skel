@@ -9,7 +9,7 @@
 	- les ouvrages
 	- les directions d'ouvrage
 ]
-[(#ENV{publication_type}|=={ouvrages}|oui)
+[(#ENV{publication_type,ouvrages}|=={ouvrages}|oui)
 	#SET{mots,#LISTE{463}}
 	#SET{type_hal,#LISTE{DOUV,OUV}}
 ]
@@ -18,7 +18,7 @@
 	- les articles
 	- les chapitres d'ouvrage
 ]
-[(#ENV{publication_type}|=={articles}|oui)
+[(#ENV{publication_type,ouvrages}|=={articles}|oui)
 	#SET{mots,#LISTE{495}}
 	#SET{type_hal,#LISTE{ART,COUV}}
 ]
