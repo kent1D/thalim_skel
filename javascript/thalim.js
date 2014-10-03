@@ -8,4 +8,5 @@ $(document).ready(function(){
 		if($(this).find('ul').is(':hidden'))
 			$(this).find('ul').slideDown();
 	});
+	$('li.editer_statut_fonction').detach().insertBefore('.editer_email');
 });
