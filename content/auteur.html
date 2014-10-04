@@ -16,9 +16,9 @@
 		#SET{publications_ouvrages,#ARRAY}
 		#SET{publications_articles,#ARRAY}
 		#SET{mots_ouvrages,#LISTE{463}}
-		#SET{type_hal_ouvrages,#LISTE{OUV,DOUV,COUV}}
+		#SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 		#SET{mots_articles,#LISTE{495}}
-		#SET{type_hal_articles,#LISTE{ART}}
+		#SET{type_hal_articles,#LISTE{ART,COUV}}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
 			<BOUCLE_ev1(HALS_PUBLICATIONS){id_hal}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
