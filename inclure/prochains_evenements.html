@@ -19,7 +19,7 @@
 				<p class="info-publi">[<time>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time>]</p>
 			</article>
 		</li>
-	[(#COMPTEUR_BOUCLE|alterner{'','','','','</ul></div>'})]
+	[(#COMPTEUR_BOUCLE|=={#TOTAL_BOUCLE}|?{</ul></div>,[(#COMPTEUR_BOUCLE|alterner{'','','','','</ul></div>'})]})]
 	</BOUCLE_prochains_evenements>
 	</div>
 	</div>
