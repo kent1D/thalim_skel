@@ -160,7 +160,6 @@ function autoriser_auteur_modifierextra_publications_dist($faire, $type, $id, $q
 }
 
 function autoriser_auteur_modifierextra_hal($faire, $type, $id, $qui, $opt) {
-	spip_log('on passe ici','test.'._LOG_ERREUR);
 	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
 		return true;
 	else
