@@ -9,7 +9,7 @@
 	<meta itemprop="name" content="[(#TITRE|attribut_html)]" />]
 	<meta itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]" />
 	<meta itemprop="endDate" content="[(#DATE_FIN|date_iso)]" />
-	[<p class="info-publi"><time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time></p>]
+	[<p class="info-publi"><time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time></p>]
 	#SET{intro,''}
 	<BOUCLE_art(ARTICLES){si #ENV{sinon_intro_article,oui}|=={non}|ou{#ENV{intro}|=={non}}|non}{id_article}>#SET{intro,#INTRODUCTION{#ENV{coupe,300}}</BOUCLE_art>
 	[(#ENV{intro,oui}|=={non}|non|et{#DESCRIPTIF}|oui)[(#SET{intro,[<div class="introduction #EDIT{descriptif}" itemprop="description">(#DESCRIPTIF|sinon{#GET{intro}})</div>]})]]
@@ -21,7 +21,6 @@
 	<B_mots>
 	<p class="meta-publi">
 	[(#INSCRIPTION|?{' ',''})<span class="inscrits"><span class="sep">|</span> <i class="icon-user" title="#NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)] <:agenda:inscrits|attribut_html:>"></i> #NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)]</span>]
-	<span class="sep">|</span> <BOUCLE_mots(MOTS){id_evenement}{par num titre,titre}{', '}><span class="category"><i class="icon-tag"></i> #TITRE</span></BOUCLE_mots>
 	</p>
 	</B_mots>
 	[(#INSCRIPTION|?{' ',''})<p class="meta-publi"><span class="inscrits"><span class="sep">|</span> <i class="icon-user" title="#NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)] <:agenda:inscrits|attribut_html:>"></i> #NB_INSCRITS[/#PLACES(#PLACES|>{0}|oui)]</span></p>]
