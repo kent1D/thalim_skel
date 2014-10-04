@@ -4,11 +4,11 @@
 #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 #SET{mots_articles,#LISTE{495}}
 #SET{type_hal_articles,#LISTE{ART,COUV}}
-<BOUCLE_ev1(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN OUV,DOUV,COUV}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
+<BOUCLE_ev1(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev1>
-<BOUCLE_ev2(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN OUV,DOUV,COUV}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+<BOUCLE_ev2(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev2>
@@ -58,3 +58,4 @@
 	[<div class="pagination">(#PAGINATION)</div>]
 	</B_data_publications_articles>
 </BOUCLE_si_publications>
+#FILTRE{trim}
