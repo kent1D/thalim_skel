@@ -71,7 +71,7 @@
 				<li class="item">
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|non)
 					<a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a><br />
-					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]]
+					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time>]]
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
 					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT,sinon_intro_article=non,afficher_lien=non}</div>]
 				</li>
@@ -85,7 +85,7 @@
 				<li class="item">
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|non)
 					<a href="[(#URL_EVENEMENT)]" class="ajax">#TITRE</a><br />
-					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal'})</time>]]
+					[<time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time>]]
 					[(#ENV{id_evenement}|=={#ID_EVENEMENT}|oui)
 					<div class="evenement one well">#INCLURE{fond=inclure/resume/evenement,id_evenement=#ID_EVENEMENT,sinon_intro_article=non,afficher_lien=non}</div>]
 				</li>
