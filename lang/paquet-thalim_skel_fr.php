@@ -6,8 +6,8 @@ if (!defined('_ECRIRE_INC_VERSION')) return;
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// T
-	'thalim_skel_description' => 'Le squelette utilisé pour l\'unité mixte de recherche [Thalim->http://www.thalim.cnrs.fr].',
-	'thalim_skel_slogan' => 'Squelette de l\'unité mixte de recherche Thalim'
+	'thalim_skel_description' => 'Squelette utilisé pour l\'unité mixte de recherche [Thalim->http://www.thalim.cnrs.fr].',
+	'thalim_skel_slogan' => 'Le squelette de l\'unité mixte de recherche Thalim'
 );
 
 ?>
