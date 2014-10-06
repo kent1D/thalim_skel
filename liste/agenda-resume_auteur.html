@@ -6,8 +6,9 @@
 	#ANCRE_PAGINATION
 	[<h2 class="h2">&bull; (#ENV{titre,<:derniers_articles:>})</h2>]
 	<ul class="liste-items">
-		<BOUCLE_agenda(EVENEMENTS){id_article IN #GET{articles}}{!date_debut}{pagination #ENV{nb,5} #ENV{param_page}}>
-		<li class="item evenement_home">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,sans_document=#ENV{sans_document,non},intro}</li>
+		<BOUCLE_agenda(EVENEMENTS){id_article IN #GET{articles}}{!par date_debut}{pagination #ENV{nb,5} #ENV{param_page}}>
+		<li class="item evenement_home">
+			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,sans_document=#ENV{sans_document,non},intro}</li>
 		</BOUCLE_agenda>
 	</ul>
 	[<div class="pagination">(#PAGINATION{page})</div>]
