@@ -9,8 +9,12 @@
 		[<p class="email">(#EMAIL|oui)[(#VAL{<a href="mailto:#EMAIL" class="spip_mail">#EMAIL</a>}|mailcrypt)]</p>]
 		[<div class="#EDIT{bio} chapo bio">(#BIO|adaptive_images)</div>]
 		[<div class="themes_recherche">
-			<p><:thalim:info_themes_recherche:></p>
+			<h3><:thalim:info_themes_recherche:></h3>
 			(#DOMAINES_RECHERCHE)
+		</div>]
+		[<div class="principales_publications">
+			<h3><:thalim:titre_autres_publications:></h3>
+			<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>
 		</div>]
 		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
 		#SET{publications_ouvrages,#ARRAY}
@@ -76,15 +80,9 @@
 				</ul>
 				[<div class="pagination">(#PAGINATION)</div>]
 				</B_data_publications_articles>
-				[<h3>&bull; <:thalim:titre_autres_publications:></h3>
-				<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>]
 			</div>
 		</BOUCLE_si_publications>
 		</B_si_publications>
-			[<div class="publications">
-			<h2>&bull; <:thalim:titre_publications:></h2>
-			<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>
-			</div>]
 		<//B_si_publications>
 	</div>
 	<aside>
