@@ -9,7 +9,7 @@
 	</div>
 	<div class="span4">
 		<div class="liste_evenements cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-slides="div.liste-actualites">
-	<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247}{date_debut >= #ENV{date}}{par date_debut}>
+	<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247,270}{date_debut >= #ENV{date}}{par date_debut}>
 	[(#COMPTEUR_BOUCLE|alterner{'<div class="liste-actualites"><ul class="liste-items  liste-puce">','','','',''})]
 		<li class="item">
 			<article class="entry evenement vevent id_#ID_EVENEMENT" id="evenement_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
