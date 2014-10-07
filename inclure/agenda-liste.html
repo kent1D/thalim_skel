@@ -1,12 +1,13 @@
+<BOUCLE_evenement(EVENEMENTS){id_rubrique}{date_debut <= #ENV{date}}{!par date_debut}{0,1}>
 #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_debut,#ENV{date_debut,#DATE_DEBUT}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
-[(#ENV{id_rubrique}|=={250}|oui)
+[(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
 	#SET{affichage_duree,12} 
 	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-	#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_debut,#ENV{date_debut,#DATE_DEBUT}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
 	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
 ]
@@ -53,30 +54,32 @@
 	</BOUCLE_ev1>
 	</ul>
 	</B_ev1>
-	<p>Il n'y a pas d'événement ce mois-ci</p>
+	[(#GET{affichage_duree,1}|=={1}|oui)
+	<p>Il n'y a pas d'événement ce mois-ci</p>]
+	[(#GET{affichage_duree,1}|=={12}|oui)
+	<p>Il n'y a pas d'événement cette année</p>]
 	<//B_ev1>
 	<//B_si_rub_communications>
 </BOUCLE_rubriques>
 <div class="pagination">
 	#SET{hasprev,''}
-	<BOUCLE_prev(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}>#SET{hasprev,1}</BOUCLE_prev>
+	<BOUCLE_prev(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}>#ID_EVENEMENT #SET{hasprev,1}</BOUCLE_prev>
 	</B_prev>
-	<BOUCLE_si_prevcomm(CONDITION){si #ENV{id_rubrique}|=={251}}>
-	<BOUCLE_prevcomm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture < #GET{date_debut}}{!par date_ecriture}{doublons hal_communications}>
+	<BOUCLE_prevcomm1(HALS_PUBLICATIONS){si #ENV{id_rubrique}|=={251}}{typdoc IN COMM}{date_ecriture < #GET{date_debut}}{!par date_ecriture}{doublons hal_communications}>
 	#SET{hasprev,1}</BOUCLE_prevcomm1>
-	<BOUCLE_prevcomm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production < #GET{date_debut}}{!par date_production}{doublons hal_communications}>
+	<BOUCLE_prevcomm2(HALS_PUBLICATIONS){si #ENV{id_rubrique}|=={251}}{typdoc IN COMM}{date_production < #GET{date_debut}}{!par date_production}{doublons hal_communications}>
 	#SET{hasprev,1}</BOUCLE_prevcomm2>
-	</BOUCLE_si_prevcomm>
 	<//B_prev>
 	#SET{hasnext,''}
-	<BOUCLE_next(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}>#SET{hasnext,1}</BOUCLE_next>
+	<BOUCLE_next(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}>#ID_EVENEMENT #SET{hasnext,1}</BOUCLE_next>
 	</B_next>
-	<BOUCLE_nextcomm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
+	<BOUCLE_nextcomm1(HALS_PUBLICATIONS){si #ENV{id_rubrique}|=={251}}{typdoc IN COMM}{date_ecriture > #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
 	#SET{hasnext,1}</BOUCLE_nextcomm1>
-	<BOUCLE_nextcomm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #GET{date_fin}}{!par date_production}{doublons hal_communications}>
+	<BOUCLE_nextcomm2(HALS_PUBLICATIONS){si #ENV{id_rubrique}|=={251}}{typdoc IN COMM}{date_production > #GET{date_fin}}{!par date_production}{doublons hal_communications}>
 	#SET{hasnext,1}</BOUCLE_nextcomm2>
 	</BOUCLE_si_nextcomm>
 	<//B_next>
+	#GET{hasprev} - #GET{hasnext}
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
@@ -89,10 +92,11 @@
 	separateur=' | '})]]
 </div>
 </B_rubriques>
+<BOUCLE_annee(RUBRIQUES){id_rubrique IN #LISTE{250,270}}>
 <B_ev_colloque>
-	<h3>#INFO_TITRE{rubrique,250}</h3>
+	<h3>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
 	<ul class="liste-items liste-puce evenements">
-	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+	<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
 		<li class="item[(#DATE_FIN|agenda_date_passee)fini]">
 			#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}
 		</li>
@@ -100,6 +104,7 @@
 	</ul>
 	#SET{has_event,oui}
 </B_ev_colloque>
+</BOUCLE_annee>
 <B_publications>
 <h3>#INFO_TITRE{rubrique,3}</h3>
 <ul class="liste-items liste-puce evenements">
@@ -153,9 +158,9 @@
 </BOUCLE_rubriques2>
 <div class="pagination">
 	#SET{hasprev,''}
-	<BOUCLE_prev1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}>#SET{hasprev,1}</BOUCLE_prev1>
+	<BOUCLE_prev1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}>#ID_EVENEMENT #SET{hasprev,1}</BOUCLE_prev1>
 	#SET{hasnext,''}
-	<BOUCLE_next1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}>#SET{hasnext,1}</BOUCLE_next1>
+	<BOUCLE_next1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}>#ID_EVENEMENT #SET{hasnext,1}</BOUCLE_next1>
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
@@ -172,3 +177,4 @@
 ]
 <//B_rubriques>
 </div>
+</BOUCLE_evenement>
