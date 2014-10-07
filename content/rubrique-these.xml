@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Thèses</nom>
+	<description>Composition dédiée à la rubrique des thèses</description>
+	<branche type="article" composition="these" />
+</composition>

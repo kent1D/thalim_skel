@@ -1,0 +1,57 @@
+<BOUCLE_content(ARTICLES){id_article}>
+<article class="offset1 span6">
+	<header class="cartouche">
+		[(#LOGO_ARTICLE|image_reduire{200,200})]
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+		<h1><span class="#EDIT{titre}">#TITRE</span>[
+			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
+		]</h1>
+
+		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
+			<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong> [(#LESAUTEURS)]</p>
+		</B_auteurs>
+		<BOUCLE_ev(EVENEMENTS){id_article}>
+			<div class="evenement">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
+		</BOUCLE_ev>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			#MODELE{article_traductions}
+		<BOUCLE_nb_commentaires(FORUMS) {id_article}{plat} />[(#TOTAL_BOUCLE|oui)
+			<span class="comments">
+			<span class="sep">|</span>
+			<a[ href="(#REM|ancre_url{comments})"] [title="(#TOTAL_BOUCLE|singulier_ou_pluriel{zcore:info_1_commentaire,zcore:info_nb_commentaires}|attribut_html)"]>[<i class="icon-comment"></i> (#TOTAL_BOUCLE)]</a>
+			</span>]
+		<//B_nb_commentaires>
+			<B_tags>
+			<p class="tags">
+				<strong class="mots"><:thalim:info_relie_a:></strong>
+				<BOUCLE_tags(MOTS){id_groupe IN 10,8,13}{id_article}{', '}>
+				<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_tags>
+			</p>
+			</B_tags>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
+		</BOUCLE_documents>
+		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+
+		[(#URL_SITE|oui)<p class="hyperlien">
+			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
+		</p>]
+	</div>
+
+	<footer>
+		[<div class="#EDIT{ps} ps surlignable"><h2><:info_ps:></h2>(#PS|adaptive_images)</div>]
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+	<aside>
+		[(#REM) Gestion du portfolio et des documents ]
+		[(#INCLURE{fond=inclure/documents,id_article})]
+	</aside>
+</article>
+</BOUCLE_content>

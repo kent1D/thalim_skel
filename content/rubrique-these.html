@@ -1,0 +1,24 @@
+<BOUCLE_content(RUBRIQUES){id_rubrique}>
+<section class="span6 offset1">
+	<header class="cartouche">
+		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><span class="titre">#TITRE</span></h1>
+	</header>
+	<div class="main">
+		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
+		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
+			<div class="liste articles">
+			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env} />
+			</div>
+		</BOUCLE_articles>
+	</div>
+
+	<aside>
+		
+	</aside>
+
+	<footer>
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+</section>
+</BOUCLE_content>
