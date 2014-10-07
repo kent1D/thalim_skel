@@ -16,6 +16,7 @@ function thalim_skel_recuperer_fond($flux){
 		&& ($flux['args']['fond'] == 'structure')
 		&& ($flux['args']['contexte']['id_article'] > 0)
 		&& $flux['args']['contexte']['type-page'] == 'article'
+		&& $flux['args']['contexte']['composition'] != 'these'
 		&& sql_getfetsel('id_evenement','spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']).' AND statut="publie"')
 		&& sql_getfetsel('seminaire','spip_articles','id_article='.intval($flux['args']['contexte']['id_article'])) != 'on'){
 			$nb_events = sql_countsel('spip_evenements','id_article='.intval($flux['args']['contexte']['id_article']));

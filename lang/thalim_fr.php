@@ -43,6 +43,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_docteur' => 'Docteur',
 	'info_doctorant' => 'Doctorant(e)',
 	'info_directeur_recherche' => 'Directeurs de recherche (DR)',
+	'info_directeurs_these' => 'Directeur(s) de thèse :',
 	'info_fichier_remplacer' => 'Ce fichier remplacera celui ci :',
 	'info_intervenant' => 'Intervenant :',
 	'info_intervenants' => 'Intervenants :',
