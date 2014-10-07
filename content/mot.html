@@ -10,7 +10,7 @@
 
 	<aside>
 		[(#REM) Articles lies au mot-cle ]
-		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,267,3}{par num titre}>
+		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,267,3,270}{par num titre}>
 		[(#ID_RUBRIQUE|=={3}|non)
 		<INCLURE{fond=liste/evenements-resume,id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />]
 		[(#ID_RUBRIQUE|=={3}|oui)
