@@ -8,7 +8,7 @@
 <article class="entry article hentry">
 	<BOUCLE_mot(MOTS){id_article}{id_groupe=11}> #SET{id_mot,#ID_MOT}</BOUCLE_mot>
 	<div class="entry-title">
-		[(#LESAUTEURS), ][<em><a href="#URL_ARTICLE" rel="bookmark">(#TITRE)</a></em>, ][(#SURTITRE), ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]
+		[(#LESAUTEURS), ][<a href="#URL_ARTICLE" rel="bookmark">(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>#TITRE</em>})</a>, ][<em>(#SURTITRE|?{#TITRE,''})</em>, ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]
 	</div>
 	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
 	<B_documents>
