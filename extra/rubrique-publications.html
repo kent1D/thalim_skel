@@ -7,7 +7,7 @@
 	- les directions d'ouvrage
 ]
 [(#ENV{publication_type,ouvrages}|=={ouvrages}|oui)
-	#SET{mots,#LISTE{463}}
+	#SET{mots,#LISTE{463,1053}}
 ]
 [(#REM)
 	Les articles sont :
@@ -15,9 +15,9 @@
 	- les chapitres d'ouvrage
 ]
 [(#ENV{publication_type,ouvrages}|=={articles}|oui)
-	#SET{mots,#LISTE{495}}
+	#SET{mots,#LISTE{495,1052}}
 ]
-<BOUCLE_articles_set(ARTICLES){id_rubrique}{id_mot = #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
+<BOUCLE_articles_set(ARTICLES){id_rubrique}{id_mot IN #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
 #SET{articles,#GET{articles}|push{#ID_ARTICLE}}
 </BOUCLE_articles_set>
 <BOUCLE_affiches(DOCUMENTS){id_article IN #GET{articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture}}{0,1}>
