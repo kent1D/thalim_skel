@@ -10,6 +10,11 @@
 		[<a href="[(#ENV{voir_#ENV{objet}})]" class="spip-admin-boutons"
 		id="voir_#ENV{objet}">[(#ENV{objet}|objet_info{texte_objet}|_T)]
 			((#ENV{id_objet}))</a>]
+		[(#ENV{objet}|=={article}|et{#AUTORISER{ecrire}}|oui)
+			[<a href="[(#ID_OBJET|generer_url_publier{article,'',true,true})]" class="spip-admin-boutons"
+				id="voir_#ENV{objet}_prive">[(#ENV{objet}|objet_info{texte_objet}|_T)] dans l'espace privé
+				((#ENV{id_objet}))</a>]
+		]
 	]<!--extra-->[(#AUTORISER{ecrire}|oui)[
 	<a href="(#ENV{ecrire})" class="spip-admin-boutons"
 		id="ecrire"><:espace_prive:></a>]]
