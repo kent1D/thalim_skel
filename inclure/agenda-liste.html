@@ -1,7 +1,7 @@
 <BOUCLE_evenement(EVENEMENTS){id_rubrique}{date_debut <= #ENV{date}}{!par date_debut}{0,1}>
 #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#DATE_DEBUT}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_debut,#ENV{date_debut,#DATE_DEBUT|sinon{#ENV{date}}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
 [(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
@@ -11,6 +11,14 @@
 	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
 	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
 ]
+</BOUCLE_evenement>
+</B_evenement>
+#SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
+#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d H:i:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d H:i:00'}}
+<//B_evenement>
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
 <div id="agenda-liste" class="liste long evenements">
@@ -177,4 +185,3 @@
 ]
 <//B_rubriques>
 </div>
-</BOUCLE_evenement>
