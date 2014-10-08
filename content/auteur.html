@@ -17,6 +17,20 @@
 			<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>
 		</div>]
 		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		<BOUCLE_programme(RUBRIQUES){id_rubrique=257}>
+		<BOUCLE_un_programme(ARTICLES){id_secteur}{id_auteur}{0,1}>
+		[<h2>&bull; (#_programme:TITRE)</h2>]
+		</BOUCLE_un_programme>
+		<BOUCLE_ss_programme(RUBRIQUES){id_parent}>
+		<BOUCLE_programmes(ARTICLES){id_rubrique}{id_auteur}{0,1}>
+			[<h3>(#_ss_programme:TITRE)</h3>]
+			<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},id_auteur,nb=20,env,ajax} />
+			</div>
+		</BOUCLE_programmes>
+		</BOUCLE_ss_programme>
+		</BOUCLE_programme>
+		
 		#SET{publications_ouvrages,#ARRAY}
 		#SET{publications_articles,#ARRAY}
 		#SET{mots_ouvrages,#LISTE{463}}
