@@ -4,7 +4,7 @@
 ]
 <B_articles>
 	#ANCRE_PAGINATION
-	[<h[(#ENV{niveau_titre,2})] class="h[(#ENV{niveau_titre,2})]">&bull; (#ENV{titre}|strtolower)</h#ENV{niveau_titre,2}>]
+	[<h[(#ENV{niveau_titre,2})] class="h[(#ENV{niveau_titre,2})]">&bull; (#ENV{titre})</h#ENV{niveau_titre,2}>]
 	<ul class="liste-items">
 		<BOUCLE_articles(ARTICLES spip_evenements){origine_traduction}{id_evenement > 0}{origine_traduction}{id_secteur ?}{id_rubrique ?}{id_auteur ?}{id_mot?} {!par evenements.date_debut,date}{!id_article IN #ENV{articles_exclus,#ARRAY}} {pagination #ENV{nb,5} #ENV{param_page}}>
 		<BOUCLE_articles_lang(ARTICLES){traduction}{lang=#ENV{lang}}>

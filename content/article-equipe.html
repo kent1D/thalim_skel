@@ -50,19 +50,19 @@
 		</B_membres>
 		
 		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
-				[<h2>&bull; (#INFO_TITRE{rubrique,257}|lcfirst)</h2>]
+				[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
 				<div class="liste articles">
 				<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
 				</div>
 			</BOUCLE_articles_rub>
 			[<div class="publications" id="publications">
-			<h2>&bull; <:thalim:titre_publications|lcfirst:></h2>
+			<h2>&bull; <:thalim:titre_publications:></h2>
 			(#INCLURE{fond=liste/publications-resume,titre='',id_rubrique='',id_mot,env,ajax})
 		</div>]
 		<B_activites_editoriales>
 		<div class="activites_editoriales" id="activites_editoriales">
 			#ANCRE_PAGINATION
-			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264}|lcfirst)</h3>]
+			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264})</h3>]
 			<ul class="liste-items liste-activites_editoriales">
 			<BOUCLE_activites_editoriales(ARTICLES){id_mot}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
 				<li class="item">
