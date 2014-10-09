@@ -9,17 +9,22 @@
 	</div>
 
 	<aside>
-		[(#REM) Articles lies au mot-cle ]
-		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,267,3,270}{par num titre}>
-		[(#ID_RUBRIQUE|=={3}|non)
-		<INCLURE{fond=liste/evenements-resume,id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />]
-		[(#ID_RUBRIQUE|=={3}|oui)
-		<INCLURE{fond=liste/publications-resume,titre=#TITRE,env,ajax} />]
-		</BOUCLE_secteur>
+		[(#REM)
+			Les programmes
+		]
+		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
+			[<h2>&bull; (#INFO_TITRE{rubrique,257}|lcfirst)</h2>]
+			<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
+			</div>
+		</BOUCLE_articles_rub>
+		<BOUCLE_secteur3(RUBRIQUES){racine}{id_rubrique IN 3}{par num titre}>
+		<INCLURE{fond=liste/publications-resume,titre=#TITRE,env,ajax} />
+		</BOUCLE_secteur3>
 		<B_activites_editoriales>
 		<div class="activites_editoriales" id="activites_editoriales">
 			#ANCRE_PAGINATION
-			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264})</h2>]
+			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264}|lcfirst)</h2>]
 			<ul class="liste-items liste-activites_editoriales">
 			<BOUCLE_activites_editoriales(ARTICLES){id_mot = #_content:ID_MOT}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
 				<li class="item">
@@ -31,15 +36,10 @@
 			[<div class="pagination">(#PAGINATION)</div>]
 		</div>
 		</B_activites_editoriales>
-		[(#REM)
-			Les programmes
-		]
-		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
-			[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
-			<div class="liste articles">
-			<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
-			</div>
-		</BOUCLE_articles_rub>
+		[(#REM) Articles lies au mot-cle ]
+		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 251,250,247,267,270}{par num titre}>
+		<INCLURE{fond=liste/evenements-resume,id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />
+		</BOUCLE_secteur>
 	</aside>
 	[<footer>
 		<div class="notes"><hr />(#NOTES)</div>
