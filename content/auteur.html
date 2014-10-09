@@ -72,7 +72,7 @@
 				<h2>&bull; <:thalim:titre_publications:></h2>
 				<B_data_publications>
 				#ANCRE_PAGINATION
-				<h3>Ouvrages</h3>
+				<h3><:thalim:titre_ouvrages:></h3>
 				<ul class="liste-items publications">
 				<BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
 					<li class="item">
@@ -84,7 +84,7 @@
 				</B_data_publications>
 				<B_data_publications_articles>
 				#ANCRE_PAGINATION
-				<h3>Articles et chapitres d'ouvrages</h3>
+				<h3><:thalim:titre_articles:></h3>
 				<ul class="liste-items publications">
 				<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}{pagination 5}>
 					<li class="item">
@@ -125,7 +125,7 @@
 			#ANCRE_PAGINATION
 			[<h2 class="h2">&bull; (#_rubriques_homes:TITRE)</h2>]
 			<ul class="liste-items">
-				<BOUCLE_agenda(EVENEMENTS){fusion id_article}{id_article IN #GET{articles}}{!date_fin}{pagination #ENV{nb,5} #ENV{param_page}}>
+				<BOUCLE_agenda(EVENEMENTS) {fusion id_article}{id_article IN #GET{articles}}{!date_fin}{pagination #ENV{nb,5} #ENV{param_page}}>
 				<li class="item evenement_home">
 					<BOUCLE_artevt(ARTICLES){id_article}>
 					<article class="entry hentry vevent id_#ID_ARTICLE">
@@ -149,6 +149,13 @@
 		</B_agenda>
 		</BOUCLE_si_seminaire>
 		</B_si_seminaire>
+		[(#ID_RUBRIQUE|=={270}|et{#_content:STATUT}|=={6forum}|oui)
+			[(#AGENDA|=={1}|oui)
+			[<div class="articles">
+			(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
+			</div>]]
+		]
+		[(#ID_RUBRIQUE|=={270}|non)
 		[(#AGENDA|=={1}|non)
 		[<div class="articles">
 		(#INCLURE{fond=liste/articles-resume,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
@@ -156,7 +163,7 @@
 		[(#AGENDA|=={1}|oui)
 		[<div class="articles">
 		(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
-		</div>]]
+		</div>]]]
 		<//B_si_seminaire>
 		</BOUCLE_rubriques_homes>
 		</BOUCLE_activite>
