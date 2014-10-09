@@ -3,7 +3,7 @@
 	<div class="liste auteurs"[ id="(#ANCRE_PAGINATION|extraire_attribut{id})"]>
 		<h2 class="h2"><:thalim:info_membres_autres:></h2>
 		<ul class="liste-items">
-			<BOUCLE_auteurs(AUTEURS){par nom_famille,nom}{exclus}{pagination 20}>
+			<BOUCLE_auteurs(AUTEURS){par nom_famille,nom}{statut != 6forum}{exclus}{pagination 20}>
 			<li class="item"><a href="#URL_AUTEUR"[ class="(#EXPOSE)"]>[(#NOM|couper{80})]</a></li>
 			</BOUCLE_auteurs>
 		</ul>
