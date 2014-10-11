@@ -51,12 +51,14 @@
 		
 		<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
 			<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
-					[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
-					<div class="liste articles">
-					<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
-					</div>
+			<div class="programmes" id="programmes">
+				[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
+				<div class="liste articles">
+				<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
+				</div>
+			</div>
 			</BOUCLE_articles_rub>
-				[<div class="publications" id="publications">
+			[<div class="publications" id="publications">
 				<h2>&bull; <:thalim:titre_publications:></h2>
 				(#INCLURE{fond=liste/publications-resume,titre='',id_rubrique='',id_mot,env,ajax})
 			</div>]
