@@ -49,39 +49,39 @@
 		</div>
 		</B_membres>
 		
-		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
-				[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
-				<div class="liste articles">
-				<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
-				</div>
-			</BOUCLE_articles_rub>
-			[<div class="publications" id="publications">
-			<h2>&bull; <:thalim:titre_publications:></h2>
-			(#INCLURE{fond=liste/publications-resume,titre='',id_rubrique='',id_mot,env,ajax})
-		</div>]
-		<B_activites_editoriales>
-		<div class="activites_editoriales" id="activites_editoriales">
-			#ANCRE_PAGINATION
-			[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264})</h3>]
-			<ul class="liste-items liste-activites_editoriales">
-			<BOUCLE_activites_editoriales(ARTICLES){id_mot}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
-				<li class="item">
-					&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
-					[(#CHAPO)]
-				</li>
-			</BOUCLE_activites_editoriales>
-			</ul>
-			[<div class="pagination">(#PAGINATION)</div>]
-		</div>
-		</B_activites_editoriales>
 		<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
-		<div class="activites" id="activites">
-			<B_activites>
-			<BOUCLE_activites(RUBRIQUES){id_rubrique IN #LISTE{251,247,250,267}}{par num titre}>
-			<INCLURE{fond=liste/evenements-resume,id_mot=#_mots:ID_MOT,id_rubrique='',id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />
-			</BOUCLE_activites>
-			</B_activites>
-		</div>
+			<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
+					[<h2>&bull; (#INFO_TITRE{rubrique,257})</h2>]
+					<div class="liste articles">
+					<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=10,ajax} />
+					</div>
+			</BOUCLE_articles_rub>
+				[<div class="publications" id="publications">
+				<h2>&bull; <:thalim:titre_publications:></h2>
+				(#INCLURE{fond=liste/publications-resume,titre='',id_rubrique='',id_mot,env,ajax})
+			</div>]
+			<B_activites_editoriales>
+			<div class="activites_editoriales" id="activites_editoriales">
+				#ANCRE_PAGINATION
+				[<h2 class="h2">&bull; (#INFO_TITRE{rubrique,264})</h3>]
+				<ul class="liste-items liste-activites_editoriales">
+				<BOUCLE_activites_editoriales(ARTICLES){id_mot}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
+					<li class="item">
+						&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+						[(#CHAPO)]
+					</li>
+				</BOUCLE_activites_editoriales>
+				</ul>
+				[<div class="pagination">(#PAGINATION)</div>]
+			</div>
+			</B_activites_editoriales>
+			<div class="activites" id="activites">
+				<B_activites>
+				<BOUCLE_activites(RUBRIQUES){id_rubrique IN #LISTE{251,247,250,267}}{par num titre}>
+				<INCLURE{fond=liste/evenements-resume,id_mot=#_mots:ID_MOT,id_rubrique='',id_secteur=#ID_RUBRIQUE,titre=#TITRE,env,ajax} />
+				</BOUCLE_activites>
+				</B_activites>
+			</div>
 		</BOUCLE_mots>
 	</aside>
 </article>
