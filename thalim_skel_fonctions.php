@@ -189,4 +189,20 @@ function autoriser_auteur_modifierextra_fonction_complement_dist($faire, $type, 
 function autoriser_auteur_modifierextra_id_hal_dist() {
 	return false;
 }
+
+function generer_url_ecrire_hals_publication($id, $args='', $ancre='', $public=null, $connect=''){
+	if (is_null($public) AND !$connect)
+		$public = objet_test_si_publie($objet, $id, $connect);
+	if ($public OR $connect){
+		return generer_url_entite_absolue($id, 'hals_publication', $args, $ancre, $connect);
+	}
+	$a =  "id_hals_publication=" . intval($id);
+	if(test_espace_prive()){
+		if (!function_exists('objet_info'))
+		include_spip('inc/filtres');
+		return generer_url_ecrire('hals_publication', $a . ($args ? "&$args" : '')). ($ancre ? "#$ancre" : '');
+	}
+	//return 'plouf';
+	return generer_url_public('publier_hals_publication', $a . ($args ? "&$args" : '')). ($ancre ? "#$ancre" : '');
+}
 ?>

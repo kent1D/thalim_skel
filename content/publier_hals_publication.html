@@ -1,0 +1,26 @@
+#CACHE{0}
+<BOUCLE_hal(HALS_PUBLICATIONS){si #AUTORISER{modifier,hals_publication,#ENV{id_hals_publication}}}{id_hals_publication}{tout}>
+<section>
+	[<header class="cartouche">
+		<h1>Modifier la publication HAL : (#TITRE)</h1>
+	</header>]
+	<div class="main">
+		[(#AUTORISER{moderer,hal,#ID_HAL}|oui)
+		<p>
+			#SET{valider,' '}
+			[(#STATUT|=={publie}|oui)[(#BOUTON_ACTION{<:hals_publication:info_bloquer_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-refuse,#SELF},'','Êtes-vous sûrs de vouloir supprimer cette publication ?'})]
+			#SET{valider,''}][
+			(#STATUT|=={refuse}|oui)[(#BOUTON_ACTION{<:hals_publication:info_retablir_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-publie,#SELF}})]
+			#SET{valider,''}]
+			[(#GET{valider}|oui)
+				[(#BOUTON_ACTION{<:hals_publication:info_retablir_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-publie,#SELF}})]
+			]
+		</p>
+		]
+		<div class="ajax">
+			#FORMULAIRE_EDITER_HALS_PUBLICATION{#ID_HALS_PUBLICATION,#URL_HALS_PUBLICATION}
+		</div>
+	</div>
+</section>
+</BOUCLE_hal>
+#FILTRE{trim}
