@@ -28,4 +28,10 @@ if(!function_exists('autoriser_auteur_modifier')){
 				AND $id == $qui['id_auteur'];
 	}
 }
+
+function autoriser_crayonner($faire, $type, $id, $qui, $opt){
+	if(!in_array($qui['statut'],array('0minirezo')))
+		return false;
+	return autoriser_crayonner_dist($faire, $type, $id, $qui, $opt);
+}
 ?>
