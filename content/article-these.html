@@ -3,13 +3,22 @@
 	<header class="cartouche">
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
 		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
-		<h1><span class="#EDIT{titre}">#TITRE</span>[
-			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
-		]</h1>
+		<h1><span class="#EDIT{titre}">#TITRE</span>
+			<B_doctorants>
+			<small class="soustitre">
+			<BOUCLE_doctorants(AUTEURS){id_article}{role = doctorant}{', '}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_doctorants>[, (#SOUSTITRE)]</small>
+			</B_doctorants>
+			[<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>]
+			<//B_doctorants>
+		</h1>
 
-		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
-			<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong> [(#LESAUTEURS)]</p>
+		<B_auteurs>
+		<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong>
+		<BOUCLE_auteurs(AUTEURS){id_article}{par nom_famille}{role != doctorant}{tout}{","}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_auteurs>
+		[, (#AUTRES_AUTEURS)]</p>
 		</B_auteurs>
+		[<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong>(#AUTRES_AUTEURS)</p>]
+		<//B_auteurs>
 		<BOUCLE_ev(EVENEMENTS){id_article}>
 			<div class="evenement">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
 		</BOUCLE_ev>
