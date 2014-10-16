@@ -1,0 +1,14 @@
+#CACHE{0}
+#SET{doctorants_article,#ARRAY}
+<BOUCLE_doctorants(AUTEURS){id_article}{role=doctorant}{tout}><br />
+#SET{doctorants_article,#GET{doctorants_article}|push{#ID_AUTEUR}}
+</BOUCLE_doctorants>
+<li class="editer editer_diogene_doctorant">
+	<label for="diogene_gerer_auteurs"><:thalim:label_diogene_doctorants:></label>
+	<select name="diogene_doctorants" id="diogene_doctorants" class="chosen">
+		<option value="">--</option>
+		<BOUCLE_auteurs(AUTEURS){par nom_famille}{role = doctorant}{tout}>
+		<option value="#ID_AUTEUR"[(#ENV{id_article}|non)[(#ID_AUTEUR|=={#SESSION{id_auteur}}|oui)selected="selected"]][(#ID_AUTEUR|in_array{#GET{doctorants_article,#ARRAY}}|oui)selected="selected"]>#NOM</option>
+		</BOUCLE_auteurs>
+	</select>
+</li>
