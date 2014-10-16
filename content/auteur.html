@@ -16,6 +16,12 @@
 			<h3><:thalim:titre_autres_publications:></h3>
 			<div class="#_content:EDIT{publications}">(#_content:PUBLICATIONS|propre)</div>
 		</div>]
+		[<div class="these">
+			<h3>Thèse : (#THESE_TITRE)</h3>
+			[<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong> (#THESE_DIRECTEUR)[, (#THESE_DIRECTEUR_AUTRE)]</p>]
+			[<div class="texte">(#THESE_RESUME)</div>]
+			
+		</div>]
 		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
 		<BOUCLE_programme(RUBRIQUES){id_rubrique=257}>
 		<BOUCLE_un_programme(ARTICLES){id_secteur}{id_auteur}{0,1}>
@@ -33,9 +39,9 @@
 		
 		#SET{publications_ouvrages,#ARRAY}
 		#SET{publications_articles,#ARRAY}
-		#SET{mots_ouvrages,#LISTE{463}}
+		#SET{mots_ouvrages,#LISTE{463,1053}}
 		#SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
-		#SET{mots_articles,#LISTE{495}}
+		#SET{mots_articles,#LISTE{495,1052}}
 		#SET{type_hal_articles,#LISTE{ART,COUV}}
 		<B_hal>
 		<BOUCLE_hal(HALS){id_auteur}>
@@ -149,11 +155,10 @@
 		</B_agenda>
 		</BOUCLE_si_seminaire>
 		</B_si_seminaire>
-		[(#ID_RUBRIQUE|=={270}|et{#_content:STATUT}|=={6forum}|oui)
-			[(#AGENDA|=={1}|oui)
+		[(#ID_RUBRIQUE|=={270}|et{#_content:ROLE|=={doctorant}}|oui)
 			[<div class="articles">
 			(#INCLURE{fond=liste/agenda-resume_auteur,id_auteur=#ENV{id_auteur},id_secteur=#ID_RUBRIQUE,titre=#TITRE,param_page=rubrique#ID_RUBRIQUE,sans_document=oui,intro=non,env,ajax}|trim)
-			</div>]]
+			</div>]
 		]
 		[(#ID_RUBRIQUE|=={270}|non)
 		[(#AGENDA|=={1}|non)
