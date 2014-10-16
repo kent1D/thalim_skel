@@ -64,6 +64,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_themes_recherche' => 'Thèmes de recherche&nbsp;:',
 	
 	// L
+	'label_ajout_doctorant' => 'La liste des doctorants',
 	'label_ajout_fichier_affiche' => 'Une affiche (Fichier image ou pdf)',
 	'label_ajout_fichier_affiche_court' => 'Affiche',
 	'label_ajout_fichier_appel' => 'Un appel à contribution (Fichier pdf)',
@@ -82,6 +83,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_ajout_fichier_resumes_court' => 'Résumés / Bios',
 	'label_ajout_fichier_sommaire' => 'Un sommaire (Fichier pdf)',
 	'label_ajout_fichier_sommaire_court' => 'Sommaire',
+	'label_diogene_doctorants' => 'Doctorant THALIM',
 	'label_prenom' => 'Prénom :',
 	'label_nom_famille' => 'Nom de famille :',
 	'label_supprimer_fichier' => 'Supprimer ce fichier',

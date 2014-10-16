@@ -97,6 +97,7 @@ function thalim_skel_jquery_plugins($plugins){
  */
 function thalim_skel_diogene_objets($flux){
 	if(isset($flux['article']) && is_array($flux['article'])){
+		$flux['article']['champs_sup']['doctorants'] = _T('thalim:label_ajout_doctorant');
 		$flux['article']['champs_sup']['fichier_appel'] = _T('thalim:label_ajout_fichier_appel');
 		$flux['article']['champs_sup']['fichier_affiche'] = _T('thalim:label_ajout_fichier_affiche');
 		$flux['article']['champs_sup']['fichier_couverture'] = _T('thalim:label_ajout_fichier_couverture');
@@ -151,6 +152,10 @@ function thalim_skel_editer_contenu_objet($flux){
  */
 function thalim_skel_diogene_ajouter_saisies($flux){
 	$champs_ajoutes = unserialize($flux['args']['champs_ajoutes']);
+	if(is_array($champs_ajoutes) && in_array('doctorants',$champs_ajoutes)){
+		$flux['args']['contexte']['champs_ajoutes'] = unserialize($flux['args']['champs_ajoutes']);
+		$flux['data'] .= recuperer_fond('formulaires/diogene_ajouter_doctorants',$flux['args']['contexte']);
+	}
 	$fichier = false;
 	$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_flyer','fichier_communication','fichier_invitation','fichier_sommaire','fichier_resumes');
 	foreach($types_fichier as $type){
@@ -269,12 +274,12 @@ function thalim_skel_diogene_traiter($flux){
 		$champs_ajoutes = unserialize(sql_getfetsel("champs_ajoutes","spip_diogenes","id_diogene=".intval($id_diogene)));
 		$fichier = false;
 		$types_fichier = array('fichier_affiche','fichier_appel','fichier_couverture','fichier_programme','fichier_flyer','fichier_communication','fichier_invitation','fichier_sommaire');
+		$id_objet = $flux['args']['id_objet'];
 		foreach($types_fichier as $type){
 			if(in_array($type,$champs_ajoutes))
 				$fichier = true;
 		}
 		if (is_array($champs_ajoutes) && $fichier){
-			$id_objet = $flux['args']['id_objet'];
 			include_spip('inc/joindre_document');
 			$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
 			$files = array();
@@ -343,6 +348,38 @@ function thalim_skel_diogene_traiter($flux){
 					if($id_document)
 						dissocier_document($id_document, 'article', $id_objet, true);
 				}
+			}
+		}
+		if(in_array('doctorants',$champs_ajoutes)){
+			spip_log('Ajout de doctorant','test.'._LOG_ERREUR);
+			spip_log(_request('diogene_doctorants'),'test.'._LOG_ERREUR);
+			
+			include_spip('inc/invalideur');
+			include_spip('action/editer_auteur');
+	
+			$auteurs_liste = array();
+			$auteurs = sql_allfetsel("auteur.id_auteur","spip_auteurs as auteur LEFT join spip_auteurs_liens as auteur_lien ON auteur.id_auteur=auteur_lien.id_auteur","auteur_lien.objet=".sql_quote('article')." AND auteur.role='doctorant' AND auteur_lien.id_objet=".intval($id_objet));
+			foreach($auteurs as $auteur){
+				$auteurs_liste[] = $auteur['id_auteur'];
+			}
+			/**
+			 * diogene_gerer_auteurs n'est pas un array, on supprime tous les auteurs sauf soi même si on n'est pas admin
+			 */
+			
+			foreach($auteurs_liste as $auteur){
+				/**
+				 * On ne peut pas s'enlever soit même des auteurs si l'on n'est pas admin
+				 */
+				if($auteur != _request('diogene_doctorants')){
+					$suppr = auteur_dissocier($auteur,array($type=>$id_objet));
+					suivre_invalideur("id='id_auteur/$auteur'",true);
+				}
+			}
+			
+			if(intval(_request('diogene_doctorants')) > 0 && !in_array($auteurs_liste,_request('diogene_doctorants'))){
+				
+				$ajout = auteur_associer(_request('diogene_doctorants'),array('article'=>$id_objet));
+				suivre_invalideur("id='id_auteur/$auteur'",true);
 			}
 		}
 		if($id_diogene == 9){
