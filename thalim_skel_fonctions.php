@@ -138,6 +138,13 @@ function autoriser_auteur_modifierextra_these_directeur_dist($faire, $type, $id,
 		return sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
 }
 
+function autoriser_auteur_modifierextra_these_directeur_autre_dist($faire, $type, $id, $qui, $opt) {
+	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
+		return true;
+	else
+		return sql_getfetsel('id_mot','spip_mots_liens','objet="auteur" AND id_objet='.intval($id).' AND id_mot=1048');
+}
+
 function autoriser_auteur_modifierextra_these_resume_dist($faire, $type, $id, $qui, $opt) {
 	if(test_espace_prive() && in_array($qui['statut'], array('0minirezo')))
 		return true;
@@ -204,5 +211,35 @@ function generer_url_ecrire_hals_publication($id, $args='', $ancre='', $public=n
 	}
 	//return 'plouf';
 	return generer_url_public('publier_hals_publication', $a . ($args ? "&$args" : '')). ($ancre ? "#$ancre" : '');
+}
+
+/**
+ * Surcharge de la balise #URL_EVENEMENT pour y ajouter une ancre vers l'évènements (ancre_url)
+ */
+function balise_URL_EVENEMENT($p) {
+
+	include_spip("inc/config");
+	include_spip("balise/url_");
+
+	if (lire_config("agenda/url_evenement",'evenement')!=='article'){
+		$code = generer_generer_url('evenement', $p);
+	}
+	else {
+		$_ide = interprete_argument_balise(1,$p);
+		if (!$_ide)
+			$_ide = champ_sql('id_evenement', $p);
+		$_ida = "generer_info_entite($_ide,'evenement','id_article')";
+
+		$code = generer_generer_url_arg('article', $p, $_ida);
+		$code = "ancre_url(parametre_url($code,'id_evenement',$_ide,'&'),'evenement_'.$_ide)";
+	}
+
+	$code = champ_sql('url_evenement', $p, $code);
+	$p->code = $code;
+	if (!$p->etoile)
+		$p->code = "vider_url($code)";
+	$p->interdire_scripts = false;
+
+	return $p;
 }
 ?>
