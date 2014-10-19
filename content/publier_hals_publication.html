@@ -8,7 +8,7 @@
 		[(#AUTORISER{moderer,hal,#ID_HAL}|oui)
 		<p>
 			#SET{valider,' '}
-			[(#STATUT|=={publie}|oui)[(#BOUTON_ACTION{<:hals_publication:info_bloquer_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-refuse,#SELF},'','Êtes-vous sûrs de vouloir supprimer cette publication ?'})]
+			[(#STATUT|=={publie}|oui)[(#BOUTON_ACTION{<:hals_publication:info_bloquer_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-refuse,#URL_AUTEUR{#SESSION{id_auteur}}},'','Êtes-vous sûr(e) de vouloir supprimer cette publication ?'})]
 			#SET{valider,''}][
 			(#STATUT|=={refuse}|oui)[(#BOUTON_ACTION{<:hals_publication:info_retablir_publication:>,#URL_ACTION_AUTEUR{instituer_hals_publication,#ID_HALS_PUBLICATION-publie,#SELF}})]
 			#SET{valider,''}]
