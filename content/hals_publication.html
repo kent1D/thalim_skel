@@ -14,19 +14,16 @@
 		[<p class="publication">
 			(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})
 		</span></p>]
-
-		[(#REM) Inclure le modele des liens de traductions ]
+		
+		<B_tags>
 		<div class="postmeta">
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
-			<B_tags>
-			<ul class="tags inline">
-				<BOUCLE_tags(MOTS){id_groupe}{id_hals_publication}>
-				<li><a class="label" href="#URL_MOT">#TITRE</a></li>
-				</BOUCLE_tags>
-			</ul>
-			</B_tags>
-			</BOUCLE_groupes_mots>
+			<p class="tags">
+				<strong class="mots"><:thalim:info_relie_a:></strong>
+				<BOUCLE_tags(MOTS){id_hals_publication}{id_groupe IN 10,8,13}{', '}>
+				<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_tags>
+			</p>
 		</div>
+		</B_tags>
 	</header>
 
 	<div class="main">
