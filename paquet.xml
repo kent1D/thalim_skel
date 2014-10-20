@@ -1,7 +1,7 @@
 <paquet
 	prefix="thalim_skel"
 	categorie="squelette"
-	version="0.1.0"
+	version="0.1.1"
 	etat="stable"
 	compatibilite="[3.0.0;3.1.*]"
 	logo="images/thalim-64.png"
@@ -21,6 +21,8 @@
 	<pipeline nom="diogene_ajouter_saisies" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_verifier" inclure="thalim_pipelines.php" />
 	<pipeline nom="diogene_traiter" inclure="thalim_pipelines.php" />
+	<pipeline nom="formulaire_verifier" inclure="thalim_pipelines.php" />
+	<pipeline nom="formulaire_traiter" inclure="thalim_pipelines.php" />
 	<pipeline nom="editer_contenu_objet" inclure="thalim_pipelines.php" />
 	<pipeline nom="porte_plume_barre_pre_charger" inclure="thalim_pipelines.php" />
 	<pipeline nom="porte_plume_lien_classe_vers_icone" inclure="thalim_pipelines.php" />

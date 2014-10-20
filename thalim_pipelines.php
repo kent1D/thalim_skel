@@ -138,6 +138,36 @@ function thalim_skel_editer_contenu_objet($flux){
 			}
 		}
 	}
+	if($flux['args']['type'] == 'hals_publication' && strpos($flux['data'],'<!--extra-->')!==FALSE){
+		$id_table_objet = id_table_objet($flux['args']['type']);
+		$id_objet = $flux['args']['id'];
+		$mots_obligatoires = array('8','10','13');
+
+		$valeurs_mots['id_groupes'] = $mots_obligatoires;
+		/**
+		 * On récupère les mots qui sont postés ou peut être déjà associés
+		 */
+		foreach($valeurs_mots['id_groupes'] as $id_groupe){
+			//$valeurs_mots['groupe_obligatoire_'.$id_groupe] = 'oui';
+			if (_request('groupe_'.$id_groupe)) {
+				// Pour récupérer la selection courante en cas d'erreur dans vérifier() ou traiter()
+				$valeurs_mots['groupe_'.$id_groupe] = _request('groupe_'.$id_groupe);
+			}else if (sql_getfetsel('unseul','spip_groupes_mots','id_groupe='.intval($id_groupe)) == 'oui') {
+				$valeurs_mots['groupe_'.$id_groupe] = sql_fetsel('mot.id_mot','spip_mots as mot LEFT JOIN spip_mots_liens as mots_liens ON (mot.id_mot=mots_liens.id_mot)','mots_liens.objet='.sql_quote('hals_publication').' AND mots_liens.id_objet='.intval($id_objet).' AND mot.id_groupe='.intval($id_groupe));
+			}else {
+				$result = sql_allfetsel('mot.id_mot','spip_mots as mot LEFT JOIN spip_mots_liens as mots_liens ON mot.id_mot=mots_liens.id_mot','mots_liens.objet='.sql_quote('hals_publication').' AND mot.id_groupe='.intval($id_groupe).' AND mots_liens.id_objet='.intval($id_objet));
+				foreach ($result as $row) {
+					$valeurs_mots['groupe_'.$id_groupe][] = $row['id_mot'];
+				}
+			}
+		}
+		if (is_array($valeurs_mots))
+			$flux['args']['contexte'] = array_merge($flux['args']['contexte'],$valeurs_mots);
+		
+		$flux['args']['contexte']['legende'] = "A relier à :";
+		$saisie = recuperer_fond('formulaires/diogene_ajouter_medias_mots',$flux['args']['contexte']);
+		$flux['data'] = preg_replace(',(.*)(<!--extra-->),ims',"\\1<ul>".$saisie."</ul>\\2",$flux['data'],1);
+	}
 	return $flux;
 }
 /**
@@ -173,6 +203,84 @@ function thalim_skel_diogene_ajouter_saisies($flux){
 	return $flux;
 }
 
+function thalim_skel_formulaire_verifier($flux){
+	/*if($flux['args']['form'] == 'editer_hals_publication'){
+		foreach(array('8','10','13') as $groupe_obligatoire=>$id_groupe){
+			$mots_groupe = _request('groupe_'.$id_groupe);
+			if(empty($mots_groupe) OR is_null($mots_groupe) OR (!is_numeric($mots_groupe) && !is_array($mots_groupe))){
+				$flux['groupe_'.$id_groupe] = _T('info_obligatoire');
+			}
+		}
+	}*/
+	return $flux;
+}
+
+function thalim_skel_formulaire_traiter($flux){
+	if($flux['args']['form'] == 'editer_hals_publication' && intval($flux['data']['id_hals_publication']) > 0){
+		include_spip('action/editer_mot');
+		$invalider = false;
+		$objet = 'hals_publication';
+
+		$id_objet = $flux['data']['id_hals_publication'];
+
+		include_spip('inc/editer_mots');
+		$groupes_possibles = array('8','10','13');
+
+		/**
+		 * On traite chaque groupe séparément
+		 * Si c'est une modification d'objet il se peut qu'il faille supprimer les anciens mots
+		 * On fait une vérifications sur chaque groupe
+		 */
+		foreach($groupes_possibles as $id_groupe){
+			$mots_multiples = array();
+			$requete_id_groupe = _request('groupe_'.$id_groupe) ? _request('groupe_'.$id_groupe) : array();
+
+			$result = sql_allfetsel('0+mot.titre AS num, mot.id_mot','spip_mots as mot LEFT JOIN spip_mots_liens as liens ON mot.id_mot=liens.id_mot','liens.objet='.sql_quote($objet).' AND mot.id_groupe='.intval($id_groupe).' AND liens.id_objet='.intval($id_objet),'','num, mot.titre');
+			foreach ($result as $row) {
+				$mots_multiples[] = $row['id_mot'];
+			}
+
+			if(is_array($requete_id_groupe)){
+				foreach($requete_id_groupe as $cle => $mot){
+					/**
+					 * Si le mot est déja dans les mots, on le supprime juste
+					 * de l'array des mots originaux
+					 */
+					if(in_array($mot, $mots_multiples))
+						$mots_multiples = array_diff($mots_multiples,array($mot));
+					else{
+						sql_insertq('spip_mots_liens', array('id_mot' =>$mot,  'id_objet' => $id_objet,'objet'=> $objet));
+						$invalider = true;
+					}
+				}
+			}
+			else{
+				if(in_array($requete_id_groupe, $mots_multiples))
+					$mots_multiples = array_diff($mots_multiples,array($requete_id_groupe));
+				else{
+					sql_insertq('spip_mots_liens', array('id_mot' =>$requete_id_groupe,  'id_objet' => $id_objet,'objet'=> $objet));
+					$invalider = true;
+				}
+			}
+			/**
+			 * S'il reste quelque chose dans les mots d'origine, on les délie de l'objet
+			 */
+			if(count($mots_multiples)>0){
+				sql_delete('spip_mots_liens','objet='.sql_quote($objet).' AND id_objet='.intval($id_objet).' AND id_mot IN ('.implode(',',$mots_multiples).')');
+				$invalider = true;
+			}
+
+			// On nettoie les variables mises à jour dans verifier()
+			set_request('groupe_'.$id_groupe, $requete_id_groupe);
+			set_request('nouveaux_groupe_'.$id_groupe, array());
+			if($invalider){
+				include_spip('inc/invalideur');
+				suivre_invalideur("id='$objet/$id_objet'");
+			}
+		}
+	}
+	return $flux;
+}
 /**
  * Insertion dans le pipeline diogene_vérifier (Diogène)
  * Fonction s'exécutant à la vérification du formulaire 
@@ -351,9 +459,6 @@ function thalim_skel_diogene_traiter($flux){
 			}
 		}
 		if(in_array('doctorants',$champs_ajoutes)){
-			spip_log('Ajout de doctorant','test.'._LOG_ERREUR);
-			spip_log(_request('diogene_doctorants'),'test.'._LOG_ERREUR);
-			
 			include_spip('inc/invalideur');
 			include_spip('action/editer_auteur');
 	
