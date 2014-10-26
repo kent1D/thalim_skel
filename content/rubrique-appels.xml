@@ -1,4 +1,5 @@
 <composition>
 	<nom>Rubrique Appels à candidatures</nom>
 	<description>Composition dédiée à la rubrique d'appels à candidature'</description>
+	<branche type="article" composition="appel" />
 </composition>

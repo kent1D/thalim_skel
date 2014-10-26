@@ -9,7 +9,7 @@
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
-			<INCLURE{fond=inclure/agenda-liste_contributions,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,env,ajax} />
+			<INCLURE{fond=inclure/agenda-liste_date_redac,affichage_duree=12,id_rubrique=#ID_RUBRIQUE,env} />
 			</div>
 		</BOUCLE_articles>
 
