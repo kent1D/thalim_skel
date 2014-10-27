@@ -211,6 +211,28 @@
 </B_ev>
 <//B_si_communication>
 </BOUCLE_rubriques2>
+#SET{evenements,#ARRAY}
+<BOUCLE_rubriques3(RUBRIQUES){id_rubrique=262}>
+	<BOUCLE_ev3_1(ARTICLES){date > #GET{date_debut}}{date < #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+		[(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+	</BOUCLE_ev3_1>
+	<BOUCLE_ev3_2(ARTICLES){date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac < #GET{date_debut}}{date > #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+		[(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE_REDAC|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+	</BOUCLE_ev3_2>
+	<BOUCLE_ev3_21(ARTICLES){date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac >= #GET{date_debut}}{date_redac < #GET{date_fin}}{date > #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+		[(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE_REDAC|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+	</BOUCLE_ev3_21>
+	<B_ev3_3>
+	<h3>#TITRE</h3>
+	<ul class="liste-items liste-puce evenements">
+	<BOUCLE_ev3_3(DATA){source table,#GET{evenements}}{par cle}>
+		<li class="item">
+			#INCLURE{fond=inclure/resume/evenement_date_redac,id_article=#VALEUR,intro=non,env}
+		</li>
+	</BOUCLE_ev3_3>
+	</ul>
+	</B_ev3_3>
+</BOUCLE_rubriques3>
 <div class="pagination">
 	#SET{hasprev,''}
 	<BOUCLE_prev1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}> #SET{hasprev,1}</BOUCLE_prev1>
