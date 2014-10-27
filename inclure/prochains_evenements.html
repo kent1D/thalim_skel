@@ -15,7 +15,7 @@
 	<a href="[(#URL_PAGE{agenda})]">[(#CHEMIN{images/icone_actualites.png}|balise_img|inserer_attribut{width,140})]</a>
 	</div>
 	<div class="span4">
-		<div class="liste_evenements cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-slides="div.liste-actualites">
+		<div class="liste_evenements cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-auto-height="calc" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-slides="div.liste-actualites">
 		<BOUCLE_data(DATA){source table,#GET{evts}}{par cle}>
 		[(#COMPTEUR_BOUCLE|alterner{'<div class="liste-actualites"><ul class="liste-items  liste-puce">','','','',''})]
 			#VALEUR
