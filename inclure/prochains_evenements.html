@@ -2,25 +2,25 @@
 
 	Affiche la liste des évènements sur la home
 
-]<B_prochains_evenements>
+]
+#SET{evts,#ARRAY}
+<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247,270}{date_debut >= #ENV{date}}{par date_debut}>
+[(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{[(#DATE_DEBUT|replace{' ','_'}|replace{':','_'})]_[(#ID_EVENEMENT)],[(#INCLURE{fond=inclure/prochain_evenement,id_evenement})]})]})]})]
+</BOUCLE_prochains_evenements>
+<BOUCLE_ev3_1(ARTICLES){date >= #ENV{date}}{id_mot?}{id_rubrique=262}{doublons}>
+	[(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{[(#DATE_REDAC|in_array{#LISTE{'','0000-00-00 00:00'}}|?{#DATE,#DATE_REDAC}|replace{' ','_'}|replace{':','_'})]_[(#ID_ARTICLE)],[(#INCLURE{fond=inclure/prochain_evenement_redac,id_article})]})]})]})]
+</BOUCLE_ev3_1>
 <div class="actualites">
 	<div class="span2 offset1">
 	<a href="[(#URL_PAGE{agenda})]">[(#CHEMIN{images/icone_actualites.png}|balise_img|inserer_attribut{width,140})]</a>
 	</div>
 	<div class="span4">
 		<div class="liste_evenements cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-slides="div.liste-actualites">
-	<BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247,270}{date_debut >= #ENV{date}}{par date_debut}>
-	[(#COMPTEUR_BOUCLE|alterner{'<div class="liste-actualites"><ul class="liste-items  liste-puce">','','','',''})]
-		<li class="item">
-			<article class="entry evenement vevent id_#ID_EVENEMENT" id="evenement_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
-				<strong class="h3-like summary entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"><span itemprop="name">#TITRE</span></a></strong>
-				<BOUCLE_article(ARTICLES){id_article}>[(#SEMINAIRE|=={on}|ou{#ID_SECTEUR|=={247}}|oui)
-					[<p><:seminaire:info_seminaire|replace{' : ',''}:> &laquo;&nbsp;<a href="#URL_ARTICLE">(#TITRE)</a>&nbsp;&raquo;</p>]]</BOUCLE_article>
-				<p class="info-publi">[<time>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time>]</p>
-			</article>
-		</li>
-	[(#COMPTEUR_BOUCLE|=={#TOTAL_BOUCLE}|?{</ul></div>,[(#COMPTEUR_BOUCLE|alterner{'','','','','</ul></div>'})]})]
-	</BOUCLE_prochains_evenements>
+		<BOUCLE_data(DATA){source table,#GET{evts}}{par cle}>
+		[(#COMPTEUR_BOUCLE|alterner{'<div class="liste-actualites"><ul class="liste-items  liste-puce">','','','',''})]
+			#VALEUR
+		[(#COMPTEUR_BOUCLE|=={#TOTAL_BOUCLE}|?{</ul></div>,[(#COMPTEUR_BOUCLE|alterner{'','','','','</ul></div>'})]})]
+		</BOUCLE_data>
 	</div>
 	</div>
 </div>
