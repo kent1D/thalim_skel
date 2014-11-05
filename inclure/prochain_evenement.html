@@ -1,10 +1,13 @@
+#CACHE{0}
 <BOUCLE_evt(EVENEMENTS){id_evenement}>
 <li class="item">
 	<article class="entry evenement vevent id_#ID_EVENEMENT" id="evenement_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
-		<strong class="h3-like summary entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"><span itemprop="name">#TITRE</span></a></strong>
+		<h3 class="h3-like summary entry-title #EDIT{titre}"><a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"><span itemprop="name">#TITRE</span></a></h3>
 		<BOUCLE_article(ARTICLES){id_article}>[(#SEMINAIRE|=={on}|ou{#ID_SECTEUR|=={247}}|oui)
 			[<p><:seminaire:info_seminaire|replace{' : ',''}:> &laquo;&nbsp;<a href="#URL_ARTICLE">(#TITRE)</a>&nbsp;&raquo;</p>]]</BOUCLE_article>
-		<p class="info-publi">[<time>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time>]</p>
+		[<p class="info-publi"><strong>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</strong></p>]
+		<span itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]"></span>
+		<span itemprop="endDate" content="[(#DATE_FIN|date_iso)]" /></span>
 	</article>
 </li>
 </BOUCLE_evt>

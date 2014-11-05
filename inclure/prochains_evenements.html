@@ -5,7 +5,7 @@
 ]
 #SET{evts,#ARRAY}
 <BOUCLE_prochains_evenements(EVENEMENTS){id_secteur IN 250,251,247,270}{date_debut >= #ENV{date}}{par date_debut}>
-[(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{[(#DATE_DEBUT|replace{' ','_'}|replace{':','_'})]_[(#ID_EVENEMENT)],[(#INCLURE{fond=inclure/prochain_evenement,id_evenement})]})]})]})]
+[(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{[(#DATE_DEBUT|replace{' ','_'}|replace{':','_'})]_[(#ID_EVENEMENT)],[(#INCLURE*{fond=inclure/prochain_evenement,id_evenement})]})]})]})]
 </BOUCLE_prochains_evenements>
 <BOUCLE_ev3_1(ARTICLES){date >= #ENV{date}}{id_mot?}{id_rubrique=262}{doublons}>
 	[(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{[(#DATE_REDAC|in_array{#LISTE{'','0000-00-00 00:00'}}|?{#DATE,#DATE_REDAC}|replace{' ','_'}|replace{':','_'})]_[(#ID_ARTICLE)],[(#INCLURE{fond=inclure/prochain_evenement_redac,id_article})]})]})]})]
