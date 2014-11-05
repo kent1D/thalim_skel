@@ -6,7 +6,7 @@
 	<strong class="h3-like summary entry-title #EDIT{titre}">[(#ENV{afficher_lien,oui}|=={oui}|?{<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]">,''})][(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">#TITRE</span><span
 			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span>[(#ENV{afficher_lien,oui}|=={oui}|oui)</a>]</strong>]
 	[(#TITRE|=={#_article:TITRE}|oui)
-	<meta itemprop="name" content="[(#TITRE|attribut_html)]" />]
+	<span class="summary invisible" itemprop="name">#TITRE</span>]
 	<meta itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]" />
 	<meta itemprop="endDate" content="[(#DATE_FIN|date_iso)]" />
 	[<p class="info-publi"><time><i class="icon-calendar"></i> (#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</time></p>]

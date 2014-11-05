@@ -10,7 +10,7 @@
 #SET{url_auteur,<a href="#URL_AUTEUR">#NOM</a>}
 #SET{auteur_complet,<p class="lesauteurs"><a href="#URL_AUTEUR">#NOM</a></p>}
 </BOUCLE_auteurs>
-<article class="entry article hentry">
+<article class="entry article">
 	[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ]<span class="entry-title"><a href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})]</a></span>[, (#CITATION_REFERENCE*|typo)]
 	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
 	[(#GET{auteur_ok}|=={ok}|non)#GET{auteur_complet}]
