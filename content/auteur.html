@@ -20,9 +20,8 @@
 			<h3>Thèse : (#THESE_TITRE)</h3>
 			[<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong> (#THESE_DIRECTEUR)[, (#THESE_DIRECTEUR_AUTRE)]</p>]
 			[<div class="texte">(#THESE_RESUME)</div>]
-			
 		</div>]
-		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE)" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
+		[<p class="hyperlien"><strong><:voir_en_ligne:> : </strong><a href="(#URL_SITE|match{^http://}|?{#URL_SITE,[http://(#URL_SITE)]})" class="url spip_out" itemprop="url">[(#NOM_SITE|sinon{[(#URL_SITE|couper{80})]})]</a></p>]
 		<BOUCLE_programme(RUBRIQUES){id_rubrique=257}>
 		<BOUCLE_un_programme(ARTICLES){id_secteur}{id_auteur}{0,1}>
 		[<h2>&bull; (#_programme:TITRE)</h2>]
@@ -86,7 +85,7 @@
 					</li>
 				</BOUCLE_data_publications>
 				</ul>
-				[<div class="pagination">(#PAGINATION)</div>]
+				[<div class="pagination">(#PAGINATION{page})</div>]
 				</B_data_publications>
 				<B_data_publications_articles>
 				#ANCRE_PAGINATION
@@ -98,7 +97,7 @@
 					</li>
 				</BOUCLE_data_publications_articles>
 				</ul>
-				[<div class="pagination">(#PAGINATION)</div>]
+				[<div class="pagination">(#PAGINATION{page})</div>]
 				</B_data_publications_articles>
 			</div>
 		</BOUCLE_si_publications>
@@ -173,7 +172,6 @@
 		</BOUCLE_rubriques_homes>
 		</BOUCLE_activite>
 	</aside>
-
 	<footer>
 		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
 	</footer>
