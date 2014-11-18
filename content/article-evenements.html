@@ -8,7 +8,8 @@
 		]</h1>
 		
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
-			<p class="publication">[<span class="authors"> [(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+			[(#AUTRES_AUTEURS|?{#SET{total,#TOTAL_BOUCLE|plus{#AUTRES_AUTEURS|explode{','}|count}},#SET{total,#TOTAL_BOUCLE}})]
+			<p class="publication">[<span class="authors"> [(#GET{total}|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
 		</B_auteurs>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
