@@ -1,5 +1,6 @@
 jQuery(document).ready(function(){
 	jQuery('#titre').attr('placeholder','');
+	jQuery("em.aide").remove();
 	var edit_seminaire = function(){
 		jQuery('.evenements_lies h2').text('Séance(s) du séminaire');
 		jQuery('.formulaire_editer_article #titre').attr('placeholder','');

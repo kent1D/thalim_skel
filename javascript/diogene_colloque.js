@@ -10,4 +10,5 @@ jQuery(document).ready(function(){
 	jQuery(".editer_url_site label").text('Lien sur une page de site (en savoir plus)');
 	jQuery(".editer_texte label").text('Texte de présentation');
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
+	jQuery("em.aide").remove();
 });

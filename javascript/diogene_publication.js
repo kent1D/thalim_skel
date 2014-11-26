@@ -13,4 +13,5 @@ jQuery(document).ready(function(){
 	jQuery(".editer_texte label").text('Texte de présentation');
 	jQuery(".editer_date_orig label").text("Date de publication de l'ouvrage ou de l'article");
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
+	jQuery("em.aide").remove();
 });

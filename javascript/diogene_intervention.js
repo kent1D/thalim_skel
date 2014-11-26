@@ -16,4 +16,5 @@ jQuery(document).ready(function(){
 		$('#horaire').attr('checked', false);
 		$('.afficher_horaire').show();
 	}
+	jQuery("em.aide").remove();
 });
