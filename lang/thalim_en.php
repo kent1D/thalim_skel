@@ -88,7 +88,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'message_pole_aucune_publication' => 'No publication',
 
 	// R
-	'retour_haut' => 'Back to top'
+	'retour_haut' => 'Back to top',
 	'roles_chercheurs_cnrs' => 'CNRS RESEARCHERS',
 	'roles_enseignants_chercheurs' => 'ENSEIGNANTS-CHERCHEURS',
 
