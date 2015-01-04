@@ -6,6 +6,7 @@ if (!defined('_ECRIRE_INC_VERSION')) return;
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// B
 	'bouton_retour_membre' => 'Back to its member page',
+
 	// D
 	'date_fmt_du_au_meme_mois' => '<span class="jour_debut">@dtstart@@jour_debut@@dtabbr@</span> - @dtend@@jour_fin@ @nom_mois@ @annee@@dtabbr@',
 	'date_fmt_du_au_meme_annee' => '@dtstart@<span class="jour_debut">@jour_debut@</span> @nom_mois_debut@@dtabbr@ - @dtend@@jour_fin@ @nom_mois_fin@ @annee@@dtabbr@', // Du 21 avril au 30 mai 2014'
@@ -21,7 +22,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_flyer' => 'Flyer',
 	'document_resumes' => 'Summaries',
 	'document_sommaire' => 'Summary',
-	
+
 	// E
 	'erreur_doc_image_pdf' => 'Ce document ne peut être que de type image (jpg,gif,png) ou PDF',
 	'erreur_doc_pdf' => 'Ce document ne peut être que de type PDF',
@@ -51,7 +52,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_professeur' => 'Professeur (PR)',
 	'info_theme_recherche' => 'Thème de recherche&nbsp;:',
 	'info_themes_recherche' => 'Thèmes de recherche&nbsp;:',
-	
+
 	// L
 	'label_ajout_fichier_affiche' => 'A poster (PDF or picture file)',
 	'label_ajout_fichier_affiche_court' => 'Poster',
@@ -79,17 +80,18 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'lien_membres' => 'Unit members',
 	'lien_publications' => 'Publications',
 	'lien_savoir_plus' => 'Learn more',
-	
+
 	// M
 	'message_orga_thalim' => 'organised by Thalim',
 	'message_par_membre_thalim' => 'from Thalim\'s member',
 	'message_pole_aucune_activite' => 'No scientific activity',
 	'message_pole_aucune_publication' => 'No publication',
-	
+
 	// R
+	'retour_haut' => 'Back to top'
 	'roles_chercheurs_cnrs' => 'CNRS RESEARCHERS',
 	'roles_enseignants_chercheurs' => 'ENSEIGNANTS-CHERCHEURS',
-	
+
 	// T
 	'titre_activites' => 'Scientific activities',
 	'titre_annuaire' => 'Directory',
