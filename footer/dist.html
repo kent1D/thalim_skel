@@ -1,4 +1,5 @@
-#INCLURE{fond=inclure/thesaurus,env}
+[(#SI_PAGE{sommaire}|non)
+#INCLURE{fond=inclure/thesaurus,env}]
 
 <p class="colophon">
 <BOUCLE_annee(ARTICLES){par date}{0,1}>[(#DATE|annee|!={#VAL{Y}|date}|oui)[(#DATE|annee)]]</BOUCLE_annee>-</B_annee>[(#DATE|annee) ] &mdash; #NOM_SITE_SPIP<br />
