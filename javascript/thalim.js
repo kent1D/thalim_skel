@@ -9,4 +9,11 @@ $(document).ready(function(){
 			$(this).find('ul').slideDown();
 	});
 	$('li.editer_statut_fonction').detach().insertBefore('.editer_email');
+	$(document).on('scroll',function(e){
+		var top = $(document).scrollTop();
+		if(top > 100 && $('.retour_haut').is(':hidden'))
+			$('.retour_haut').fadeIn();
+		else if(top < 100&& $('.retour_haut').is(':visible'))
+			$('.retour_haut').fadeOut();
+	});
 });

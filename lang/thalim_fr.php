@@ -26,7 +26,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_flyer' => 'Flyer',
 	'document_resumes' => 'Résumés',
 	'document_sommaire' => 'Sommaire',
-	
+
 	// E
 	'erreur_doc_image_pdf' => 'Ce document ne peut être que de type image (jpg,gif,png) ou PDF',
 	'erreur_doc_pdf' => 'Ce document ne peut être que de type PDF',
@@ -64,7 +64,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_responsables' => 'Responsables :',
 	'info_theme_recherche' => 'Thème de recherche&nbsp;:',
 	'info_themes_recherche' => 'Thèmes de recherche&nbsp;:',
-	
+
 	// L
 	'label_ajout_doctorant' => 'La liste des doctorants',
 	'label_ajout_fichier_affiche' => 'Une affiche (Fichier image ou pdf)',
@@ -96,17 +96,18 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'lien_membres' => 'Membres de l\'unité',
 	'lien_publications' => 'Publications',
 	'lien_savoir_plus' => 'En savoir plus',
-	
+
 	// M
 	'message_orga_thalim' => 'organisés par Thalim',
 	'message_par_membre_thalim' => 'des membres de Thalim',
 	'message_pole_aucune_activite' => 'Aucune activité scientifique',
 	'message_pole_aucune_publication' => 'Aucune publication',
-	
+
 	// R
+	'retour_haut' => 'Retour en haut',
 	'roles_chercheurs_cnrs' => 'CHERCHEURS CNRS',
 	'roles_enseignants_chercheurs' => 'ENSEIGNANTS-CHERCHEURS',
-	
+
 	// T
 	'titre_activites' => 'Activités scientifiques',
 	'titre_annuaire' => 'Annuaire',
