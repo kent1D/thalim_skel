@@ -14,7 +14,7 @@
 	<B_documents>
 	<p>
 	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>
-	<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
+	<a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
 	</BOUCLE_documents>
 	</p>
 	</B_documents>
