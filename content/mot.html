@@ -19,7 +19,9 @@
 			</div>
 		</BOUCLE_articles_rub>
 		<BOUCLE_secteur3(RUBRIQUES){racine}{id_rubrique IN 3}{par num titre}>
+		<div class="publications" id="publications">
 		<INCLURE{fond=liste/publications-resume,titre=#TITRE,env,ajax} />
+		</div>
 		</BOUCLE_secteur3>
 		<B_activites_editoriales>
 		<div class="activites_editoriales" id="activites_editoriales">
