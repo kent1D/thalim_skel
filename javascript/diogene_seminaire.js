@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-	jQuery('#titre').attr('placeholder','');
+	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery("em.aide").remove();
 	var edit_seminaire = function(){
 		jQuery('.evenements_lies h2').text('Séance(s) du séminaire');
@@ -29,6 +29,7 @@ jQuery(document).ready(function(){
 				jQuery('#id_mot option[value=476]').attr('selected','selected');
 		});
 	}
+	barrebouilles_thalim();
 	edit_seminaire();
 	onAjaxLoad(edit_seminaire);
 });

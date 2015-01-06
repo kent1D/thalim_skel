@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-	jQuery('#titre').attr('placeholder','');
+	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery(".editer_groupe_3").detach().insertBefore('.editer_titre');
 	jQuery('.editer_titre_evenement').hide();
 	jQuery("#diogene_auteurs").detach().insertAfter('.editer_soustitre');
@@ -17,4 +17,5 @@ jQuery(document).ready(function(){
 		$('.afficher_horaire').show();
 	}
 	jQuery("em.aide").remove();
+	barrebouilles_thalim();
 });

@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-	jQuery('#titre').attr('placeholder','');
+	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery(".editer_groupe_3").detach().insertBefore('.editer_titre');
 	jQuery('.editer_titre_evenement').hide();
 	jQuery("#diogene_auteurs").detach().insertAfter('.editer_titre');
@@ -11,4 +11,5 @@ jQuery(document).ready(function(){
 	jQuery(".editer_texte label").text('Texte de présentation');
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
 	jQuery("em.aide").remove();
+	barrebouilles_thalim();
 });

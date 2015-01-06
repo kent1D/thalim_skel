@@ -17,3 +17,12 @@ $(document).ready(function(){
 			$('.retour_haut').fadeOut();
 	});
 });
+
+function barrebouilles_thalim(){
+	$('.formulaire_spip input.inserer_barre_simple').barre_outils('simple');
+}
+
+$(window).load(function(){
+	barrebouilles_thalim();
+	onAjaxLoad(barrebouilles_thalim);
+});

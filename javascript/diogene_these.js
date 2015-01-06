@@ -6,7 +6,7 @@ jQuery(document).ready(function(){
 	jQuery('.editer_autres_auteurs label').text('Autres directeurs de Thèse');
 	jQuery(".editer_autres_auteurs").detach().insertAfter('#diogene_auteurs');
 	jQuery(".editer_diogene_doctorant").detach().insertAfter('.editer_autres_auteurs');
-	jQuery(".editer_titre label").text('Titre de la thèse');
+	jQuery(".editer_titre label").text('Titre');
 	jQuery(".editer_soustitre label").text('Autre doctorant THALIM');
 	jQuery("#diogene_auteurs .editer_diogene_gerer_auteurs label").text('Directeurs de thèse (Thalim)');
 	jQuery(".editer_diogene_gerer_auteurs .explication,.editer_liens_sites legend,.editer_liens_sites h3,.editer_nom_site,.editer_langue,#diogene_auteurs legend,#diogene_auteurs h3").remove();
@@ -17,4 +17,5 @@ jQuery(document).ready(function(){
 		$('.afficher_horaire').show();
 	}
 	jQuery("em.aide").remove();
+	barrebouilles_thalim();
 });

@@ -1,5 +1,5 @@
 jQuery(document).ready(function(){
-	jQuery('#titre').attr('placeholder','');
+	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery(".editer_groupe_11").detach().insertBefore('.editer_surtitre');
 	jQuery(".editer_surtitre label").text('Titre de l’article ou du chapitre');
 	jQuery(".editer_titre label").text('Titre de l’ouvrage ou de la revue');
@@ -14,4 +14,5 @@ jQuery(document).ready(function(){
 	jQuery(".editer_date_orig label").text("Date de publication de l'ouvrage ou de l'article");
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
 	jQuery("em.aide").remove();
+	barrebouilles_thalim();
 });
