@@ -16,6 +16,7 @@ $(document).ready(function(){
 		else if(top < 100&& $('.retour_haut').is(':visible'))
 			$('.retour_haut').fadeOut();
 	});
+	$('a.spip_out').prop("target", "_blank");
 });
 
 function barrebouilles_thalim(){
