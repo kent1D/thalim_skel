@@ -22,4 +22,6 @@ if(!function_exists('autoriser_ecrire')){
 		return ($qui['statut'] =='0minirezo');
 	}
 }
+
+$GLOBALS['table_des_traitements']['TITRE'][]= 'PtoBR(propre(supprimer_numero(%s), $connect, $Pile[0]))';
 ?>
