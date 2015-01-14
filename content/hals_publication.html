@@ -2,7 +2,7 @@
 <article class="offset1 span6" itemscope itemtype="http://schema.org/Book">
 	<header class="cartouche">
 		<h1><span itemprop="name">#TITRE</span>
-			<small class="soustitre">[(#SOUSTITRE|!={#TITRE|supprimer_tags}|?{#SOUSTITRE,''}) - ]#TYPDOC - [(#DATE_PRODUCTION|hal_affdate{#DATE_PRODUCTION_FORMAT}|ucfirst)]</small>
+			<small class="soustitre">[(#SOUSTITRE|!={#TITRE|supprimer_tags}|?{#SOUSTITRE,''}) - ]#TYPDOC[(#TYPDOC**|=={COMM}|non)- [(#DATE_PRODUCTION|hal_affdate{#DATE_PRODUCTION_FORMAT}|ucfirst)]]</small>
 			<meta itemprop="datePublished" content="[(#DATE_PRODUCTION|affdate{Y-m-d})]">
 		</h1>
 		
@@ -15,6 +15,11 @@
 			(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})
 		</span></p>]
 		
+		[(#TYPDOC**|=={COMM}|oui)
+		<div class="evenement">
+			<article class="entry evenement vevent id_#ID_HALS_PUBLICATION" id="#ID_HALS_PUBLICATION">
+				[<p class="info-publi"><time><i class="icon-calendar"></i> (#DATE_PRODUCTION|agenda_affdate_debut_fin{#DATE_PRODUCTION,non,'hcal annee'})</time></p>]
+			</article>]
 		<B_tags>
 		<div class="postmeta">
 			<p class="tags">
