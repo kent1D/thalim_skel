@@ -8,10 +8,19 @@
 	</ul>
 </div>
 </B_documents_affiche>
+<B_documents_affiche_hals>
+<div class="affiche_programme">
+	<ul>
+	<BOUCLE_documents_affiche_hals(DOCUMENTS){id_hals_publication}{document_type IN affiche,programme,couverture,sommaire,bibliographie,appel,flyer,resumes,presentation_publication,invitation,communication,article}{vu=non}{doublons}>
+		<li><a href="#URL_DOCUMENT"[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|oui)class="mediabox"]>[(#VAL{thalim:document_}|concat{#DOCUMENT_TYPE}|_T)] (#EXTENSION)</a></li>
+	</BOUCLE_documents_affiche_hals>
+	</ul>
+</div>
+</B_documents_affiche_hals>
 <B_documents_portfolio>
 <div class="liste documents documents_portfolio">
 	<h2 class="h2"><:medias:info_portfolio:></h2>
-	<BOUCLE_documents_portfolio(DOCUMENTS) {id_article?}{id_rubrique?}{objet?}{id_objet?} {mode=document}{extension IN png,jpg,gif} {par num titre, date}{vu=non}{doublons}>[
+	<BOUCLE_documents_portfolio(DOCUMENTS) {id_article?}{id_rubrique?}{id_hals_publication?}{objet?}{id_objet?} {mode=document}{extension IN png,jpg,gif} {par num titre, date}{vu=non}{doublons}>[
 	<a href="(#URL_DOCUMENT)"
 		 type="#MIME_TYPE"
 		 rel="documents_portfolio[-a(#ID_ARTICLE)][-r(#ID_RUBRIQUE)]"
