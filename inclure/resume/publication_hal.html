@@ -18,6 +18,13 @@
 	[<p>
 	<a href="(#LOGO_HALS_PUBLICATION|extraire_attribut{src})" class="lien_document"><:thalim:document_couverture:></a>
 	</p>]
+	<B_documents>
+	<p>
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{' '}>
+	<a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
+	</BOUCLE_documents>
+	</p>
+	</B_documents>
 </article>
 </BOUCLE_publication_hal>
 #FILTRE{trim}
