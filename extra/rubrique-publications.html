@@ -1,13 +1,20 @@
+[(#REM)
+
+	Lister les documents couvertures des publications à la fois articles et hals_publication 
+	et en faire un slider
+	
+	Arguments : 
+	* date => date début
+	* publication_type ouvrages|articles : permet de sélectionner les types de publications à afficher
+
+]
+
+
 #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_fin,#GET{date_debut}|agenda_moisdecal{12,'Y-m-d 00:00:00'}}
-#SET{articles,#ARRAY}
-[(#REM)
-	Les publications sont :
-	- les ouvrages
-	- les directions d'ouvrage
-]
 [(#ENV{publication_type,ouvrages}|=={ouvrages}|oui)
 	#SET{mots,#LISTE{463,1053}}
+	#SET{type_hal,#LISTE{DOUV,OUV}}
 ]
 [(#REM)
 	Les articles sont :
@@ -16,24 +23,48 @@
 ]
 [(#ENV{publication_type,ouvrages}|=={articles}|oui)
 	#SET{mots,#LISTE{495,1052}}
+	#SET{type_hal,#LISTE{ART,COUV}}
 ]
+#SET{documents,#LISTE}
 <BOUCLE_articles_set(ARTICLES){id_rubrique}{id_mot IN #GET{mots}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{par hasard}>
-#SET{articles,#GET{articles}|push{#ID_ARTICLE}}
+<BOUCLE_documents_articles(DOCUMENTS){id_article}{document_type IN #LISTE{affiche,couverture}}{0,1}>
+#SET{documents,#GET{documents}|push{#ID_DOCUMENT}}
+</BOUCLE_documents_articles>
 </BOUCLE_articles_set>
-<BOUCLE_affiches(DOCUMENTS){id_article IN #GET{articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture}}{0,1}>
+
+<BOUCLE_hals_set(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal}>
+<BOUCLE_documents_hals(DOCUMENTS){id_hals_publication}{document_type IN #LISTE{affiche,couverture}}{0,1}>
+#SET{documents,#GET{documents}|push{#ID_DOCUMENT}}
+</BOUCLE_documents_hals>
+</BOUCLE_hals_set>
+<BOUCLE_hals_set1(HALS_PUBLICATIONS){typdoc IN #GET{type_hal}}{date_production == 0000-00-00 00:00:00}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal}>
+<BOUCLE_documents_hals1(DOCUMENTS){id_hals_publication}{document_type IN #LISTE{affiche,couverture}}{0,1}>
+#SET{documents,#GET{documents}|push{#ID_DOCUMENT}}
+</BOUCLE_documents_hals1>
+</BOUCLE_hals_set1>
+
+<B_documents>
 <div class="liste documents_vignette" id="articles_vignette_994">
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
-	<BOUCLE_articles(ARTICLES){id_article IN #GET{articles,#ARRAY}}>
-	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+	<BOUCLE_documents(DOCUMENTS){id_document IN #GET{documents}}{par hasard}{tout}>
 	<div class="affiche">
 		<div class="ovale"></div>
+		<BOUCLE_art(ARTICLES){id_document}{0,1}>
 		[<a href="#URL_ARTICLE">
 			(#LOGO_DOCUMENT|image_passe_partout{127,165})
 		</a>]
+		</BOUCLE_art>
+		</B_art>
+		<BOUCLE_hal(HALS_PUBLICATIONS){id_document}{0,1}>
+		[<a href="#URL_HALS_PUBLICATION">
+			(#LOGO_DOCUMENT|image_passe_partout{127,165})
+		</a>]
+		</BOUCLE_hal>
+		<//B_art>
 	</div>
 	</BOUCLE_documents>
-	</BOUCLE_articles>
 	</div>
 </div>
-</BOUCLE_affiches>
+</B_documents>
+<//B_documents>
 #FILTRE{trim}
