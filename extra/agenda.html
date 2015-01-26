@@ -12,7 +12,7 @@
 	#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
 </BOUCLE_publications>
 </B_publications>
-<BOUCLE_rubriques(RUBRIQUES){id_rubrique IN 247,251}>
+<BOUCLE_rubriques(RUBRIQUES){id_rubrique IN 247,251,267}>
 <BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 	#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
 </BOUCLE_ev>
