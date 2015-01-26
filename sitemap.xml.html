@@ -35,12 +35,12 @@
 <url><loc>(#URL_ARTICLE|url_absolue)</loc>[(#DATE_MODIF**|>{#GET{recent}}
 |?{[<lastmod>(#DATE_MODIF**|date_iso)</lastmod>]})]</url>]</BOUCLE_a>
 
-<BOUCLE_h(HALS_PUBLICATIONS){!par date_modif}{typdoc IN OUV,DOUV,ART,COUV}>[
+<BOUCLE_h(HALS_PUBLICATIONS){!par date_modif}{typdoc IN OUV,DOUV,ART,COUV}{0,1000}>[
 <url><loc>(#URL_HALS_PUBLICATION|url_absolue)</loc>[(#DATE_MODIF**|>{#GET{recent}}
 |?{[<lastmod>(#DATE_MODIF**|date_iso)</lastmod>]})]</url>]</BOUCLE_h>
 
-[(#REM) Breves ]
-<BOUCLE_b(BREVES){!par date}{0,1000}>[
-<url><loc>(#URL_BREVE|url_absolue)</loc></url>]</BOUCLE_b>
+<BOUCLE_aut(AUTEURS){!par maj}{statut?}>[
+<url><loc>(#URL_AUTEUR|url_absolue)</loc>[(#MAJ**|>{#GET{recent}}
+|?{[<lastmod>(#MAJ**|date_iso)</lastmod>]})]</url>]</BOUCLE_aut>
 
 </urlset>
