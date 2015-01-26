@@ -2,12 +2,12 @@
 <article class="offset1 span6">
 	<header class="cartouche">
 		[(#LOGO_ARTICLE|image_reduire{200,200})]
-		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE|?{#TITRE,''})</p>]
-		[<h1><span class="#EDIT{titre}">(#SURTITRE|?{#SURTITRE,#TITRE})</span>]
-			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}>[(#TITRE)]#SET{id_mot,#ID_MOT}</BOUCLE_mot> - </B_mot>[(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</small>
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE|?{#TITRE,''}|propre|PtoBR)</p>]
+		[<h1><span class="#EDIT{titre}">(#SURTITRE|?{#SURTITRE,#TITRE}|propre|PtoBR)</span>]
+			<small class="#EDIT{soustitre} soustitre">[(#SOUSTITRE|propre|PtoBR) - ]<B_mot><BOUCLE_mot(MOTS){id_article}{id_groupe=11}{' - '}>[(#TITRE)]#SET{id_mot,#ID_MOT}</BOUCLE_mot> - </B_mot>[(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</small>
 		</h1>
 
-		<p class="publication">[(#LESAUTEURS), ][<em>(#TITRE)</em>, ][(#SURTITRE), ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</p>
+		<p class="publication">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;,''})][(#SURTITRE|sinon{[<em>(#TITRE)</em>]}|propre|PtoBR|replace{"<br class='autobr' />",''}|trim)[(#SURTITRE|?{&nbsp;&raquo;,''})], ][<em>in</em> (#DIRECTEURS) (dir.), ][(#SURTITRE|?{<em>#TITRE</em>,''}|propre|PtoBR|replace{"<br class='autobr' />",''}|trim), ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</p>
 		[(#REM) Inclure le modele des liens de traductions ]
 		<div class="postmeta">
 			#MODELE{article_traductions}
