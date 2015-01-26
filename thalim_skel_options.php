@@ -23,5 +23,7 @@ if(!function_exists('autoriser_ecrire')){
 	}
 }
 
+$GLOBALS['medias_liste_champs'][] = 'bio';
+$GLOBALS['medias_liste_champs'][] = 'publications';
 $GLOBALS['table_des_traitements']['TITRE'][]= 'PtoBR(propre(supprimer_numero(%s), $connect, $Pile[0]))';
 ?>
