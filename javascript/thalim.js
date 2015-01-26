@@ -17,6 +17,8 @@ $(document).ready(function(){
 			$('.retour_haut').fadeOut();
 	});
 	$('a.spip_out').prop("target", "_blank");
+	$('.editer_logo label').eq(0).html('Photo');
+	$('.editer_logo label').eq(1).html('Supprimer la photo actuelle');
 });
 
 function barrebouilles_thalim(){
