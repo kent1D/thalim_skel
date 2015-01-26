@@ -32,7 +32,10 @@
 	</header>
 
 	<div class="main">
-		[<div class="#EDIT{descriptif} chapo surlignable">(#DESCRIPTIF|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){si #DESCRIPTIF|concat{#CITATION_REFERENCE}|concat{#COMMENTAIRE}|strlen|>{1500}|non}{id_hals_publication}{document_type IN couverture}>
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
+		</BOUCLE_documents>
+		[<div class="#EDIT{descriptif}texte surlignable">(#DESCRIPTIF|adaptive_images)</div>]
 		[(#DESCRIPTIF|concat{#CITATION_REFERENCE}|concat{#COMMENTAIRE}|strlen|>{600}|non)
 			[<div class="affiche"><a href="[(#LOGO_HALS_PUBLICATION|extraire_attribut{src})]" class="mediabox">(#LOGO_HALS_PUBLICATION|image_reduire{198,''}|inserer_attribut{itemprop,image})</a></div>]
 		]
