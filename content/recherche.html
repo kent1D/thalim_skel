@@ -4,7 +4,7 @@
 			<small>&#171;&nbsp;(#RECHERCHE)&nbsp;&#187;</small>
 		</h1>
 	</header>]
-
+	[(#SET{recherche,["(#ENV{recherche}|replace{'&quot;',''})"]})]
 	<div class="main">
 		<B_auteurs>
 		<div class="liste resultats articles">
@@ -24,7 +24,7 @@
 		</div>
 		</B_auteurs>
 		<BOUCLE_secteur(RUBRIQUES){racine}{id_rubrique IN 257,251,250,247,3,262,270}{par num titre}>
-		<INCLURE{fond=liste/articles-recherche,id_secteur=#ID_RUBRIQUE,pagination=10,titre=#TITRE,env,ajax} />
+		<INCLURE{fond=liste/articles-recherche,id_secteur=#ID_RUBRIQUE,pagination=10,titre=#TITRE,recherche=#GET{recherche},env,ajax} />
 		</BOUCLE_secteur>
 	</div>
 </section>
