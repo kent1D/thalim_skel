@@ -6,9 +6,14 @@
 		<h1><span class="#EDIT{titre}">#TITRE</span>
 			<B_doctorants>
 			<small class="soustitre">
-			<BOUCLE_doctorants(AUTEURS){id_article}{role = doctorant}{', '}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_doctorants>[, (#SOUSTITRE)]</small>
+			<BOUCLE_doctorants(AUTEURS){id_article}{role = doctorant}{', '}{tout}><a href="#URL_AUTEUR">#NOM</a></BOUCLE_doctorants><BOUCLE_sstitre(MOTS){id_groupe=3}{id_article}>[, (#TITRE)]#SET{type_evt,#ID_MOT}
+			</BOUCLE_sstitre>[, (#SOUSTITRE)]</small>
 			</B_doctorants>
+			<BOUCLE_sstitre2(MOTS){id_groupe=3}{id_article}><small class="#EDIT{soustitre} soustitre">[(#TITRE)][, (#SOUSTITRE)]#SET{type_evt,#ID_MOT}</small>
+			</BOUCLE_sstitre2>
+			</B_sstitre2>
 			[<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>]
+			<//B_sstitre2>
 			<//B_doctorants>
 		</h1>
 
@@ -19,6 +24,9 @@
 		</B_auteurs>
 		[<p class="publication"><strong class="authors"><:thalim:info_directeurs_these:></strong>(#AUTRES_AUTEURS)</p>]
 		<//B_auteurs>
+		
+		[(#GARANTS_THALIM|intval|>={1}|ou{#GARANTS|strlen|>{0}}|oui)<p class="publication"><strong class="authors"><:thalim:info_garants_these:></strong>[ <a href="#URL_AUTEUR{#GARANTS_THALIM}">(#INFO_NOM{auteurs,#GARANTS_THALIM})</a>#SET{garant_thalim,oui}][[(#GET{garant_thalim}|=={oui}|?{', ',''})](#GARANTS)]</p>]
+
 		<BOUCLE_ev(EVENEMENTS){id_article}>
 			<div class="evenement">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
 		</BOUCLE_ev>
