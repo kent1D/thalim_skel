@@ -1,0 +1,19 @@
+<ul>
+	<li class="editer editer_cv[(#ENV**{erreurs}|table_valeur{thalim_cv}|oui)erreur]">
+	<label for="thalim_cv">Ajouter un CV</label>[
+		<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{thalim_cv})</span>
+		]<input type="file" name="thalim_cv" class="file" id="champ_thalim_cv" />
+	<B_document_auteur>
+	<div class="explication">
+	<p><:thalim:info_fichier_remplacer:></p>
+	<BOUCLE_document_auteur(DOCUMENTS){objet=auteur}{id_objet=#ENV{id_auteur}}{extension=pdf}{document_type=cv}{tout}>
+	<a href="#URL_DOCUMENT">[(#LOGO_DOCUMENT|image_reduire{200,200})]</a>
+	</BOUCLE_document_auteur>
+	</div>
+	<div class="choix">
+		<input type="checkbox" name="supprimer_thalim_cv" id="supprimer_thalim_cv"[(#ENV{supprimer_thalim_cv}|oui)checked="checked"]>
+		<label for="supprimer_thalim_cv"><:thalim:label_supprimer_fichier:></label>
+	</div>
+	</B_document_auteur>
+	</li>
+</ul>
