@@ -1,10 +1,11 @@
 [(#REM) Articles trouves ]
+[(#SET{recherche,["(#ENV{recherche}|replace{'&quot;',''})"]})]
 <B_articles>
 <div class="liste resultats articles">
 	#ANCRE_PAGINATION
 	<h2 class="h2">[(#ENV{titre}|sinon{<:articles:>})] (#GRAND_TOTAL)</h2>
 	<ul class="liste-items">
-		<BOUCLE_articles(ARTICLES) {recherche}{id_secteur?}{id_rubrique?}{par points}{inverse} {pagination #ENV{pagination}}>
+		<BOUCLE_articles(ARTICLES) {recherche #GET{recherche}}{id_secteur?}{id_rubrique?}{par points}{inverse} {pagination #ENV{pagination}}>
 		<li class="item">
 			[(#ID_SECTEUR|=={3}|oui)
 			#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}]
