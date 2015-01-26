@@ -76,6 +76,11 @@
 		<//B_auteurs_plusieurs>
 		</div>
 		</BOUCLE_mots>
+		[(#CONFIG{membres}|trim|strlen|>{0}|oui)
+		<div class="membres_associes" style="margin-top:1.4em;">
+			<h4><:thalim:titre_membres_associes:></h4>
+			[(#CONFIG{membres}|propre)]
+		</div>]
 	</div>
 	<footer></footer>
 
