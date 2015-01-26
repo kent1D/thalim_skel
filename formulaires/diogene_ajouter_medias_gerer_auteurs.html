@@ -8,8 +8,7 @@
 ]
 #SET{exclu,#LISTE}
 <BOUCLE_champs_ajoutes(DIOGENES){id_diogene}>
-[(#VAL{doctorants}|in_array{[(#CHAMPS_AJOUTES|unserialize)]}|oui) cool [(#SET{exclu,#LISTE{doctorant}})]]
-[(#GET{exclu}|foreach)]
+[(#VAL{doctorants}|in_array{[(#CHAMPS_AJOUTES|unserialize)]}|oui)[(#SET{exclu,#LISTE{doctorant}})]]
 </BOUCLE_champs_ajoutes><li class="fieldset" id="diogene_auteurs">
 	<fieldset>
 		<h3 class="legend"><:diogene_gerer_auteurs:form_legend:></h3>
