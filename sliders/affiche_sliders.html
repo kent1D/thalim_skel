@@ -1,4 +1,4 @@
-<BOUCLE_affiches(DOCUMENTS){id_article IN #ENV{liste_articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture,programme}}{0,1}>
+<BOUCLE_affiches(DOCUMENTS){id_article IN #ENV{liste_articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture,programme}}{par hasard}{0,1}>
 <div id="sjcycle_affiches_#ENV{id_slider}" class="documents_vignette">
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-auto-height="calc" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 		<BOUCLE_articles(ARTICLES){id_article IN #ENV{liste_articles,#ARRAY}}>
