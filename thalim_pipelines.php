@@ -138,9 +138,23 @@ function thalim_skel_editer_contenu_objet($flux){
 			}
 		}
 	}
-	if($flux['args']['type'] == 'hals_publication' && strpos($flux['data'],'<!--extra-->')!==FALSE){
+	if($flux['args']['type'] == 'auteur' && strpos($flux['data'],'<!--extra-->')!==FALSE){
 		$id_table_objet = id_table_objet($flux['args']['type']);
 		$id_objet = $flux['args']['id'];
+		$saisie = recuperer_fond('formulaires/thalim_ajouter_cv',$flux['args']['contexte']);
+		$flux['data'] = preg_replace(',(.*)(<!--extra-->),ims',"\\1<ul>".$saisie."</ul>\\2",$flux['data'],1);
+		if(preg_match(',<(form.*[^>])>,Uims',$flux['data'],$regs)){
+			$flux['data'] = preg_replace(',<(form.*[^>])>,Uims','<\\1 enctype=\'multipart/form-data\'>',$flux['data'],1);
+		}
+	}
+	if($flux['args']['type'] == 'hals_publication' && strpos($flux['data'],'<!--extra-->')!==FALSE){
+		$objet = $flux['args']['type'];
+		$id_table_objet = id_table_objet($objet);
+		$id_objet = $flux['args']['id'];
+		
+		/**
+		 * Ajouter les mots clés
+		 */
 		$mots_obligatoires = array('8','10','13');
 
 		$valeurs_mots['id_groupes'] = $mots_obligatoires;
@@ -164,8 +178,26 @@ function thalim_skel_editer_contenu_objet($flux){
 		if (is_array($valeurs_mots))
 			$flux['args']['contexte'] = array_merge($flux['args']['contexte'],$valeurs_mots);
 		
-		$flux['args']['contexte']['legende'] = "A relier à :";
+		$flux['args']['contexte']['legende'] = "À relier à :";
 		$saisie = recuperer_fond('formulaires/diogene_ajouter_medias_mots',$flux['args']['contexte']);
+		
+		/**
+		 * Ajouter les documents
+		 */
+		if(!preg_match(',<form.*enctype=.*>,Uims',$flux['data'],$regs)){
+			/**
+			 * On vérifie quand même si on a bien un <form et on le remplace par ce qu'il faut
+			 */
+			if(preg_match(',<(form.*[^>])>,Uims',$flux['data'],$regs)){
+				$flux['data'] = preg_replace(',<(form.*[^>])>,Uims','<\\1 enctype=\'multipart/form-data\'>',$flux['data'],1);
+			}
+		}
+		$flux['args']['contexte']['champs_ajoutes'] = array('fichier_couverture','fichier_flyer','fichier_invitation');
+		$saisie .= recuperer_fond('formulaires/diogene_fichiers_thalim',$flux['args']['contexte']);
+		
+		/**
+		 * On ajoute tout cela dans le formulaire
+		 */
 		$flux['data'] = preg_replace(',(.*)(<!--extra-->),ims',"\\1<ul>".$saisie."</ul>\\2",$flux['data'],1);
 	}
 	return $flux;
@@ -204,18 +236,104 @@ function thalim_skel_diogene_ajouter_saisies($flux){
 }
 
 function thalim_skel_formulaire_verifier($flux){
-	/*if($flux['args']['form'] == 'editer_hals_publication'){
-		foreach(array('8','10','13') as $groupe_obligatoire=>$id_groupe){
-			$mots_groupe = _request('groupe_'.$id_groupe);
-			if(empty($mots_groupe) OR is_null($mots_groupe) OR (!is_numeric($mots_groupe) && !is_array($mots_groupe))){
-				$flux['groupe_'.$id_groupe] = _T('info_obligatoire');
+	if($flux['args']['form'] == 'editer_auteur' && intval(_request('id_auteur')) > 0){
+		if(isset($_FILES['thalim_cv']) && ($_FILES['thalim_cv']['error'] == 0)){
+			$file = $_FILES['thalim_cv'];
+			include_spip('action/ajouter_documents');
+			include_spip('inc/joindre_document');
+			/**
+			 * Ces fichiers ne peuvent être que PDFs
+			 */
+			$infos_doc = fixer_extension_document($_FILES['thalim_cv']);
+			if(!in_array($infos_doc[0],array('pdf')))
+				$flux['data']['thalim_cv'] = _T('thalim:erreur_doc_pdf');
+		}
+	}
+	
+	if($flux['args']['form'] == 'editer_hals_publication'){
+		/**
+		 * Vérification des documents
+		 */
+		$erreurs = $flux['data'];
+		$fichier = true;
+		$types_fichier = array('fichier_couverture','fichier_flyer','fichier_sommaire');
+		include_spip('inc/joindre_document');
+		$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
+		$files = array();
+		if (is_array($post)){
+			include_spip('action/ajouter_documents');
+			foreach ($post as $name => $file) {
+				if (is_array($file['name'])){
+					while (count($file['name'])){
+						$test=array(
+							'error'=>array_shift($file['error']),
+							'name'=>array_shift($file['name']),
+							'tmp_name'=>array_shift($file['tmp_name']),
+							'type'=>array_shift($file['type']),
+							);
+						if (!($test['error'] == 4)){
+							if (is_string($err = joindre_upload_error($test['error'])))
+								$erreur[$name] = $err; // un erreur upload
+							if (!is_array(verifier_upload_autorise($test['name'])))
+								$erreur[$name] = _T('medias:erreur_upload_type_interdit',array('nom'=>$test['name']));
+							if(!isset($erreur[$name]))
+								$files[$name]=$test;
+						}
+					}
+				}
+				else {
+					//UPLOAD_ERR_NO_FILE
+					if (!($file['error'] == 4)){
+						if (is_string($err = joindre_upload_error($file['error'])))
+							$erreur[$name] = $err; // un erreur upload
+						if (!is_array(verifier_upload_autorise($file['name'])))
+							$erreur[$name] = _T('medias:erreur_upload_type_interdit',array('nom'=>$file['name']));
+						if(!isset($erreur[$name]))
+							$files[$name]=$file;
+					}
+				}
 			}
 		}
-	}*/
+		/**
+		 * Ces fichiers peuvent être soit des PDFs, soit des images
+		 */
+		$pdf_image = array('fichier_couverture','fichier_flyer','fichier_sommaire');
+		foreach($pdf_image as $type_fichier_pdf_image){
+			if(in_array($type_fichier_pdf_image,$types_fichier) && isset($files[$type_fichier_pdf_image])){
+				$infos_doc = fixer_extension_document($files[$type_fichier_pdf_image]);
+				if(!in_array($infos_doc[0],array('pdf','jpg','gif','png')))
+					$erreurs[$type_fichier_pdf_image] = _T('thalim:erreur_doc_image_pdf');
+			}
+		}
+	}
 	return $flux;
 }
 
 function thalim_skel_formulaire_traiter($flux){
+	if($flux['args']['form'] == 'editer_auteur' && intval(_request('id_auteur')) > 0){
+		if(isset($_FILES['thalim_cv']) && ($_FILES['thalim_cv']['error'] == 0)){
+			$ajouter_documents = charger_fonction('ajouter_documents', 'action');
+			include_spip('action/editer_document');
+			$mode = 'document';
+			$nb_docs = 0;
+			$files = array($_FILES['thalim_cv']);
+			if($_FILES['thalim_cv']['name'] != '' && $_FILES['thalim_cv']['error'] != 4){
+					$id_document = sql_getfetsel('doc.id_document',
+												 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+												 'lien.objet="auteur" AND lien.id_objet='.intval(_request('id_auteur')).' AND doc.extension="pdf"');
+					$nouveau_doc = $ajouter_documents($id_document,array($_FILES['thalim_cv']),'auteur',_request('id_auteur'),$mode);
+					$test = document_modifier($nouveau_doc[0],array('document_type'=>'cv'));
+			}
+		}
+		elseif(_request('supprimer_thalim_cv')){
+			include_spip('action/dissocier_document');
+			$id_document = sql_getfetsel('doc.id_document',
+										 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+										 'lien.objet="auteur" AND lien.id_objet='.intval(_request('id_auteur')).' AND doc.document_type="cv"');
+			if($id_document)
+				dissocier_document($id_document, 'auteur', _request('id_auteur'), true);
+		}
+	}
 	if($flux['args']['form'] == 'editer_hals_publication' && intval($flux['data']['id_hals_publication']) > 0){
 		include_spip('action/editer_mot');
 		$invalider = false;
@@ -273,6 +391,82 @@ function thalim_skel_formulaire_traiter($flux){
 			// On nettoie les variables mises à jour dans verifier()
 			set_request('groupe_'.$id_groupe, $requete_id_groupe);
 			set_request('nouveaux_groupe_'.$id_groupe, array());
+			
+			/**
+			 * Traitement des documents
+			 */
+			$fichier = true;
+			$types_fichier = array('fichier_couverture','fichier_flyer','fichier_sommaire');
+			
+			include_spip('inc/joindre_document');
+			$post = isset($_FILES) ? $_FILES : $GLOBALS['HTTP_POST_FILES'];
+			$files = array();
+			$fichiers_ajoutes = array();
+			if (is_array($post)){
+				include_spip('action/ajouter_documents');
+				foreach ($post as $name => $file) {
+					if (is_array($file['name'])){
+						while (count($file['name'])){
+							$test=array(
+								'error'=>array_shift($file['error']),
+								'name'=>array_shift($file['name']),
+								'tmp_name'=>array_shift($file['tmp_name']),
+								'type'=>array_shift($file['type']),
+								);
+							if (!($test['error'] == 4)){
+								if (is_string($err = joindre_upload_error($test['error'])))
+									$erreur[$name] = $err; // un erreur upload
+								if (!is_array(verifier_upload_autorise($test['name'])))
+									$erreur[$name] = _T('medias:erreur_upload_type_interdit',array('nom'=>$test['name']));
+								if(!isset($erreur[$name]))
+									$files[$name]=$test;
+							}
+						}
+					}
+					else {
+						//UPLOAD_ERR_NO_FILE
+						if (!($file['error'] == 4)){
+							if (is_string($err = joindre_upload_error($file['error'])))
+								$erreur[$name] = $err; // un erreur upload
+							if (!is_array(verifier_upload_autorise($file['name'])))
+								$erreur[$name] = _T('medias:erreur_upload_type_interdit',array('nom'=>$file['name']));
+							if(!isset($erreur[$name]))
+								$files[$name]=$file;
+						}
+					}
+				}
+			}
+			if(is_array($files) && count($files) > 0){
+				$ajouter_documents = charger_fonction('ajouter_documents', 'action');
+				include_spip('action/editer_document');
+				$mode = 'document';
+				$nb_docs = 0;
+				foreach($files as $name => $fichier){
+					if($fichier['name'] != '' && $fichier['error'] != 4){
+						$type_document = str_replace('fichier_','',$name);
+						if(in_array($type_document,array('couverture','flyer','sommaire'))){
+							$id_document = sql_getfetsel('doc.id_document',
+														 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+														 'lien.objet="hals_publication" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
+							$nouveau_doc = $ajouter_documents($id_document,array($fichier),'hals_publication',$id_objet,$mode);
+							$test = document_modifier($nouveau_doc[0],array('document_type'=>$type_document));
+							$fichiers_ajoutes[] = $name;
+							$nb_docs++;
+						}
+					}
+				}
+			}
+			foreach($types_fichier as $type){
+				include_spip('action/dissocier_document');
+				if(_request('supprimer_'.$type) && !in_array($type,$fichiers_ajoutes)){
+					$type_document = str_replace('fichier_','',$type);
+					$id_document = sql_getfetsel('doc.id_document',
+												 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
+												 'lien.objet="hals_publication" AND lien.id_objet='.intval($id_objet).' AND doc.document_type='.sql_quote($type_document));
+					if($id_document)
+						dissocier_document($id_document, 'hals_publication', $id_objet, true);
+				}
+			}
 			if($invalider){
 				include_spip('inc/invalideur');
 				suivre_invalideur("id='$objet/$id_objet'");
@@ -529,5 +723,13 @@ function thalim_skel_porte_plume_lien_classe_vers_icone($flux){
 	return array_merge($flux, array(
 		'outil_exposant' => array('exposant.png','0'),
 	));
+}
+
+function thalim_skel_affiche_milieu($flux){
+	if($flux['args']['exec'] == 'auteurs'){
+		$flux['data'] .= '<div class="nettoyeur"></div>';
+		$flux['data'] .= recuperer_fond('prive/inclure/configurer_membres');
+	}
+	return $flux;
 }
 ?>
