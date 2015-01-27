@@ -9,9 +9,9 @@
 		<B_auteurs>
 		<div class="liste resultats articles">
 			#ANCRE_PAGINATION
-			<h2 class="h2">Membres (#GRAND_TOTAL)</h2>
+			<h2 class="h2"><:thalim:recherche_membres:> (#GRAND_TOTAL)</h2>
 			<ul class="liste-items">
-		<BOUCLE_auteurs(AUTEURS){recherche}{par points}{pagination 5}>
+		<BOUCLE_auteurs(AUTEURS){recherche #GET{recherche}}{par points}{pagination 5}>
 			<li class="item">
 				<a href="#URL_AUTEUR">#PRENOM #NOM_FAMILLE</a>
 				[<div class="introduction">
