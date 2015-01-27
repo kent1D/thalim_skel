@@ -17,6 +17,9 @@
 			<div class="maincontainer" id="maincontainer">
 				<div class="wrapper" id="wrapper">
 					<div class="content primary" id="content">
+						<div class="span5 offset1">
+						<INCLURE{fond=breadcrumb/#ENV{type-page},env} />
+						</div>
 						<INCLURE{fond=content/#ENV{type-page},env} />
 					</div>
 				</div>
