@@ -3,7 +3,7 @@
 
 <p class="colophon">
 <BOUCLE_annee(ARTICLES){par date}{0,1}>[(#DATE|annee|!={#VAL{Y}|date}|oui)[(#DATE|annee)]]</BOUCLE_annee>-</B_annee>[(#DATE|annee) ] &mdash; #NOM_SITE_SPIP<br />
-<a rel="contents" href="#URL_PAGE{plan}"><:plan_site:></a><?php
+<a rel="contents" href="#URL_PAGE{plan}"><:plan_site:></a><BOUCLE_credits(ARTICLES){page=credits}><span class="sep"> | </span><a href="#URL_ARTICLE">#TITRE</a></BOUCLE_credits><?php
 if (isset($GLOBALS['visiteur_session']['id_auteur']) AND $GLOBALS['visiteur_session']['id_auteur']) {
 ?><span class="sep"> | </span><a href="#URL_LOGOUT" rel="nofollow"><:icone_deconnecter:></a><?php
 	if (include_spip('inc/autoriser') AND autoriser('ecrire')){
