@@ -32,7 +32,7 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|non}{id_article}{document_type IN affiche,couverture}>
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}{0,1}>
 			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]

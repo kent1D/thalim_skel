@@ -6,7 +6,7 @@
 <div class="liste documents_vignette">
 	<div class="ovale"></div>
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="a">
-	<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{300}|oui}{id_article}{document_type IN affiche,couverture}>
+	<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
 	[<a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a>]
 	</BOUCLE_documents>
 	</div>

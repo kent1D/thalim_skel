@@ -40,7 +40,7 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}{0,1}>
 		[<div class="affiche">
 			<a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|adaptive_images)</a></div>]
 		</BOUCLE_documents>

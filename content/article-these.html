@@ -51,7 +51,7 @@
 
 	<div class="main">
 		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
-		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}>
+		<BOUCLE_documents(DOCUMENTS){id_article}{document_type IN affiche,couverture}{0,1}>
 		[<div class="affiche">(#LOGO_DOCUMENT**|adaptive_images)</div>]
 		</BOUCLE_documents>
 		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
