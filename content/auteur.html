@@ -5,7 +5,7 @@
 	</header>
 
 	<div class="main">
-		[<div class="role chapo">(#STATUT_FONCTION)</div>]
+		[<div class="role">(#STATUT_FONCTION)</div>]
 		[<p class="email">(#EMAIL|oui)[(#VAL{<a href="mailto:#EMAIL" class="spip_mail">#EMAIL</a>}|mailcrypt)]</p>]
 		<BOUCLE_document_auteur(DOCUMENTS){objet=auteur}{id_objet=#ENV{id_auteur}}{extension=pdf}{document_type = cv}{tout}>
 		<div class="cv"><p><a href="#URL_DOCUMENT">Curiculum Vitae</a></p></div>

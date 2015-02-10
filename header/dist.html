@@ -1,11 +1,11 @@
 <div class="row">
-	<header class="accueil clearfix span8 row">[(#SET{logo,[(#LOGO_SITE_SPIP|image_reduire{1280,300})]})]
+	<header class="accueil clearfix span8 row">[(#SET{logo,[(#LOGO_SITE_SPIP|image_reduire{247,300})]})]
 		[<div class="span4">(#CHEMIN{images/logos_tutelles.jpg}|balise_img|inserer_attribut{class,logos_tutelles})</div>]
 		
 		[(#SI_PAGE{sommaire}|non)<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"
 		>]
 			<div id="logo_site_spip" class="span3[ (#EDIT{meta-nom_site})]">
-				[(#GET{logo}|extraire_attribut{width}|>{200}|?{[(#GET{logo}|inserer_attribut{alt,#NOM_SITE_SPIP})],[(#LOGO_SITE_SPIP|image_reduire{1280,300}) ]#NOM_SITE_SPIP})]
+				[(#GET{logo}|extraire_attribut{width}|>{200}|?{[(#GET{logo}|inserer_attribut{alt,#NOM_SITE_SPIP})],[(#LOGO_SITE_SPIP|image_reduire{247,300}) ]#NOM_SITE_SPIP})]
 			</div>
 		[<small id="slogan_site_spip"[ class="(#EDIT{meta-slogan_site})"]>(#SLOGAN_SITE_SPIP)</small>]
 		[(#SI_PAGE{sommaire}|non)</a>]
