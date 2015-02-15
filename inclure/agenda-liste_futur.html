@@ -106,28 +106,28 @@
 #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 #SET{mots_articles,#LISTE{495,1052}}
 #SET{type_hal_articles,#LISTE{ART,COUV}}
-<BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #ENV{date}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+<BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 </BOUCLE_ev1>
-<BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #ENV{date}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+<BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 </BOUCLE_ev2>
-<BOUCLE_ev3(HALS_PUBLICATIONS){date_production >= #ENV{date}}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+<BOUCLE_ev3(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
 [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 </BOUCLE_ev3>
-<BOUCLE_ev4(HALS_PUBLICATIONS){date_production >= #ENV{date}}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+<BOUCLE_ev4(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
 [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
 </BOUCLE_ev4>
 <BOUCLE_rubriques_pub(RUBRIQUES){racine}{composition=publications}>
-	<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_mot IN #GET{mots_ouvrages}}{date >= #ENV{date}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
+	<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env}}}}
 	</BOUCLE_ouvrages_pub>
-	<BOUCLE_articles_pub(ARTICLES){branche}{id_mot IN #GET{mots_articles}}{date >= #ENV{date}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
+	<BOUCLE_articles_pub(ARTICLES){branche}{id_mot IN #GET{mots_articles}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication,id_article,intro=non,env})]})]})]})]
 	</BOUCLE_articles_pub>
