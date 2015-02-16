@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Connexion obligatoire</nom>
+	<description>Composition dédiée à la rubrique avec connexion obligatoire</description>
+	<branche type="article" composition="connecte" />
+</composition>

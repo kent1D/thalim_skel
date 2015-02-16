@@ -26,12 +26,12 @@
 </url>
 
 [(#REM) Rubriques ]
-<BOUCLE_r(RUBRIQUES){!par date}{id_secteur !IN 249,19,1,5,254}{0,1000}>[
+<BOUCLE_r(RUBRIQUES){!par date}{id_secteur !IN 249,19,1,5,254,272}{0,1000}>[
 <url><loc>(#URL_RUBRIQUE|url_absolue)</loc></url>]</BOUCLE_r>
 
 [(#REM) Articles ]
 [(#SET{recent,[(#VAL{Y-m-d H:i:s}|date{#VAL{"-1 day"}|strtotime})]})]
-<BOUCLE_a(ARTICLES){!par date_modif}{id_secteur !IN 249,19,1,5,254}{!par date}{0,2000}>[
+<BOUCLE_a(ARTICLES){!par date_modif}{id_secteur !IN 249,19,1,5,254,272}{!par date}{0,2000}>[
 <url><loc>(#URL_ARTICLE|url_absolue)</loc>[(#DATE_MODIF**|>{#GET{recent}}
 |?{[<lastmod>(#DATE_MODIF**|date_iso)</lastmod>]})]</url>]</BOUCLE_a>
 

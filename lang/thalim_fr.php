@@ -28,6 +28,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'document_sommaire' => 'Sommaire',
 
 	// E
+	'erreur_connexion_obligatoire' => 'Vous devez être connecté pour accéder à cette page.',
 	'erreur_doc_image_pdf' => 'Ce document ne peut être que de type image (jpg,gif,png) ou PDF',
 	'erreur_doc_pdf' => 'Ce document ne peut être que de type PDF',
 
