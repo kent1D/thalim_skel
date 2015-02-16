@@ -14,9 +14,17 @@
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
 		[(#AUTRES_AUTEURS|?{#SET{total,#TOTAL_BOUCLE|plus{#AUTRES_AUTEURS|explode{','}|count}},#SET{total,#TOTAL_BOUCLE}})]
 
-			<p class="publication">[<strong class="authors">
-				[[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|ou{#_content:ID_SECTEUR|=={271}}|oui)]
-				[[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|ou{#_content:ID_SECTEUR|=={271}}|non)]</strong>(#LESAUTEURS)]</p>
+			<p class="publication"><strong class="authors">
+				<BOUCLE_fonction_evt(MOTS){id_article}{id_groupe=17}{0,1}>
+				[(#TITRE|=={organisateur}|oui)
+				[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#LESAUTEURS)]</p>]
+				[(#TITRE|=={intervenant}|oui)
+				[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#LESAUTEURS)]</p>]
+				</BOUCLE_fonction_evt>
+				</B_fonction_evt>
+				[(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|oui)[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#LESAUTEURS)]</p>]
+				[(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|non)[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#LESAUTEURS)]</p>]
+				<//B_fonction_evt>
 		</B_auteurs>
 
 		<BOUCLE_ev(EVENEMENTS){id_article}>
