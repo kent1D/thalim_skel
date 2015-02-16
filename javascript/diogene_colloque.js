@@ -13,6 +13,7 @@ jQuery(document).ready(function(){
 	jQuery("#date_debut").unbind('change').change(function(){
 		if(jQuery("#date_fin").val() == ''){
 			jQuery("#date_fin").val(jQuery("#date_debut").val());
+			jQuery("#heure_fin").val(jQuery("#heure_debut").val());
 		}
 	});
 	jQuery("em.aide").remove();
