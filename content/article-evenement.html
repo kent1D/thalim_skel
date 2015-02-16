@@ -15,8 +15,8 @@
 		[(#AUTRES_AUTEURS|?{#SET{total,#TOTAL_BOUCLE|plus{#AUTRES_AUTEURS|explode{','}|count}},#SET{total,#TOTAL_BOUCLE}})]
 
 			<p class="publication">[<strong class="authors">
-				[[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|oui)]
-				[[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|non)]</strong>(#LESAUTEURS)]</p>
+				[[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|ou{#_content:ID_SECTEUR|=={271}}|oui)]
+				[[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>})](#GET{type_evt}|in_array{#LISTE{89,1049,397}}|ou{#_content:ID_SECTEUR|=={271}}|non)]</strong>(#LESAUTEURS)]</p>
 		</B_auteurs>
 
 		<BOUCLE_ev(EVENEMENTS){id_article}>

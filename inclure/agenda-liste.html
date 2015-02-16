@@ -169,7 +169,7 @@
 	#SET{has_event,oui}
 </B_si_publications>
 <//B_si_publications>
-<BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,267}>
+<BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,271,267}>
 <BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
 #SET{communications,#ARRAY}
 	<BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>

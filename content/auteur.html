@@ -122,8 +122,8 @@
 			</ul>
 		</div>
 		</B_activites_editoriales>
-		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,267,247,270}{0,1}>
-		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,267,247,270}{par num titre}{tout}>
+		<BOUCLE_activite(ARTICLES){id_auteur}{id_secteur IN 251,250,271,267,247,270}{0,1}>
+		<BOUCLE_rubriques_homes(RUBRIQUES){id_rubrique IN 251,250,271,267,247,270}{par num titre}{tout}>
 		<BOUCLE_si_seminaire(CONDITION){si #ID_RUBRIQUE|=={247}}>
 		#SET{articles,#ARRAY}
 		<BOUCLE_articles(ARTICLES){id_secteur?}{id_mot?}{id_auteur?}{!par date}>
