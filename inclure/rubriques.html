@@ -16,5 +16,8 @@
 			<a href="#URL_ARTICLE"[ class="(#EXPOSE)"]>#TITRE</a>
 		</li>
 	</BOUCLE_contact>
+		<li[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]>
+			<a href="#URL_SITE_SPIP"[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]><:accueil_site:></a>
+		</li>
 	</ul>
 </div>
