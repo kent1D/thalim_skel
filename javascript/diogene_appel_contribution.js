@@ -10,5 +10,10 @@ jQuery(document).ready(function(){
 	jQuery(".editer_date_redac_orig").detach().insertBefore('.editer_date_orig');
 	jQuery(".editer_diogene_gerer_auteurs .explication,.editer_liens_sites legend,.editer_liens_sites h3,.editer_nom_site,.editer_langue,#diogene_auteurs legend,#diogene_auteurs h3").remove();
 	jQuery("em.aide").remove();
+	jQuery("#date_debut").unbind('change').change(function(){
+		if(jQuery("#date_fin").val() == ''){
+			jQuery("#date_fin").val(jQuery("#date_debut").val());
+		}
+	});
 	barrebouilles_thalim();
 });

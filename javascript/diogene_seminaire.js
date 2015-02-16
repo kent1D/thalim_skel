@@ -23,11 +23,16 @@ jQuery(document).ready(function(){
 			if(jQuery('#id_mot option:selected').val() == '')
 				jQuery('#id_mot option[value=476]').attr('selected','selected');
 		}
+		jQuery("#date_debut").unbind('change').change(function(){
+			if(jQuery("#date_fin").val() == ''){
+				jQuery("#date_fin").val(jQuery("#date_debut").val());
+			}
+		});
 		jQuery('.formulaire_editer_evenement form').on('submit',function(){
-			console.log('test');
 			if(jQuery('#id_mot option:selected').val() == '')
 				jQuery('#id_mot option[value=476]').attr('selected','selected');
 		});
+		
 	}
 	barrebouilles_thalim();
 	edit_seminaire();

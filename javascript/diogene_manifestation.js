@@ -12,6 +12,11 @@ jQuery(document).ready(function(){
 	jQuery(".editer_texte label").text('Texte de présentation');
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
 	jQuery(".editer_groupe_17").detach().insertAfter('.editer_diogene_gerer_auteurs');
+	jQuery("#date_debut").unbind('change').change(function(){
+		if(jQuery("#date_fin").val() == ''){
+			jQuery("#date_fin").val(jQuery("#date_debut").val());
+		}
+	});
 	if($('#horaire').is(':checked')){
 		$('#horaire').attr('checked', false);
 		$('.afficher_horaire').show();

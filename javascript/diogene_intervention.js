@@ -12,6 +12,11 @@ jQuery(document).ready(function(){
 	jQuery(".editer_url_site label").text("Lien pour plus d'informations sur l'événement");
 	jQuery(".editer_texte label").text('Texte de présentation');
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
+	jQuery("#date_debut").unbind('change').change(function(){
+		if(jQuery("#date_fin").val() == ''){
+			jQuery("#date_fin").val(jQuery("#date_debut").val());
+		}
+	});
 	if($('#horaire').is(':checked')){
 		$('#horaire').attr('checked', false);
 		$('.afficher_horaire').show();
