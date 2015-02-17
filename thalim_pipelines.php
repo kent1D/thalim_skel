@@ -728,7 +728,7 @@ function thalim_skel_porte_plume_lien_classe_vers_icone($flux){
 function thalim_skel_affiche_milieu($flux){
 	if($flux['args']['exec'] == 'auteurs'){
 		$flux['data'] .= '<div class="nettoyeur"></div>';
-		$flux['data'] .= recuperer_fond('prive/inclure/configurer_membres');
+		$flux['data'] .= recuperer_fond('prive/squelettes/inclure/configurer_membres');
 	}
 	return $flux;
 }
