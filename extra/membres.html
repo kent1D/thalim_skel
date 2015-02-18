@@ -3,11 +3,11 @@
 <div class="liste auteurs_vignette " id="auteurs_vignette_994">
 	<div class="cycle-slideshow"  data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-auto-height="calc" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 		<div class="cycle-overlay"></div>
-		<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+		<BOUCLE_auteurs_arias(AUTEURS){id_mot=994}{logo}{par hasard}{tout}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
 			<div class="affiche" data-cycle-title="#GET{title}" data-cycle-description="">
 			<div class="ovale"></div>
 			<a href="#URL_AUTEUR">
-				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''}|image_nb)]
 			</a>
 		</div></BOUCLE_auteurs_arias>
 	</div>
@@ -17,11 +17,11 @@
 <div class="liste auteurs_vignette" id="auteurs_vignette_1006">
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-auto-height="calc" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 		<div class="cycle-overlay"></div>
-		<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+		<BOUCLE_auteurs_ecriture(AUTEURS){id_mot=1006}{logo}{par hasard}{tout}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
 		<div class="affiche" data-cycle-title="#GET{title}" data-cycle-description="">
 			<div class="ovale"></div>
 			<a href="#URL_AUTEUR">
-				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''}|image_nb)]
 			</a>
 		</div></BOUCLE_auteurs_ecriture>
 	</div>
@@ -31,11 +31,11 @@
 <div class="liste auteurs_vignette" id="auteurs_vignette_1007">
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-auto-height="calc" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 		<div class="cycle-overlay"></div>
-		<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+		<BOUCLE_auteurs_autres(AUTEURS){id_mot=1007}{logo}{par hasard}{tout}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
 		<div class="affiche" data-cycle-title="#GET{title}" data-cycle-description="">
 			<div class="ovale"></div>
 			<a href="#URL_AUTEUR">
-				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''}|image_nb)]
 			</a>
 		</div>
 		</BOUCLE_auteurs_autres>
@@ -46,11 +46,11 @@
 <div class="liste auteurs_vignette" id="auteurs_vignette_1007">
 	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-auto-height="calc" data-cycle-timeout="#CONFIG{sjcycle/timeout}"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
 		<div class="cycle-overlay"></div>
-		<BOUCLE_auteurs_doctorants(AUTEURS){id_mot IN 1048}{logo}{par hasard}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
+		<BOUCLE_auteurs_doctorants(AUTEURS){id_mot IN 1048}{logo}{par hasard}{tout}>[(#SET{title,[(#PRENOM)][(#NOM_FAMILLE|match{-}|?{<br />,' '})][(#NOM_FAMILLE)]})]
 		<div class="affiche" data-cycle-title="#GET{title}" data-cycle-description="">
 			<div class="ovale"></div>
 			<a href="#URL_AUTEUR">
-				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''})]
+				[(#LOGO_AUTEUR|image_passe_partout{127,165}|image_recadre{127,165,center}|inserer_attribut{data-cycle-title,#GET{title}}|inserer_attribut{data-cycle-description,''}|image_nb)]
 			</a>
 		</div>
 		</BOUCLE_auteurs_doctorants>
