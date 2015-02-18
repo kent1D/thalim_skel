@@ -10,11 +10,15 @@
 <section class="span6 offset1">
 	<header class="cartouche">
 		<h1 class="ellipse #EDIT{meta-agenda/titre}"><div class="ovale"> </div><span class="titre">[(#CONFIG{agenda/titre}|sinon{<:agenda:titre_sur_l_agenda:>}|typo)]</span></h1>
+		[(#CALENDRIER_MINI{[(#ENV{date_debut,#ENV{date}})],date_debut,[(#URL_PAGE{agenda}|ancre_url{content})],[(#URL_PAGE{calendrier_mini_event.json})]})]
 	</header>
 
 	[<div class="chapo #EDIT{meta-agenda/descriptif}">(#CONFIG{agenda/descriptif}|propre)</div>]
 
 	<div class="main">
-		<INCLURE{fond=inclure/agenda-liste_futur,intro=non,env} />
+		[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|oui)
+		<INCLURE{fond=inclure/agenda-liste,intro=non,env} />]
+		[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|non)
+		<INCLURE{fond=inclure/agenda-liste_futur,intro=non,env} />]
 	</div>
 </section>

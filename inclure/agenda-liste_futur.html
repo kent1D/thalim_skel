@@ -19,11 +19,11 @@
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 	<BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
 	#SET{communications,#ARRAY}
-	<BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
+	<BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
 	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm1>
-	<BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
+	<BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
 	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm2>
@@ -168,11 +168,11 @@
 <BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,271,267}>
 <BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
 #SET{communications,#ARRAY}
-	<BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture > #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
+	<BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
 	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm12>
-	<BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production > #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
+	<BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
 	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm22>

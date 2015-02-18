@@ -1,0 +1,46 @@
+#HTTP_HEADER{Content-type:text/javascript;}
+[<BOUCLE_ev(EVENEMENTS)
+	{!evenement_passe #ENV{start}|todate}{!evenement_a_venir #ENV{end}|todate}{par date_debut}
+	{id_article?}
+	{id_rubrique?}
+	{id_mot?}
+	{id_evenement_source?}
+	{', '}>
+[(#ARRAY{
+id,#ID_EVENEMENT,
+title,[(#TITRE|html2unicode|unicode2charset|textebrut)],
+allDay,[(#HORAIRE|=={oui}|non)],
+start,#DATE_DEBUT,
+end,#DATE_FIN,
+url,#URL_EVENEMENT*,
+className,calendrier-couleur6,
+description,[(#DESCRIPTIF|html2unicode|unicode2charset)]
+}|json_encode)]#SET{ok,ok}</BOUCLE_ev>
+<B_comm1>
+[(#GET{ok}|=={ok}|?{','})]
+<BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM,ART,COUV,OUV,DOUV}{date_ecriture >= #ENV{start}|todate}{date_ecriture < #ENV{end}|todate}{!par date_ecriture}{doublons hal_communications}{','}>
+[(#ARRAY{
+id,#ID_HALS_PUBLICATION,
+title,[(#TITRE|html2unicode|unicode2charset|textebrut)],
+allDay,oui,
+start,#DATE_ECRITURE,
+end,#DATE_ECRITURE,
+url,#URL_HALS_PUBLICATION,
+className,calendrier-couleur6,
+description,[(#DESCRIPTIF|html2unicode|unicode2charset)]
+}|json_encode)]#SET{ok,ok}
+</BOUCLE_comm1>
+<B_comm2>
+[(#GET{ok}|=={ok}|?{','})]
+<BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM,ART,COUV,OUV,DOUV}{date_production >= #ENV{start}|todate}{date_production < #ENV{end}|todate}{!par date_production}{doublons hal_communications}{','}>
+[(#ARRAY{
+id,#ID_HALS_PUBLICATION,
+title,[(#TITRE|html2unicode|unicode2charset|textebrut)],
+allDay,oui,
+start,#DATE_PRODUCTION,
+end,#DATE_PRODUCTION,
+url,#URL_HALS_PUBLICATION,
+className,calendrier-couleur6,
+description,[(#DESCRIPTIF|html2unicode|unicode2charset)]
+}|json_encode)]#SET{ok,ok}
+</BOUCLE_comm2>]
