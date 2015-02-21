@@ -38,6 +38,8 @@
 	<necessite nom="compositions" />
 	<necessite nom="hal" />
 	<necessite nom="hal_auteurs" />
+	<necessite nom="calendriermini" />
+
 	<utilise nom="crayons" />
 	<utilise nom="diogene" />
 </paquet>
