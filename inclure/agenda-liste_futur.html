@@ -209,10 +209,11 @@
 </BOUCLE_rubriques2>
 #SET{evenements,#ARRAY}
 <BOUCLE_rubriques3(RUBRIQUES){id_rubrique=262}>
+	[(#REM)Les appels qui commencent dans ce qui reste de mois]
 	<BOUCLE_ev3_1(ARTICLES){date > #ENV{date}}{date > #GET{date_debut}}{date < #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
 		[(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
 	</BOUCLE_ev3_1>
-	<BOUCLE_ev3_2(ARTICLES){date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac < #GET{date_debut}}{date > #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+	<BOUCLE_ev3_2(ARTICLES){date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac < #ENV{date}}{date > #ENV{date}}{id_mot?}{id_rubrique}{doublons}>
 		[(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE_REDAC|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
 	</BOUCLE_ev3_2>
 	<BOUCLE_ev3_21(ARTICLES){date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac >= #ENV{date}}{date_redac < #GET{date_fin}}{date > #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
