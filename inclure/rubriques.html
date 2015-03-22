@@ -3,7 +3,7 @@
 		(#INCLURE{fond=inclure/menu, env, identifiant=barright})
 	</div>]
 	<ul class="nav nav-list">
-	<BOUCLE_partenaires(ARTICLES){page = partenaires}>
+	<BOUCLE_partenaires(ARTICLES){page IN partenaires,partenaires_en}{lang}>
 		<li[ class="(#EXPOSE{active})"]>
 			<a href="#URL_ARTICLE"[ class="(#EXPOSE)"]>#TITRE</a>
 		</li>
@@ -17,7 +17,7 @@
 		</li>
 	</BOUCLE_contact>
 		<li[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]>
-			<a href="#URL_SITE_SPIP"[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]><:accueil_site:></a>
+			<a href="#URL_SITE_SPIP"[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]><:thalim:lien_accueil_site:></a>
 		</li>
 	<BOUCLE_rub_connecte(RUBRIQUES){composition=connecte}{si #SESSION{id_auteur}|>{0}}>
 		<li[ class="(#EXPOSE{active})"]>
