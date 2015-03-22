@@ -2,5 +2,5 @@
 <INCLURE{fond=inclure/rubriques,id_rubrique,id_article} />
 
 <div class="agenda_lien">
-<a href="[(#URL_PAGE{agenda})]" class="lien_agenda" title="<:thalim:lien_actualites|attribut_html:>">[(#CHEMIN{images/icone_actualites.png}|balise_img{<:thalim:lien_actualites:>}|inserer_attribut{width,140})]</a>
+<a href="[(#URL_PAGE{agenda})]" class="lien_agenda" title="<:thalim:lien_actualites|attribut_html:>">[(#CHEMIN{images/icone_actualites_[(#ENV{lang})].png}|sinon{[(#CHEMIN{images/icone_actualites_[(#ENV{lang})].jpg})]}|sinon{[(#CHEMIN{images/icone_actualites.png})]}|balise_img{<:thalim:lien_actualites:>}|inserer_attribut{width,140})]</a>
 </div>
