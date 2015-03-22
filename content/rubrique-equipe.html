@@ -11,7 +11,8 @@
 		<B_articles>
 		<div class="liste articles">
 			<ul class="liste-items liste-puce">
-			<BOUCLE_articles(ARTICLES){id_rubrique}{par num titre}>
+			<BOUCLE_articles(ARTICLES){id_rubrique}{par num titre}{origine_traduction}>
+			<BOUCLE_article_langue(ARTICLES){traduction}{lang=#ENV{lang}}>
 				<li class="item">
 					<article class="entry article hentry">
 						<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
@@ -24,6 +25,21 @@
 						<div class="publications"><a href="[(#URL_ARTICLE|ancre_url{publications})]" class="lien_important"><:thalim:lien_publications:></a></div>
 					</article>
 				</li>
+			</BOUCLE_article_langue>
+			</B_article_langue>
+			<li class="item">
+				<article class="entry article hentry">
+					<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+						class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+					[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
+					<BOUCLE_chercheurs_orig(AUTEURS){id_article}{0,1}{tout}>
+					<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
+					</BOUCLE_chercheurs_orig>
+					<div class="activites"><a href="[(#URL_ARTICLE|ancre_url{activites})]" class="lien_important"><:thalim:lien_activites:></a></div>
+					<div class="publications"><a href="[(#URL_ARTICLE|ancre_url{publications})]" class="lien_important"><:thalim:lien_publications:></a></div>
+				</article>
+			</li>
+			<//B_article_langue>
 			</BOUCLE_articles>
 			</ul>
 		</div>
