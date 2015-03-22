@@ -27,7 +27,7 @@
 				<ul class="inline">
 					<li><strong>#TITRE : </strong></li>
 					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
+					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i>[(#TITRE|trim)]</a></li>
 					</BOUCLE_tags>
 				</ul>
 			</span>

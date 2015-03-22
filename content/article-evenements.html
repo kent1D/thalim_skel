@@ -23,8 +23,7 @@
 			<B_tags>
 			<p class="tags">
 				<strong class="mots"><:thalim:info_relie_a:></strong>
-				<BOUCLE_tags(MOTS){id_groupe IN 10,8,13}{id_article}{', '}>
-				<a href="#URL_MOT" rel="tag">#TITRE</a></BOUCLE_tags>
+				<BOUCLE_tags(MOTS){id_groupe IN 10,8,13}{id_article}{', '}><a href="#URL_MOT" rel="tag">[(#TITRE|trim)]</a></BOUCLE_tags>
 			</p>
 			</B_tags>
 		</div>
