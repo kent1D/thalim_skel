@@ -92,6 +92,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_prenom' => 'Prénom :',
 	'label_nom_famille' => 'Nom de famille :',
 	'label_supprimer_fichier' => 'Supprimer ce fichier',
+	'lien_accueil_site' => 'Accueil',
 	'lien_activites' => 'Activités scientifiques',
 	'lien_actualites' => 'Actualités',
 	'lien_chercheurs' => 'Chercheurs',
