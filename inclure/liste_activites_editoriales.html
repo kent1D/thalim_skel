@@ -4,7 +4,7 @@
 	<ul class="liste-items liste-puce activites_editoriales">
 	<BOUCLE_activites(ARTICLES){id_rubrique}{par num titre}>
 		<li class="item">
-			&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+			[(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})]
 			[(#CHAPO)]
 		</li>
 	</BOUCLE_activites>
