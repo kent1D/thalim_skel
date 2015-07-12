@@ -19,7 +19,7 @@
 	[(#SAISIE{mot, en_region,
 		label=<:plugin:en_region:>})]
 ]
-<BOUCLE_rubrique(RUBRIQUES){id_rubrique=257}>[(#SET{id_rubrique,#ID_RUBRIQUE})]
+<BOUCLE_rubrique(RUBRIQUES){composition=programmes}>[(#SET{id_rubrique,#ID_RUBRIQUE})]
 #SET{groupe,''}
 <select name="#ENV{nom}[(#ENV{multiple}|?{\[\]})]" id="champ_[(#ENV{id,#ENV{nom}}|saisie_nom2classe)]"[ class="(#ENV{class})"][(#ENV{multiple}|oui)multiple="multiple"[ size="(#ENV{size})"]][ disabled="(#ENV{disable})"][ (#ENV*{attributs})]>
 [(#ENV{cacher_option_intro}|ou{#ENV{multiple}}|non)
