@@ -26,7 +26,9 @@
 		<//B_auteurs>
 		
 		[(#GARANTS_THALIM|intval|>={1}|ou{#GARANTS|strlen|>{0}}|oui)<p class="publication"><strong class="authors"><:thalim:info_garants_these:></strong>[ <a href="#URL_AUTEUR{#GARANTS_THALIM}">(#INFO_NOM{auteurs,#GARANTS_THALIM})</a>#SET{garant_thalim,oui}][[(#GET{garant_thalim}|=={oui}|?{', ',''})](#GARANTS)]</p>]
-
+		<BOUCLE_programme(ARTICLES){id_article=#ID_PROGRAMME}>
+		<p class="programme"><strong class="programme"><:thalim:info_programme_lie:></strong> <a href="#URL_ARTICLE">#TITRE</a></p>
+		</BOUCLE_programme>
 		<BOUCLE_ev(EVENEMENTS){id_article}>
 			<div class="evenement">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>
 		</BOUCLE_ev>

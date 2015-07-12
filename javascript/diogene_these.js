@@ -24,6 +24,7 @@ jQuery(document).ready(function(){
 	jQuery(".editer_diogene_doctorant").detach().insertAfter('.editer_autres_auteurs');
 	jQuery(".editer_garants_thalim").detach().insertAfter('.editer_autres_auteurs');
 	jQuery(".editer_garants").detach().insertAfter('.editer_garants_thalim');
+	jQuery(".saisie_programme_recherche").detach().insertAfter('.diogene_mots ul:last-child');
 	jQuery("em.aide").remove();
 	barrebouilles_thalim();
 });

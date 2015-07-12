@@ -9,6 +9,7 @@ jQuery(document).ready(function(){
 	jQuery(".editer_date_redac_orig label").text("Date du début de l'appel");
 	jQuery(".editer_date_redac_orig").detach().insertBefore('.editer_date_orig');
 	jQuery(".editer_diogene_gerer_auteurs .explication,.editer_liens_sites legend,.editer_liens_sites h3,.editer_nom_site,.editer_langue,#diogene_auteurs legend,#diogene_auteurs h3").remove();
+	jQuery(".saisie_programme_recherche").detach().insertAfter('.diogene_mots ul:last-child');
 	jQuery("em.aide").remove();
 	jQuery("#date_debut").unbind('change').change(function(){
 		if(jQuery("#date_fin").val() == ''){

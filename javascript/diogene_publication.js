@@ -15,5 +15,6 @@ jQuery(document).ready(function(){
 	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
 	jQuery("em.aide").remove();
 	jQuery(".editer_directeurs").detach().insertAfter('.editer_titre');
+	jQuery(".saisie_programme_recherche").detach().insertAfter('.diogene_mots ul:last-child');
 	barrebouilles_thalim();
 });

@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
 			if(jQuery('#id_mot option:selected').val() == '')
 				jQuery('#id_mot option[value=476]').attr('selected','selected');
 		});
-		
+		jQuery(".saisie_programme_recherche").detach().insertAfter('.diogene_mots ul:last-child');
 	}
 	barrebouilles_thalim();
 	edit_seminaire();

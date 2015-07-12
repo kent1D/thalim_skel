@@ -13,19 +13,21 @@
 		
 		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
 		[(#AUTRES_AUTEURS|?{#SET{total,#TOTAL_BOUCLE|plus{#AUTRES_AUTEURS|explode{','}|count}},#SET{total,#TOTAL_BOUCLE}})]
-
 			<p class="publication">
-				<BOUCLE_fonction_evt(MOTS){id_article}{id_groupe=17}{0,1}>
-				[(#TITRE**|=={organisateur}|oui)
-				[<strong class="authors">(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#_content:LESAUTEURS)]</p>]
-				[(#TITRE**|=={intervenant}|oui)
-				[<strong class="authors">(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#_content:LESAUTEURS)]</p>]
-				</BOUCLE_fonction_evt>
-				</B_fonction_evt>
-				[<strong class="authors">(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|oui)[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#LESAUTEURS)]</p>]
-				[<strong class="authors">(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|non)[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#LESAUTEURS)]</p>]
-				<//B_fonction_evt>
+			<BOUCLE_fonction_evt(MOTS){id_article}{id_groupe=17}{0,1}>
+			[(#TITRE**|=={organisateur}|oui)
+			[<strong class="authors">(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#_content:LESAUTEURS)]</p>]
+			[(#TITRE**|=={intervenant}|oui)
+			[<strong class="authors">(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#_content:LESAUTEURS)]</p>]
+			</BOUCLE_fonction_evt>
+			</B_fonction_evt>
+			[<strong class="authors">(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|oui)[(#GET{total}|>{1}|?{<:thalim:info_organisateurs:>,<:thalim:info_organisateur:>}) ]</strong>[(#LESAUTEURS)]</p>]
+			[<strong class="authors">(#GET{type_evt}|in_array{#LISTE{89,1049,397}}|non)[(#GET{total}|>{1}|?{<:thalim:info_intervenants:>,<:thalim:info_intervenant:>}) ]</strong>[(#LESAUTEURS)]</p>]
+			<//B_fonction_evt>
 		</B_auteurs>
+		<BOUCLE_programme(ARTICLES){id_article=#ID_PROGRAMME}>
+		<p class="programme"><strong class="programme"><:thalim:info_programme_lie:></strong> <a href="#URL_ARTICLE">#TITRE</a></p>
+		</BOUCLE_programme>
 
 		<BOUCLE_ev(EVENEMENTS){id_article}>
 			<div class="evenement">#INCLURE{fond=inclure/resume/evenement,id_evenement,sinon_intro_article=non,intro=" "}</div>

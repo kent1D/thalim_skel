@@ -13,7 +13,7 @@
 	[(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 	</BOUCLE_comm1>
-	<BOUCLE_articles_comm(ARTICLES){id_auteur}{id_rubrique?}{id_secteur?}>
+	<BOUCLE_articles_comm(ARTICLES){id_auteur}{id_programme?}{id_rubrique?}{id_secteur?}>
 	<BOUCLE_evcomm1(EVENEMENTS){!par date_debut}{id_article}>
 	[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 	[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home,id_evenement,intro=non,env})]})]})]})]
@@ -33,7 +33,7 @@
 	</B_evcomm>
 	</BOUCLE_si_rub_communications>
 </B_si_rub_communications>
-<BOUCLE_articles(ARTICLES){id_secteur?}{id_mot?}{id_auteur?}{!par date}>
+<BOUCLE_articles(ARTICLES){id_secteur?}{id_programme?}{id_mot?}{id_auteur?}{!par date}>
 #SET{articles,#GET{articles}|push{#ID_ARTICLE}}
 </BOUCLE_articles>
 <B_agenda>

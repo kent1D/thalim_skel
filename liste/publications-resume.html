@@ -4,28 +4,28 @@
 #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 #SET{mots_articles,#LISTE{495,1052}}
 #SET{type_hal_articles,#LISTE{ART,COUV}}
-<BOUCLE_ev1(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
+<BOUCLE_ev1(HALS_PUBLICATIONS){si #ENV{id_programme,0}|>{0}|non}{id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev1>
-<BOUCLE_ev2(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+<BOUCLE_ev2(HALS_PUBLICATIONS){si #ENV{id_programme,0}|>{0}|non}{id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev2>
-<BOUCLE_ev3(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
+<BOUCLE_ev3(HALS_PUBLICATIONS){si #ENV{id_programme,0}|>{0}|non}{id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_articles}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev3>
-<BOUCLE_ev4(HALS_PUBLICATIONS){id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+<BOUCLE_ev4(HALS_PUBLICATIONS){si #ENV{id_programme,0}|>{0}|non}{id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_articles}}{date_ecriture = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 </BOUCLE_ev4>
 <BOUCLE_rubriques(RUBRIQUES){racine}{composition=publications}>
-	<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_mot IN #GET{mots_ouvrages}}>
+	<BOUCLE_ouvrages_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_programme?}{id_mot IN #GET{mots_ouvrages}}>
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 	</BOUCLE_ouvrages_pub>
-	<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_mot IN #GET{mots_articles}}{id_auteur}>
+	<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_programme?}{id_mot IN #GET{mots_articles}}{id_auteur}>
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications_articles,#GET{publications_articles}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 	</BOUCLE_articles_pub>

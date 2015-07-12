@@ -61,6 +61,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_post_doctorant' => 'Postdoctorante',
 	'info_prof_emerite' => 'Professeurs émérites (PREM)',
 	'info_professeur' => 'Professeur (PR)',
+	'info_programme_lie' => 'Programme :',
 	'info_relie_a' => 'Voir aussi :',
 	'info_responsable' => 'Responsable :',
 	'info_responsables' => 'Responsables :',

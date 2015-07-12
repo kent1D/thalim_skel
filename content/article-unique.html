@@ -20,20 +20,23 @@
 			</span>
 			]
 		<//B_nb_commentaires>
-			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
-			<B_tags>
-			<p>
-			<span class="tags">
-				<ul class="inline">
-					<li><strong>#TITRE : </strong></li>
-					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
-					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i>[(#TITRE|trim)]</a></li>
-					</BOUCLE_tags>
-				</ul>
-			</span>
-			</p>
-			</B_tags>
-			</BOUCLE_groupes_mots>
+		<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 7,3,2,8,1}>
+		<B_tags>
+		<p>
+		<span class="tags">
+			<ul class="inline">
+				<li><strong>#TITRE : </strong></li>
+				<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+				<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i>[(#TITRE|trim)]</a></li>
+				</BOUCLE_tags>
+			</ul>
+		</span>
+		</p>
+		</B_tags>
+		</BOUCLE_groupes_mots>
+		<BOUCLE_programme(ARTICLES){id_article=#ID_PROGRAMME}>
+		<p class="programme"><strong class="programme"><:thalim:info_programme_lie:></strong> <a href="#URL_ARTICLE">#TITRE</a></p>
+		</BOUCLE_programme>
 		</div>
 	</header>
 
