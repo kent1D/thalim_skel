@@ -8,11 +8,12 @@
 		</BOUCLE_document_organigramme>
 		<a href="#URL_PAGE{annuaire}"><:thalim:titre_annuaire:></a>
 	</div>
-	<div class="main">
+	<div class="main">[(#SET{auteurs_direction,#ARRAY})]
 		<BOUCLE_mots(MOTS){id_groupe = 9}{par num titre,titre}>
 		<div class="fonctions">
-		<h2 class="#EDIT{titre}">#TITRE</h2>#SET{auteurs,#ARRAY}
-			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})] </BOUCLE_auteurs_mot>
+		<h2 class="#EDIT{titre}">#TITRE</h2>[(#SET{auteurs,#ARRAY})]
+			[(#COMPTEUR_BOUCLE|<{3}|?{#SET{direction,oui},#SET{direction,non}})]
+			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})][(#GET{direction}|=={oui}|oui)#SET{auteurs_direction,#GET{auteurs_direction}|push{#ID_AUTEUR}}]</BOUCLE_auteurs_mot>
 			<BOUCLE_auteurs_plusieurs(CONDITION){si #GET{auteurs}|count|>{1}}>
 			<B_roles_chercheurs_cnrs>
 			<div class="chercheurs_cnrs">
@@ -22,7 +23,7 @@
 				<h4>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})]</h4>]
 			<p>
 			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_chercheurs_cnrs></p>
+			<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_chercheurs_cnrs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_chercheurs_cnrs>
 			</div>
@@ -35,7 +36,7 @@
 				<h4>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})]</h4>]
 			<p>
 			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_enseignants_chercheurs></p>
+			<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_enseignants_chercheurs></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</BOUCLE_roles_enseignants_chercheurs>
 			</div>
@@ -48,7 +49,7 @@
 				<h4>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})]</h4>]
 			<p>
 			<BOUCLE_auteurs_role_doctorants(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
-			[(#GRAND_TOTAL|=={1}|oui)<strong>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})] : </strong>]<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]</BOUCLE_auteurs_role_doctorants></p>
+			[(#GRAND_TOTAL|=={1}|oui)<strong>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})] : </strong>]<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_doctorants></p>
 			[(#GRAND_TOTAL|>{1}|oui)</div>]
 			</B_auteurs_role_doctorants>
 			</BOUCLE_roles_doctorants>
@@ -63,9 +64,8 @@
 			[(#GRAND_TOTAL|>{1}|?{<div>,<p>})]
 			<BOUCLE_auteurs_role_autres(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{tout}>[(#COMPTEUR_BOUCLE|=={1}|et{#ROLE|=={doctorant}}|oui)<div class="row"><div class="span3">][(#COMPTEUR_BOUCLE|>={#GRAND_TOTAL|div{2}|plus{3}}|et{#ROLE|=={doctorant}}|et{#GET{colonnes}|!={ok}}|oui)#SET{colonnes,ok}</div><div class="span3">]
 			[(#ROLE|=={doctorant}|oui)[(#NOM_FAMILLE|initiale|!={#GET{initiale}}|oui)[(#COMPTEUR_BOUCLE|=={1}|?{'','<br />'})][(#NOM_FAMILLE|initiale)]<br /><br />#SET{initiale,#NOM_FAMILLE|initiale}]]
-			[(#GRAND_TOTAL|=={1}|oui)<strong>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})] : </strong>][(#STATUT|=={6forum}|?{#NOM[ ((#FONCTION_COMPLEMENT))],<a href="#URL_AUTEUR">#NOM</a>[ ((#FONCTION_COMPLEMENT))]})][(#ROLE|=={doctorant}|et{#COMPTEUR_BOUCLE|!={#GRAND_TOTAL}}|?{'<br />',[(#COMPTEUR_BOUCLE|=={#GRAND_TOTAL}|?{'',', '})]})][(#COMPTEUR_BOUCLE|=={#GRAND_TOTAL}|et{#ROLE|=={doctorant}}|oui)</div></div>]</BOUCLE_auteurs_role_autres>
+			[(#GRAND_TOTAL|=={1}|oui)<strong>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})] : </strong>][(#STATUT|=={6forum}|?{#NOM[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})],<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]})][(#ROLE|=={doctorant}|et{#COMPTEUR_BOUCLE|!={#GRAND_TOTAL}}|?{'<br />',[(#COMPTEUR_BOUCLE|=={#GRAND_TOTAL}|?{'',', '})]})][(#COMPTEUR_BOUCLE|=={#GRAND_TOTAL}|et{#ROLE|=={doctorant}}|oui)</div></div>]</BOUCLE_auteurs_role_autres>
 			[(#GRAND_TOTAL|>{1}|?{</div>,</p>})]
-			
 			</B_auteurs_role_autres>
 			</BOUCLE_roles_autres>
 			</div>
@@ -83,6 +83,5 @@
 		</div>]
 	</div>
 	<footer></footer>
-
 	<aside></aside>
 </article>
