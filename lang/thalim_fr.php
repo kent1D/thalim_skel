@@ -99,6 +99,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'lien_chercheurs' => 'Chercheurs',
 	'lien_domaines' => 'Domaines de recherche',
 	'lien_membres' => 'Membres de l\'unité',
+	'lien_membres_associes' => 'Membres associes',
 	'lien_publications' => 'Publications',
 	'lien_savoir_plus' => 'En savoir plus',
 
@@ -124,6 +125,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_membres' => 'Membres de l\'unité',
 	'titre_membres_associes' => 'Membres associés',
 	'titre_membres_pole' => 'Chercheurs Thalim',
+	'titre_membres_associes_pole' => 'Membres associés',
 	'titre_organigramme' => 'Organigramme',
 	'titre_ouvrages' => 'Ouvrages',
 	'titre_publications' => 'Publications',

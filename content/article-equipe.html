@@ -48,7 +48,14 @@
 			</p>
 		</div>
 		</B_membres>
-		
+		<B_membres_associes>
+		<div class="membres membres_associes" id="membres_associes">
+			<h2><:thalim:titre_membres_associes_pole:></h2>
+			<p>
+			<BOUCLE_membres_associes(AUTEURS){id_article}{role = membres_associes}{par nom_famille,nom}{', '}{tout}><strong>[(#STATUT|=={6forum}|?{'',<a href="#URL_AUTEUR">})]#NOM[(#STATUT|=={6forum}|?{'',</a>})]</strong></BOUCLE_membres_associes>
+			</p>
+		</div>
+		</B_membres_associes>
 		<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
 			<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
 			<div class="programmes" id="programmes">
