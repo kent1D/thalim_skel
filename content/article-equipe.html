@@ -44,7 +44,7 @@
 		<div class="membres" id="chercheurs">
 			<h2><:thalim:titre_membres_pole:></h2>
 			<p>
-			<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{', '}{tout}><strong><a href="#URL_AUTEUR">#NOM</a></strong></BOUCLE_membres>
+			<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{role != membre_associe}{', '}{tout}><strong><a href="#URL_AUTEUR">#NOM</a></strong></BOUCLE_membres>
 			</p>
 		</div>
 		</B_membres>
@@ -52,7 +52,7 @@
 		<div class="membres membres_associes" id="membres_associes">
 			<h2><:thalim:titre_membres_associes_pole:></h2>
 			<p>
-			<BOUCLE_membres_associes(AUTEURS){id_article}{role = membres_associes}{par nom_famille,nom}{', '}{tout}><strong>[(#STATUT|=={6forum}|?{'',<a href="#URL_AUTEUR">})]#NOM[(#STATUT|=={6forum}|?{'',</a>})]</strong></BOUCLE_membres_associes>
+			<BOUCLE_membres_associes(AUTEURS){id_article}{role = membre_associe}{par nom_famille,nom}{', '}{tout}><strong>[(#STATUT|=={6forum}|et{#ROLE|=={membre_associe}|non}|?{'',<a href="#URL_AUTEUR">})]#NOM[(#STATUT|=={6forum}|et{#ROLE|=={membre_associe}|non}|?{'',</a>})]</strong></BOUCLE_membres_associes>
 			</p>
 		</div>
 		</B_membres_associes>
