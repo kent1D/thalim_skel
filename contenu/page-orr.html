@@ -1,0 +1,182 @@
+<div id="partiehaute">
+	<h1>Mon ORR</h1>
+	<BOUCLE_test_mots(spip_mots_liens){objet = orr_ressource}{fusion objet}>
+		<div id="motcle" class="ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+			<div class="aff_masque" id="affiche_mots" title="<:orr:affiche_mots:>"><img src="#CHEMIN{img/affiche_mots.png}" alt="<:orr:affiche_mots:>" /></div>
+			<div class="aff_masque" id="masque_mots" title="<:orr:masque_mots:>"><img src="#CHEMIN{img/masque_mots.png}" alt="<:orr:masque_mots:>" /></div>
+			<INCLURE{fond=inc/affichage_selection-mots}>
+		</div>
+	</BOUCLE_test_mots>
+	<div id="datepick">
+		<div class="aff_masque" id="affiche_cal" title="<:orr:affiche_calendrier:>"><img src="#CHEMIN{img/affiche_cal.png}" alt="<:orr:affiche_calendrier:>" /></div>
+		<div class="aff_masque" id="masque_cal" title="<:orr:masque_calendrier:>"><img src="#CHEMIN{img/masque_cal.png}" alt="<:orr:masque_calendrier:>" /></div>
+		<div id="datepickers"></div>
+	</div>
+</div>
+<br class="nettoyeur" />
+<div id="tabsORR">
+	<ul>
+		<li><a href="#div_affichage_semaine" id="onglet_semaine"><:orr:affichage_semaine:></a></li>
+		<li><a href="#div_affichage_mois" id="onglet_mois"><:orr:affichage_mois:></a></li>
+	</ul>
+	<div id="div_affichage_semaine">
+		<div class="icones" >
+			<span class="semaine_ico precedent"><img src="#CHEMIN{img/precedent_7.png}" alt="<:orr:semaine_precedente:>" title="<:orr:semaine_precedente:>" /></span>
+			&nbsp;<span class="jour_ico precedent"><img src="#CHEMIN{img/precedent_1.png}" alt="<:orr:jour_precedent:>" title="<:orr:jour_precedent:>" /></span>
+			&nbsp;<span class="maintenant"><img src="#CHEMIN{img/aujourdhui.png}"  alt="<:orr:aujourdhui:>" title="<:orr:aujourdhui:>" /></span>
+			&nbsp;<span class="jour_ico suivant"><img src="#CHEMIN{img/suivant_1.png}"  alt="<:orr:jour_suivant:>" title="<:orr:jour_suivant:>" /></span>
+			&nbsp;<span class="semaine_ico suivant"><img src="#CHEMIN{img/suivant_7.png}" alt="<:orr:semaine_suivante:>" title="<:orr:semaine_suivante:>" /></span>
+		</div>
+		<div id="tableau_semaine">
+			<INCLURE{fond=inc/affichage_semaine,ajax=tableau,env}>
+		</div>
+	</div>
+	<div id="div_affichage_mois">
+		<div class="icones" >
+			<span class="annee_ico precedent"><img src="#CHEMIN{img/precedent_12.png}" alt="<:orr:annee_precedent:>" title="<:orr:annee_precedente:>" /></span>
+			&nbsp;<span class="mois_ico precedent"><img src="#CHEMIN{img/precedent_1.png}" alt="<:orr:mois_precedent:>" title="<:orr:mois_precedent:>" /></span>
+			&nbsp;<span class="maintenant"><img src="#CHEMIN{img/aujourdhui.png}"  alt="<:orr:mois_actuel:>" title="<:orr:mois_actuel:>" /></span>
+			&nbsp;<span class="mois_ico suivant"><img src="#CHEMIN{img/suivant_1.png}"  alt="<:orr:mois_suivant:>" title="<:orr:mois_suivant:>" /></span>
+			&nbsp;<span class="annee_ico suivant"><img src="#CHEMIN{img/suivant_12.png}"  alt="<:orr:annee_suivante:>" title="<:orr:annee_suivante:>" /></span>
+		</div>
+		<div id="tableau_mois">
+			<INCLURE{fond=inc/affichage_mois,ajax=tableau,env}>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+// creation des onglets pour les vues semaine/mois
+jQuery(function() {
+	$("#onglet_semaine").on('click', function () {
+		$("#div_affichage_semaine").show();
+		$("#div_affichage_mois").hide();
+	});
+	$("#onglet_mois").on('click', function () {
+		$("#div_affichage_mois").show();
+		$("#div_affichage_semaine").hide();
+	});
+// 	try {
+// 		console.log($("#tabsORR").children());
+// 		jQuery("#tabsORR").tabs();
+// 	} catch(err) {
+// 		alert(err);
+// 	}
+// 	console.log($("#tabsORR").tabs("instance"));
+	// l'option {active:N} pour ouvrir le Nième onglet lors du chargement ne semble pas fonctionner avec cette version de jQuery + UI
+	// alors on déclenche l'ouverture du bon onglet par un trigger(click) 
+// 	var Tsearch = window.location.search.split('&');
+// 	var existe_vue = false;
+// 	for (i in Tsearch) {
+// 		if (Tsearch[i].indexOf("vue=") != -1) {
+// // 			jQuery("#onglet_" + Tsearch[i].substring(4)).trigger( "click" );
+// 			existe_vue = true;
+// 			break;
+// 		}
+// 	}
+// 	if (!existe_vue) {
+// // 		jQuery("#onglet_[(#CONFIG{orr/vue_pardefaut})]").trigger( "click" );
+// 	}
+});
+
+// la fonction de reload des vues semaine/mois
+function tabAjax(){
+	console.log($('div.ajaxbloc.ajax-id-tableau'));
+	ajaxReload('tableau', {
+		args:{
+			jourj:jourj,
+		},
+	});
+}
+
+jQuery(document).ready(function(){
+	$("#div_affichage_mois").hide();
+	
+	// NB: pour que les vues mois et semaines fonctionnent, jourj doit être une variable js *globale*
+	[(#ENV{jourj}|?{
+		jourj = "[(#ENV{jourj})]";
+		,
+		var dateselectionne = new Date();
+		jourj = dateselectionne.toString('yyyy-MM-dd');
+	})]
+	tabAjax();
+	
+	// recup une date sélectionnée dans le datepicker et lancer la modif des vues mois et semaine
+	jQuery("#datepickers").datepicker({
+		dateFormat : 'yy-mm-dd',
+		onSelect : function (dateText){
+			var dateselectionne = Date.parse(dateText);
+			jourj = dateselectionne.toString('yyyy-MM-dd');
+			tabAjax()
+		},
+		numberOfMonths: 1,
+		changeMonth: true,
+		changeYear: false,
+	});
+	
+	// modifs des vues mois et semaines avec les icones suivant/précédent/maintenant
+	jQuery(".suivant, .precedent").bind("click",function(event) {
+		var dateselectionne=Date.parse(jourj);
+		
+		var plus_moins = (jQuery(this).hasClass("suivant") ? 1 : -1);
+		if (jQuery(this).hasClass("jour_ico"))
+			dateselectionne = dateselectionne.addDays(plus_moins);
+		else if (jQuery(this).hasClass("mois_ico"))
+			dateselectionne = dateselectionne.addMonths(plus_moins);
+		else if (jQuery(this).hasClass("semaine_ico"))
+			dateselectionne = dateselectionne.addWeeks(plus_moins);
+		else if (jQuery(this).hasClass("annee_ico"))
+			dateselectionne = dateselectionne.addYears(plus_moins);	
+						
+		jourj = dateselectionne.toString('yyyy-MM-dd');
+		jQuery("#datepickers").datepicker( "setDate", jourj );
+		// gerer la visibilite du datepicker: le changement de date le rend visible quelque soit son etat affiche/masque
+		if (jQuery("#masque_cal").css("display") == "none")
+			jQuery("#datepickers table").css("display", "none");
+		tabAjax();
+	});
+	jQuery(".maintenant").bind("click",function(event){
+		var dateselectionne = new Date();
+		jourj = dateselectionne.toString('yyyy-MM-dd');
+		tabAjax();
+	});
+		
+	// le sélecteur de mots clés
+	jQuery("#envoyer").click(function(){
+		var motscle = '';
+		if (jQuery("#motscles").val() != null) 
+			motscle = jQuery("#motscles").val().toString();
+		ajaxReload('tableau', {
+			args:{
+				id_mot:motscle,
+			},
+		});
+		return false;
+	});
+	jQuery("#tous").click(function(){ jQuery("#motscles option").attr("selected", "selected"); });
+	jQuery("#aucun").click(function(){ jQuery("#motscles option").removeAttr("selected"); });
+	
+	// afficher/masquer le datepicker et le sélecteur de mots + poser le cookie correspondant
+	jQuery("#affiche_cal, #masque_cal").click(function() {
+		jQuery("#datepickers table, #affiche_cal, #masque_cal").toggle();
+		if (jQuery("#masque_cal").css("display") == "none")
+			jQuery.cookie('aff_cal', 'masque', { expires: 70 });
+		else
+			jQuery.cookie('aff_cal', 'affiche', { expires: 70 });
+	});
+	jQuery("#affiche_mots, #masque_mots").click(function() {
+		jQuery("#motcle .ui-widget-content, #affiche_mots, #masque_mots").toggle();
+		if (jQuery("#masque_mots").css("display") == "none")
+			jQuery.cookie('aff_mots', 'masque', { expires: 70 });
+		else
+			jQuery.cookie('aff_mots', 'affiche', { expires: 70 });
+	});
+	// au chargement afficher/masquer en fonction du cookie enregistré
+	// au départ les 2 sont ouverts + boutons "afficher" masqués
+	if (jQuery.cookie('aff_cal') == 'masque') 
+		jQuery("#datepickers table, #affiche_cal, #masque_cal").toggle();
+	if (jQuery.cookie('aff_mots') == 'masque')
+		jQuery("#motcle .ui-widget-content, #affiche_mots, #masque_mots").toggle();
+
+});
+</script>
