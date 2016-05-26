@@ -1,0 +1,92 @@
+#CACHE{0}
+#SET{test_breadcrumb,#EVAL{$GLOBALS['z_blocs']}|find{breadcrumb}}
+[(#SET{url_orig,#SELF|parametre_url{type_objet,''}|parametre_url{em_type,''}|parametre_url{id_syndic,''}|parametre_url{id_article,''}|parametre_url{id_rubrique,''}|parametre_url{id_site,''}})]
+<BOUCLE_diogene(DIOGENES){type=#ENV{type_objet}}>
+<BOUCLE_autorise_utiliser(CONDITION){si #AUTORISER{utiliser,diogene,#ID_DIOGENE}|oui}>
+	[(#REM) Fil d'Ariane ]
+	[(#GET{test_breadcrumb}|non)<p id="hierarchie" class="breadcrumb">
+		<a href="#URL_SITE_SPIP/"><:accueil_site:></a><span class="sep divider">
+		&gt; </span><a href="#GET{url_orig}"><:diogene:publier_titre_hierarchie:></a>[<span class="sep divider"> &gt; </span><strong class="on active">(#TITRE|couper{80})</strong>]
+	</p>]
+	<div class="content-principal">
+		<div class="cartouche">
+			<h1 class="h1 #_diogene:EDIT{titre}"><:diogene:publier_titre:>[(#_diogene:TITRE|lcfirst)]</h1>
+		</div>
+		[<div class="texte #_diogene:EDIT{description}">(#_diogene:DESCRIPTION)</div>]
+		[(#CHEMIN{inclure/diogene_#OBJET.html}|oui)[(#SET{fond,ok})]
+		<INCLURE{fond=inclure/diogene_#OBJET,id_diogene,env,ajax}>]
+		[(#GET{fond}|!={ok}|oui)
+		<INCLURE{fond=inclure/diogene_objet,id_diogene,env,ajax}>]
+	</div>
+</BOUCLE_autorise_utiliser>
+</B_autorise_utiliser>
+[(#GET{test_breadcrumb}|non)<div id="hierarchie" class="breadcrumb">
+	<a href="#URL_SITE_SPIP/"><:accueil_site:></a><span class="sep divider"> &gt; </span><:diogene:publier_titre_hierarchie:>
+</div>]
+<div class="content-principal">
+	<div class="cartouche">
+		<h1 class="h1"><:diogene:erreur:></h1>
+	</div>
+	<div class="texte">
+		[(#BOITE_OUVRIR{'',error})]
+			<p>
+				<:diogene:erreur_droits_objet_publier:>
+			</p>
+			[(#SESSION{statut}|non)
+			[(#SET{url,#URL_PAGE{login}|parametre_url{url,#SELF}})]
+			<p><:diogene:erreur_autorisation_login_publier{url=#GET{url}}:></p>]
+		[(#BOITE_FERMER)]
+	</div>
+</div>
+<//B_autorise_utiliser>
+</BOUCLE_diogene>
+</B_diogene>
+[(#SET{contenu,''})][(#SET{contenu_attente_vous,''})][(#SET{contenu_attente,''})]
+<BOUCLE_diogene_principaux(DIOGENES){menu=on}{par num titre, id_diogene, objet, titre}>
+[(#AUTORISER{creerdans,diogene,#ID_DIOGENE}|oui)
+[(#SET{contenu,[(#GET{contenu}|concat{
+<li class="item">
+<!--_BL_ 	<h3 class="h3"><a href="[(#URL_PAGE{#ENV{page},type_objet=#TYPE})]">#TITRE</a></h3> -->
+	<h3 class="h3"><a href="[(#URL_PAGE{#ENV{page}}|parametre_url{type_objet,#TYPE}|parametre_url{id_rubrique,#ID_SECTEUR})]">#TITRE</a></h3>
+	#DESCRIPTION
+</li>})]})]]
+[(#OBJET|in_array{#LISTE{article,emballe_media,site}}|oui)
+	[(#SET{fond,inclure/diogene_attente_publication_[(#_diogene_principaux:OBJET)]})]
+	[(#SET{contenu_attente_vous,[(#GET{contenu_attente_vous}|concat{[(#INCLURE{fond=[(#GET{fond})],id_diogene=#ID_DIOGENE,id_auteur=#SESSION{id_auteur},page,env,ajax}|trim)]})]})]
+	[(#SESSION{statut}|=={0minirezo}|oui)
+	[(#SET{contenu_attente,[(#GET{contenu_attente}|concat{[(#INCLURE{fond=[(#GET{fond})],id_diogene=#ID_DIOGENE,auteur_exclu=#SESSION{id_auteur},page,env,ajax}|trim)]})]})]]
+]
+</BOUCLE_diogene_principaux>
+[(#GET{test_breadcrumb}|non)<div id="hierarchie" class="breadcrumb">
+	<a href="#URL_SITE_SPIP/"><:accueil_site:></a><span class="sep divider"> &gt; </span><strong class="on active"><:diogene:publier_titre_hierarchie:></strong>
+</div>]
+<div class="content-principal">
+	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|ou{#GET{contenu_attente}}|non)
+	<div class="cartouche">
+		<h1 class="h1"><:diogene:erreur:></h1>
+	</div>
+	<div class="texte">
+		<div class="formulaire_spip error">
+			<p class="reponse_formulaire_erreur">[(#ENV{type_objet}|?{<:diogene:erreur_objet_publier_aucun:>,<:diogene:erreur_objet_publier:>})]</p>
+		</div>
+	</div>]
+	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|ou{#GET{contenu_attente}}|oui)
+	<div class="cartouche">
+		<h1 class="h1"><:diogene:publier_titre:></h1>
+	</div>
+	<div class="texte">
+		[<h2 class="h2"><:diogene:titre_publier_nouveau_page:></h2>
+		<ul class="liste-items">
+			(#GET{contenu})
+		</ul>]
+		[<div id="diogene_proposes_vous">
+			<h2 class="h2"><:diogene:titre_publier_proposes_page_vous:></h2>
+			(#GET{contenu_attente_vous})
+		</div>]
+		[<div id="diogene_proposes">
+			<h2 class="h2"><:diogene:titre_publier_proposes_page:></h2>
+			(#GET{contenu_attente})
+		</div>]
+	</div>]
+</div>
+<//B_diogene>
