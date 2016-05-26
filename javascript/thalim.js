@@ -26,6 +26,6 @@ function barrebouilles_thalim(){
 }
 
 $(window).load(function(){
-	barrebouilles_thalim();
-	onAjaxLoad(barrebouilles_thalim);
+//	barrebouilles_thalim();
+//	onAjaxLoad(barrebouilles_thalim);
 });

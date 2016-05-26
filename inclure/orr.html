@@ -47,20 +47,28 @@
 <script type="text/javascript">
 // creation des onglets pour les vues semaine/mois
 jQuery(function() {
-	jQuery( "#tabs" ).tabs();
+// 	$('#onglet_semaine').on('click', function(){
+// 		$('#affichage_semaine').show();
+// 		$('#affichage_mois').hide();
+// 	});
+// 	$('#onglet_mois').on('click', function(){
+// 	$('#affichage_semaine').hide();
+// 	$('#affichage_mois').show();
+// });
+  	jQuery( "#tabs" ).tabs();
 	// l'option {active:N} pour ouvrir le Nième onglet lors du chargement ne semble pas fonctionner avec cette version de jQuery + UI
 	// alors on déclenche l'ouverture du bon onglet par un trigger(click) 
-	var Tsearch = window.location.search.split('&');
-	var existe_vue = false;
-	for (i in Tsearch) {
-		if (Tsearch[i].indexOf("vue=") != -1) {
-			jQuery("#onglet_" + Tsearch[i].substring(4)).trigger( "click" );
-			existe_vue = true;
-			break;
-		}
-	}
-	if (!existe_vue)
-		jQuery("#onglet_[(#CONFIG{orr/vue_pardefaut})]").trigger( "click" );
+// 	var Tsearch = window.location.search.split('&');
+// 	var existe_vue = false;
+// 	for (i in Tsearch) {
+// 		if (Tsearch[i].indexOf("vue=") != -1) {
+// 			jQuery("#onglet_" + Tsearch[i].substring(4)).trigger( "click" );
+// 			existe_vue = true;
+// 			break;
+// 		}
+// 	}
+// 	if (!existe_vue)
+// 		jQuery("#onglet_[(#CONFIG{orr/vue_pardefaut})]").trigger( "click" );
 });
 
 // la fonction de reload des vues semaine/mois
@@ -73,6 +81,8 @@ function tabAjax(){
 }
 
 jQuery(document).ready(function(){
+	//$('#affichage_mois').hide();
+	
 	// NB: pour que les vues mois et semaines fonctionnent, jourj doit être une variable js *globale*
 	[(#ENV{jourj}|?{
 		jourj = "[(#ENV{jourj})]";

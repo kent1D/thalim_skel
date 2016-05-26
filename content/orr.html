@@ -1,4 +1,41 @@
-<div id="partiehaute">
+<BOUCLE_content(ARTICLES){si #SESSION{id_auteur}|>{0}}{id_article=14572}>
+<article class="offset1 span6">
+	<header class="cartouche">
+		[(#LOGO_ARTICLE|image_reduire{200,200})]
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+		<h1><span class="#EDIT{titre}">#TITRE</span>[
+			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
+		]</h1>
+
+		<BOUCLE_auteurs(AUTEURS){id_article}{tout}> </BOUCLE_auteurs>
+			<p class="publication">[<span class="authors">[(#TOTAL_BOUCLE|>{1}|?{<:thalim:info_membres_lies:>,<:thalim:info_membre_lie:>}) ](#LESAUTEURS)</span>]</p>
+		</B_auteurs>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
+			<B_tags>
+			<ul class="tags inline">
+				<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+				<li><a class="label" href="#URL_MOT">#TITRE</a></li>
+				</BOUCLE_tags>
+			</ul>
+			</B_tags>
+			</BOUCLE_groupes_mots>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		<BOUCLE_documents(DOCUMENTS){si #TEXTE|concat{#CHAPO}|strlen|>{600}|non}{id_article}{document_type IN affiche,couverture}>
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{198,''})</a></div>]
+		</BOUCLE_documents>
+		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+		[(#URL_SITE|oui)<p class="hyperlien">
+			<a href="#URL_SITE" class="spip_out">[(#NOM_SITE|sinon{<:thalim:lien_savoir_plus:>})]</a>
+		</p>]
+
+		<div id="orr">
+		<div id="partiehaute">
 	<BOUCLE_test_mots(spip_mots_liens){objet = orr_ressource}{fusion objet}>
 		<div id="motcle" class="ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
 			<div class="aff_masque" id="affiche_mots" title="<:orr:affiche_mots:>"><img src="#CHEMIN{img/affiche_mots.png}" alt="<:orr:affiche_mots:>" /></div>
@@ -47,20 +84,28 @@
 <script type="text/javascript">
 // creation des onglets pour les vues semaine/mois
 jQuery(function() {
-	jQuery( "#tabs" ).tabs();
+// 	$('#onglet_semaine').on('click', function(){
+// 		$('#affichage_semaine').show();
+// 		$('#affichage_mois').hide();
+// 	});
+// 	$('#onglet_mois').on('click', function(){
+// 	$('#affichage_semaine').hide();
+// 	$('#affichage_mois').show();
+// });
+  	jQuery( "#tabs" ).tabs();
 	// l'option {active:N} pour ouvrir le Nième onglet lors du chargement ne semble pas fonctionner avec cette version de jQuery + UI
 	// alors on déclenche l'ouverture du bon onglet par un trigger(click) 
-	var Tsearch = window.location.search.split('&');
-	var existe_vue = false;
-	for (i in Tsearch) {
-		if (Tsearch[i].indexOf("vue=") != -1) {
-			jQuery("#onglet_" + Tsearch[i].substring(4)).trigger( "click" );
-			existe_vue = true;
-			break;
-		}
-	}
-	if (!existe_vue)
-		jQuery("#onglet_[(#CONFIG{orr/vue_pardefaut})]").trigger( "click" );
+// 	var Tsearch = window.location.search.split('&');
+// 	var existe_vue = false;
+// 	for (i in Tsearch) {
+// 		if (Tsearch[i].indexOf("vue=") != -1) {
+// 			jQuery("#onglet_" + Tsearch[i].substring(4)).trigger( "click" );
+// 			existe_vue = true;
+// 			break;
+// 		}
+// 	}
+// 	if (!existe_vue)
+// 		jQuery("#onglet_[(#CONFIG{orr/vue_pardefaut})]").trigger( "click" );
 });
 
 // la fonction de reload des vues semaine/mois
@@ -73,6 +118,8 @@ function tabAjax(){
 }
 
 jQuery(document).ready(function(){
+	//$('#affichage_mois').hide();
+	
 	// NB: pour que les vues mois et semaines fonctionnent, jourj doit être une variable js *globale*
 	[(#ENV{jourj}|?{
 		jourj = "[(#ENV{jourj})]";
@@ -161,3 +208,23 @@ jQuery(document).ready(function(){
 
 });
 </script>
+</div>
+	</div>
+
+	<footer>
+		[<div class="#EDIT{ps} ps surlignable"><h2><:info_ps:></h2>(#PS|adaptive_images)</div>]
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+	<aside>
+		[(#REM) Gestion du portfolio et des documents ]
+		[(#INCLURE{fond=inclure/documents,id_article})]
+	</aside>
+
+</article>
+</BOUCLE_content>
+</B_content>
+<article class="offset1 span6">
+<p><:thalim:erreur_connexion_obligatoire:></p>
+</article>
+<//B_content>

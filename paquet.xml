@@ -1,7 +1,7 @@
 <paquet
 	prefix="thalim_skel"
 	categorie="squelette"
-	version="1.1.0"
+	version="1.0.0"
 	etat="stable"
 	compatibilite="[3.0.0;3.1.*]"
 	logo="images/thalim-64.png"
@@ -42,4 +42,5 @@
 
 	<utilise nom="crayons" />
 	<utilise nom="diogene" />
+	<utilise nom="orr" />
 </paquet>

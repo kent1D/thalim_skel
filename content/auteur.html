@@ -108,6 +108,22 @@
 		<//B_si_publications>
 	</div>
 	<aside>
+		<B_documents>
+		<BOUCLE_credits(AUTEURS){id_auteur=#ENV{id_auteur}}{0,1}>
+		#SET{nom_aut,#NOM}
+		</BOUCLE_credits>
+		[<pre>(#ENV**|unserialize|print_r{1})</pre>]
+
+		#ANCRE_PAGINATION
+		<BOUCLE_documents(DOCUMENTS){auteurs.id_auteur=#ENV{id_auteur}}{id_document=107}{par id_document}{pagination 1}>
+			<p>nom : #ENV{id_auteur}</p>
+			<p>id : #ID_DOCUMENT</p>
+			<p>credits : #CREDITS</p>
+			<p>titre : #TITRE</p>
+			[<div class=affiche><img src="(#FICHIER)" /></div>]
+		</BOUCLE_documents>
+		[<div class="pagination">(#PAGINATION{page})</div>]
+		</B_documents>
 		<B_activites_editoriales>
 		<div class="articles">
 			#ANCRE_PAGINATION

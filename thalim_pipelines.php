@@ -691,8 +691,8 @@ function thalim_skel_diogene_traiter($flux){
 function thalim_skel_diogene_avant_formulaire($flux){
 	$type = $flux['args']['diogene_identifiant'];
 	if($js = find_in_path('javascript/diogene_'.$type.'.js')){
-		$flux['data'] .= "<script type='text/javascript' src='".parametre_url($js,'timestamp',time())."'></script>";
 // 		$flux['data'] .= "<script type='text/javascript' src='".parametre_url($js,'timestamp',mktime())."'></script>";
+		$flux['data'] .= "<script type='text/javascript' src='".parametre_url($js,'timestamp',time())."'></script>";
 	}
 	return $flux;
 }
