@@ -1,8 +1,12 @@
 #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
-#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-01 00:00:00'}}
+[(#ENV{mois,non}|=={oui}|oui)
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}]
+[(#ENV{mois,non}|=={oui}|non)
+#SET{date_fin,#ENV{date_debut,#GET{date_debut}}|agenda_dateplus{86400,'Y-m-d 00:00:00'}}
+#SET{date_mois_prochain,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 00:00:00'}}]
 [(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
 	#SET{affichage_duree,12} 
 	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
@@ -241,11 +245,11 @@
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
-	label_suivant=#GET{date_fin}|affdate_periode{#GET{affichage_duree}},
+	label_suivant=#GET{date_mois_prochain,#GET{date_fin}}|affdate_periode{#GET{affichage_duree}},
 	nombre_pages=#VAL{1}|plus{#GET{hasprev}|?{1,0}}|plus{#GET{hasnext}|?{1,0}},
 	page_courante=#GET{hasprev}|?{2,1},
-	url_precedent=#SELF|parametre_url{date_debut,#GET{date_prev}|affdate{Y-m-d}},
-	url_suivant=#SELF|parametre_url{date_debut,#GET{date_fin}|affdate{Y-m-d}},
+	url_precedent=#SELF|parametre_url{date_debut,#GET{date_prev}|affdate{Y-m-d}}|parametre_url{mois,oui},
+	url_suivant=#SELF|parametre_url{date_debut,#GET{date_mois_prochain,#GET{date_fin}}|affdate{Y-m-d}}|parametre_url{mois,oui},
 	ancre=agenda-liste,
 	separateur=' | '})]]
 </div>
