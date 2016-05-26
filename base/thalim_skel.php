@@ -112,14 +112,6 @@ function thalim_skel_declarer_champs_extras($champs = array()) {
 		    'restrictions' => 
 		    array (
 		      'secteurs' => '250:262:247:251:3:271:267:270',
-		      'voir' => 
-		      array (
-		        'auteur' => 'webmestre',
-		      ),
-		      'modifier' => 
-		      array (
-		        'auteur' => 'webmestre',
-		      ),
 		    ),
 		    'sql' => 'text DEFAULT \'\' NOT NULL',
 		    'rechercher_ponderation' => '2',
