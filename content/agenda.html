@@ -17,7 +17,7 @@
 
 	<div class="main">
 		[(#ENV{date_debut}|non)
-		<INCLURE{fond=inclure/agenda-liste_futur,intro=non,env} />]
+		<INCLURE{fond=inclure/agenda-liste_futur,intro=non,mois=oui,env} />]
 		[(#ENV{date_debut}|oui)
 		[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|oui)
 		<INCLURE{fond=inclure/agenda-liste,intro=non,env} />]
