@@ -110,16 +110,11 @@
 	<br />
 	<aside>
 		<B_documents>
-		<script>
-		    $(function(){
-		        $("#slides").slidesjs();
-		      });
-	    </script>
-		<div class=slides>
-		<BOUCLE_documents(DOCUMENTS){credits LIKE %#NOM%}>
-			[<div><a href="[(#URL_DOCUMENT)]" class="mediabox">(#URL_DOCUMENT|balise_img{Affiche réalisée par Marie})</a></div>]
+		#ANCRE_PAGINATION
+		<BOUCLE_documents(DOCUMENTS){credits LIKE %#NOM%}{pagination 1}>
+			[<div class="affiche"><a href="[(#URL_DOCUMENT)]" class="mediabox">(#URL_DOCUMENT|balise_img{Affiche réalisée par #CREDITS})</a></div>]
 		</BOUCLE_documents>
-		</div>
+		[<div class="pagination">(#PAGINATION{page})</div>]
 		</B_documents>
 		<B_activites_editoriales>
 		<div class="articles">
