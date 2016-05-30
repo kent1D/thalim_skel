@@ -1,0 +1,10 @@
+<BOUCLE_articles(ARTICLES){id_mot}>
+	<BOUCLE_documents(DOCUMENTS){id_article}{media IN audio,video}>
+		<item>
+			<title>#_articles:TITRE</title>
+			<link>(#URL_ARTICLE)</link>
+			<guid>(#URL_ARTICLE)</guid>
+			<enclosure url='(#URL_DOCUMENT)' length='(#TAILLE)' type='(#MIME_TYPE)' />
+		</item>
+	</BOUCLE_documents>	
+</BOUCLE_articles>

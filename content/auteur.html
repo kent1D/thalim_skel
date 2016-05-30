@@ -112,7 +112,7 @@
 		<B_documents>
 		#ANCRE_PAGINATION
 		<BOUCLE_documents(DOCUMENTS){credits LIKE %#NOM%}{pagination 1}>
-			[<div class="affiche"><a href="[(#URL_DOCUMENT)]" class="mediabox">(#URL_DOCUMENT|balise_img{Affiche réalisée par #CREDITS})</a></div>]
+			[<div class="affiche"><a href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="mediabox">(#LOGO_DOCUMENT**|image_reduire{230,''})</a></div>]
 		</BOUCLE_documents>
 		[<div class="pagination">(#PAGINATION{page})</div>]
 		</B_documents>

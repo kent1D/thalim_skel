@@ -236,6 +236,9 @@ function thalim_skel_diogene_ajouter_saisies($flux){
 	return $flux;
 }
 
+/** 
+ * Vérifier les contenus des formulaires pour ajouter erreurs au submit du formulaire renvoie erreur
+ */
 function thalim_skel_formulaire_verifier($flux){
 	if($flux['args']['form'] == 'editer_auteur' && intval(_request('id_auteur')) > 0){
 		if(isset($_FILES['thalim_cv']) && ($_FILES['thalim_cv']['error'] == 0)){
@@ -310,6 +313,9 @@ function thalim_skel_formulaire_verifier($flux){
 	return $flux;
 }
 
+/**
+ * Association à l'auteur du formulaire
+ */
 function thalim_skel_formulaire_traiter($flux){
 	if($flux['args']['form'] == 'editer_auteur' && intval(_request('id_auteur')) > 0){
 		if(isset($_FILES['thalim_cv']) && ($_FILES['thalim_cv']['error'] == 0)){
@@ -321,11 +327,12 @@ function thalim_skel_formulaire_traiter($flux){
 			if($_FILES['thalim_cv']['name'] != '' && $_FILES['thalim_cv']['error'] != 4){
 					$id_document = sql_getfetsel('doc.id_document',
 												 'spip_documents as doc LEFT JOIN spip_documents_liens as lien ON doc.id_document=lien.id_document',
-												 'lien.objet="auteur" AND lien.id_objet='.intval(_request('id_auteur')).' AND doc.extension="pdf"');
+												 'lien.objet="auteur" AND lien.id_objet='.intval(_request('id_auteur')).' AND doc.extension="pdf" AND doc.document_type="cv"');
 					$nouveau_doc = $ajouter_documents($id_document,array($_FILES['thalim_cv']),'auteur',_request('id_auteur'),$mode);
 					$test = document_modifier($nouveau_doc[0],array('document_type'=>'cv'));
 			}
 		}
+		// si on a cliqué sur le bouton supprimer
 		elseif(_request('supprimer_thalim_cv')){
 			include_spip('action/dissocier_document');
 			$id_document = sql_getfetsel('doc.id_document',
