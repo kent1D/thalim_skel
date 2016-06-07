@@ -235,7 +235,7 @@
 	<BOUCLE_prev1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{date_fin > #ENV{date}}{!evenement_a_venir #GET{date_prev}}{0,1}> #SET{hasprev,1}</BOUCLE_prev1>
 	#SET{hasnext,''}
 	<BOUCLE_next1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{date_fin > #ENV{date}}{!evenement_passe #GET{date_fin}}{0,1}> #SET{hasnext,1}</BOUCLE_next1>
-	[(#GET{date_debut}|<={#ENV{date}}|oui)#SET{hasprev,''} ]
+	[(#GET{date_debut}|<={#ENV{date}}|oui)#SET{hasprev,1} ]
 	[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
 	[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 	label_precedent=#GET{date_prev}|affdate_periode{#GET{affichage_duree}},
