@@ -10,7 +10,8 @@
 		[<small id="slogan_site_spip"[ class="(#EDIT{meta-slogan_site})"]>(#SLOGAN_SITE_SPIP)</small>]
 		[(#SI_PAGE{sommaire}|non)</a>]
 	</header>
+	[(#ENV{nu,non}|=={oui}|non)
 	<div class="span4 formulaires">
 		#FORMULAIRE_RECHERCHE
-	</div>
+	</div>]
 </div>
