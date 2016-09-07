@@ -1,0 +1,28 @@
+#CACHE{0}[(#HTTP_HEADER{Content-type: text/plain[; charset=(#CHARSET)]})]
+[(#REM)
+/**********************************************************
+* Ce squelette pour Abomailmains
+* Attention a :
+* - ne pas envoyer des gabarits de plus de 10Ko
+* - les urls et liens images seront automatiquement converties en absolues
+*  ex. rubrique5.html -> http://www.monsite.org/rubrique5.html
+* Inspire du plugin Spip-Listes
+* $Id: nouveautes.html 44651 2011-02-14 10:33:12Z yffic@lefourneau.com $
+***********************************************************/]
+
+<BOUCLE_abomailman(ABOMAILMANS){id_abomailman}>[(#DESCRIPTIF)]</BOUCLE_abomailman>
+</B_abomailman>
+[(#ENV{sujet})]
+[(#ENV{message})]
+<//B_abomailman>
+
+------------------------------------------------------------------------------
+[<INCLURE{fond=body_nolog,env,type-page=agenda} />]
+[<INCLURE{fond=inclure/agenda-liste_futur,date=#DATE_REDAC,intro=non,env} />]
+
+------------------------------------------------------------------------------
+
+[(#NOM_SITE_SPIP|textebrut)] (#URL_SITE_SPIP)
+</B_articlesDate>
+[(#FILTRE{supprimer_tags|filtrer_entites|trim})]
+[(#FILTRE{facteur_convertir_styles_inline})]

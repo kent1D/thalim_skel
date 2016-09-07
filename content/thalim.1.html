@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+		[(#REM)
+			Head standard de toutes les pages ; les elements specifiques
+			(title, description) figurent dans le squelette article.html
+		]
+		[(#REM) Preciser le charset ]
+		<meta http-equiv="Content-Type" content="text/html; charset=#CHARSET" />
+
+		[(#REM) Fierement fabrique avec SPIP ]
+		<meta name="generator" content="SPIP[ (#SPIP_VERSION)]" />
+
+		[(#REM) Lien vers le flux RSS du site ]
+		[<link rel="alternate" type="application/rss+xml" title="<:syndiquer_site:>" href="(#URL_PAGE{backend})" />]
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		[<link rel="stylesheet" href="(#CSS{css/font.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/bootstrap.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/responsive.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/box.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/box_skins.css})" type="text/css" />]
+
+		[<link rel="stylesheet" href="(#CSS{css/spip.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/spip.comment.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/spip.list.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/spip.petition.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/spip.pagination.css})" type="text/css" />]
+		[(#REM)
+		[<link rel="stylesheet" href="(#CSS{css/spip.portfolio.css})" type="text/css" />]
+		]
+		[(#REM) Balise permettant aux plugins d'inserer des fichiers CSS ]
+		#INSERT_HEAD_CSS
+
+		[<link rel="stylesheet" href="(#CSS{css/spipr_dist.css})" type="text/css" />]
+
+
+		[(#REM) Feuille de style du theme]
+		[<link rel="stylesheet" href="(#CSS{css/theme.css})" type="text/css" />]
+
+		[(#REM) Feuille de style CSS pour l'impression, n'existe pas par defaut ]
+		[<link rel="stylesheet" href="(#CSS{css/print.css})" type="text/css" media="print" />]
+
+		[(#REM) Feuille de style personnalisee pour surcharger les precedentes
+			A noter par defaut cette css n'existe pas
+		]
+		[<link rel="stylesheet" href="(#CSS{css/perso.css})" type="text/css" />]
+
+		[<link rel="stylesheet" href="(#CSS{css/futura.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/tekton-pro.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/impressum.css})" type="text/css" />]
+		[<link rel="stylesheet" href="(#CSS{css/gothic.css})" type="text/css" />]
+    </head>
+	<body>
+		<div id="page">
+			<div id="conteneur">
+				<div class="row">
+					<header class="accueil clearfix span8 row">[(#SET{logo,[(#LOGO_SITE_SPIP|image_reduire{247,300})]})]
+						[<div class="span4">(#CHEMIN{images/logos_tutelles.jpg}|balise_img|inserer_attribut{class,logos_tutelles})</div>]
+						
+						[(#SI_PAGE{sommaire}|non)<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"
+						>]
+							<div id="logo_site_spip" class="span3[ (#EDIT{meta-nom_site})]">
+								[(#GET{logo}|extraire_attribut{width}|>{200}|?{[(#GET{logo}|inserer_attribut{alt,#NOM_SITE_SPIP})],[(#LOGO_SITE_SPIP|image_reduire{247,300}) ]#NOM_SITE_SPIP})]
+							</div>
+						[<small id="slogan_site_spip"[ class="(#EDIT{meta-slogan_site})"]>(#SLOGAN_SITE_SPIP)</small>]
+						[(#SI_PAGE{sommaire}|non)</a>]
+					</header>
+				</div>
+				<div id="contenu">
+					<section class="span6 offset1">
+						<div class="main">
+							[(#ENV{date_debut}|non)
+							<INCLURE{fond=inclure/agenda-liste_futur,intro=non,mois=oui,env} />]
+							[(#ENV{date_debut}|oui)
+							[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|oui)
+							<INCLURE{fond=inclure/agenda-liste,intro=non,env} />]
+							[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|non)
+							<INCLURE{fond=inclure/agenda-liste_futur,date=#ENV{date_debut},intro=non,env} />]]
+						</div>
+					</section>
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+</html>
+
+[(#FILTRE{facteur_convertir_styles_inline})] 
+[(#FILTRE{supprimer_tags|filtrer_entites|trim})]

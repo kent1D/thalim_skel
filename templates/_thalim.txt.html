@@ -1,0 +1,41 @@
+#CACHE{0}[(#HTTP_HEADER{Content-type: text/plain[; charset=(#CHARSET)]})]
+[(#REM)
+/**********************************************************
+* Ce squelette pour Abomailmains
+* Attention a :
+* - ne pas envoyer des gabarits de plus de 10Ko
+* - les urls et liens images seront automatiquement converties en absolues
+*  ex. rubrique5.html -> http://www.monsite.org/rubrique5.html
+* Inspire du plugin Spip-Listes
+* $Id: nouveautes.html 44651 2011-02-14 10:33:12Z yffic@lefourneau.com $
+***********************************************************/]
+<B_articlesDate>
+
+<BOUCLE_abomailman(ABOMAILMANS){id_abomailman}>[(#DESCRIPTIF)]</BOUCLE_abomailman>
+</B_abomailman>
+[(#ENV{sujet})]
+[(#ENV{message})]
+<//B_abomailman>
+
+------------------------------------------------------------------------------
+[(#INCLURE{fond=inclure/agenda-liste_futur, date_debut=2016-06-02})]
+<span>hop</span>
+
+<BOUCLE_articlesDate(ARTICLES){age_relatif< 0}{id_rubrique ?}{id_mot ?}{par date}{inverse}>
+<BOUCLE_agenda(MOTS){titre=AGENDA}{id_article}>#SET{type, agenda}</BOUCLE_agenda>
+[(#GET{type}|!={'agenda'}|?{'',' '})<!-- SI agenda -->
+   [[(#DATE_REDAC|nom_jour)] (#DATE_REDAC|affdate_jourcourt)[ - (#DATE_REDAC|affdate{'H:i'})]]
+]
+[(#TITRE|textebrut|supprimer_numero)]
+[(#GET{type}|=={'agenda'}|?{'',' '})[(#DATE|affdate)]]<!-- SI PAS agenda -->
+<BOUCLE_ariane(HIERARCHIE){id_article}> > [(#TITRE|couper{80})]</BOUCLE_ariane>
+[(#INTRODUCTION|textebrut|liens_absolus)]
+<:abomailmans:lire_article:> : [(#URL_ARTICLE|url_absolue)]
+
+------------------------------------------------------------------------------
+</BOUCLE_articlesDate>
+------------------------------------------------------------------------------
+
+[(#NOM_SITE_SPIP|textebrut)] (#URL_SITE_SPIP)
+</B_articlesDate>
+[(#FILTRE{supprimer_tags|filtrer_entites|trim})]
