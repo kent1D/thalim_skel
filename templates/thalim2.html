@@ -1,33 +1,80 @@
-<div id="page">
-	<div id="conteneur">
-		<div class="row">
-			<header class="accueil clearfix span8 row">[(#SET{logo,[(#LOGO_SITE_SPIP||image_reduire{247,300})]})]
-				[<div class="span4">(#CHEMIN{images/logos_tutelles.jpg}|balise_img|inserer_attribut{class,logos_tutelles})</div>]
-				
-				[(#SI_PAGE{sommaire}|non)<a rel="start home" href="#URL_SITE_SPIP/" title="<:accueil_site:>"
-				>]
-					<div id="logo_site_spip" class="span3[ (#EDIT{meta-nom_site})]">
-						[(#GET{logo}|extraire_attribut{width}|>{200}|?{[(#GET{logo}|inserer_attribut{alt,#NOM_SITE_SPIP})],[(#LOGO_SITE_SPIP|image_reduire{247,300}) ]#NOM_SITE_SPIP})]
-					</div>
-				[<small id="slogan_site_spip"[ class="(#EDIT{meta-slogan_site})"]>(#SLOGAN_SITE_SPIP)</small>]
-				[(#SI_PAGE{sommaire}|non)</a>]
-			</header>
-		</div>
-		<div id="contenu">
-			<section class="span6 offset1">
-				<div class="main">
-					[(#ENV{date_debut}|non)
-					<INCLURE{fond=inclure/agenda-liste_futur,intro=non,mois=oui,env} />]
-					[(#ENV{date_debut}|oui)
-					[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|oui)
-					<INCLURE{fond=inclure/agenda-liste,intro=non,env} />]
-					[(#ENV{date_debut}|<{#ENV{date}|affdate{'Y-m-01 H:i:00'}}|non)
-					<INCLURE{fond=inclure/agenda-liste_futur,date=#ENV{date_debut},intro=non,env} />]]
-				</div>
-			</section>
-		</div>
-	</div>
-</div>
+<style>
+body, xbody {
+        background-color:#F1F225;
+} 
+.wrapper a,.extra a,.evenements.seminaires .well a{
+  color:@black;
+  background: @bodyBackground; /* Chrome,Safari4+ */ /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
+  background: -webkit-linear-gradient(to right, #ffffff 0%, #ffffff 2%, @bodyBackground 50%, #ffffff 100%);
+  background: -moz-linear-gradient(to right, #ffffff 0%, #ffffff 2%, @bodyBackground 50%, #ffffff 100%);
+  background: -o-linear-gradient(to right, #ffffff 0%, #ffffff 2%, @bodyBackground 50%, #ffffff 100%);
+  background: -webkit-gradient(linear, 100% 0, 0 0, from(#ffffff), color-stop(0.02, #ffffff), color-stop(0.50, @bodyBackground), to(#ffffff));
+  background: linear-gradient(to right, #ffffff 0%, #ffffff 2%, @bodyBackground 50%, #ffffff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}
 
-[(#FILTRE{facteur_convertir_styles_inline})] 
-[(#FILTRE{supprimer_tags|filtrer_entites|trim})]
+.wrapper a:hover,.extra a:hover,.evenements.seminaires .well a:hover{
+  color:@black;
+  background: #fff99e; /* Chrome,Safari4+ */ /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
+  background: -webkit-linear-gradient(to right, #ffffff 0%, #ffffff 2%, #fff99e 50%, #ffffff 100%);
+  background: -moz-linear-gradient(to right, #ffffff 0%, #ffffff 2%, #fff99e 50%, #ffffff 100%);
+  background: -o-linear-gradient(to right, #ffffff 0%, #ffffff 2%, #fff99e 50%, #ffffff 100%);
+  background: -webkit-gradient(linear, 100% 0, 0 0, from(#ffffff), color-stop(0.02, #ffffff), color-stop(0.50, #fff99e), to(#ffffff));
+  background: linear-gradient(to right, #ffffff 0%, #ffffff 2%, #fff99e 50%, #ffffff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+.wrapper .well a,.extra .well a{
+  background: @bodyBackground; /* Chrome,Safari4+ */ /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
+  background: -webkit-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, @bodyBackground 50%, #eeeeee 100%);
+  background: -moz-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, @bodyBackground 50%, #eeeeee 100%);
+  background: -o-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, @bodyBackground 50%, #eeeeee 100%);
+  background: -webkit-gradient(linear, 100% 0, 0 0, from(#eeeeee), color-stop(0.02, #eeeeee), color-stop(0.50, @bodyBackground), to(#eeeeee));
+  background: linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, @bodyBackground 50%, #eeeeee 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=1 ); /* IE6-9 */
+}
+
+.wrapper .well a:hover,.extra .well a:hover{
+  background: #fff99e; /* Chrome,Safari4+ */ /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
+  background: -webkit-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, #fff99e 50%, #eeeeee 100%);
+  background: -moz-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, #fff99e 50%, #eeeeee 100%);
+  background: -o-linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, #fff99e 50%, #eeeeee 100%);
+  background: -webkit-gradient(linear, 100% 0, 0 0, from(#eeeeee), color-stop(0.02, #eeeeee), color-stop(0.50, #fff99e), to(#eeeeee));
+  background: linear-gradient(to right, #eeeeee 0%, #eeeeee 2%, #fff99e 50%, #eeeeee 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=1 ); /* IE6-9 */
+}
+
+.wrapper .actualites .span2 a,.pagination a,.main .pagination a, .markItUp .markItUpHeader a, .markItUp .markItUpTabs a, .markItUp .markItUpFooter a,
+.formulaire_spip a,a.lien_document,a.lien_important,.main .pagination a:hover, .markItUp .markItUpHeader a:hover, .markItUp .markItUpTabs a, .markItUp .markItUpFooter a:hover,
+.formulaire_spip a:hover,a.lien_document:hover,a.lien_important:hover,.lien_agenda,.lien_agenda:hover,.axes_transversaux a{
+  background:none;
+  filter:none;
+}
+
+.formulaire_spip a,.formulaire_spip a:hover{
+  color:#fff99e;
+}
+a.lien_document,a.lien_document:hover,a.lien_important,a.lien_important:hover{
+  padding-right:12px;
+  background:transparent url(img/puce.gif) no-repeat right center;
+}
+</style>
+    <div style="background-color:#F1F225" align="center">
+    <table id="page" style="font-size:12px;line-height:17px;margin:0;font-family:'century_gothic','Century Gothic',Arial,sans-serif;border-collapse:collapse;border-spacing:0px" width="640px">
+        <thead>
+        <!--[if gte mso 9]>
+        <v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+            <v:fill type="tile" src="cid:a0f041981a7cb4a6c0829f282eb6b25a" color="#F1F225"/>
+        </v:background>
+        <![endif]-->
+        <tr>
+            <th width="640px" style="border:none;padding:0px;margin:0px"><img src="http://www.thalim.cnrs.fr/IMG/png/bandeau_newsletter.png" class="logo" width="100%" height="100%" style="border:none;margin:0"></th>
+        </tr>
+    </thead>
+    <tbody style="background-color:#F1F225;order-collapse:collapse;border-spacing:0px;border:none" width="640px">
+        <tr>
+            <td style="background-color:#FFF;padding:87px 10px 10px;">
+                [({#DATE|affdate{'Y-m-01 H:i:00'}}|non)
+                <INCLURE{fond=inclure/agenda-liste_futur,date=#DATE,intro=non,env} />]
+            </td>
+    </table>
