@@ -1,0 +1,26 @@
+<BOUCLE_article_evt(ARTICLES){id_article}>
+[(#SET{annee,#DATE|annee})][(#SET{mois,#DATE|nom_mois})][(#SET{jour,#DATE|jour})]
+<article class="entry vevent idart_#ID_ARTICLE" itemscope itemtype="http://schema.org/Event" style="margin-bottom: 0;">
+	<div class="entry-title #EDIT{titre}" style="background-color:#fff;margin-bottom:6pt;margin-top:0;font-size:9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;"><p style="margin-top:0;margin-bottom:0px;line-height:12pt;"><a style="color:black;text-decoration: none;" itemprop="url" class="url" href="[(#URL_ARTICLE)]">[(#LOGO_ARTICLE|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">[(#TITRE|propre|PtoBR)]</span></a></p>
+	[<p style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;font-family:'century_gothic','Century Gothic',Times,serif"><time>(#DATE_REDAC|<{#DATE}|et{#DATE_REDAC|=={0000-00-00 00:00:00}|non}|et{#DATE_REDAC|=={''}|non}|?{#DATE_REDAC,#DATE}|agenda_affdate_debut_fin{#DATE,non,'hcal annee'})</time></p>]
+	<meta itemprop="startDate" content="[(#DATE|date_iso)]" />
+	<meta itemprop="endDate" content="[(#DATE|date_iso)]" />
+	</div>
+	<div class="entry-content">
+	#SET{intro,''}
+	[(#ENV{intro,oui}|=={non}|non)[<div class="introduction" itemprop="description">(#INTRODUCTION{200})</div>]]
+	</div>
+	<B_documents>
+	[(#ENV{sans_document,oui}|=={oui}|non)[<p>
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN appel}{' '}>
+	<a href="#URL_DOCUMENT" class="lien_document">[(#DOCUMENT_TYPE|=={appel}|?{<:thalim:document_appel:>,''})]</a>
+	</BOUCLE_documents>
+	</p>
+	</B_documents>
+	<B_mots_art>
+	<p class="meta-publi">
+		<span class="sep">|</span> <BOUCLE_mots_art(MOTS){si #ENV{afficher_tags}|=={oui}}{id_article}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>
+	</p>
+	</B_mots_art>
+</article>
+</BOUCLE_article_evt>

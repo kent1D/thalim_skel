@@ -61,7 +61,7 @@
 	<a href="#URL_SITE_SPIP/"><:accueil_site:></a><span class="sep divider"> &gt; </span><strong class="on active"><:diogene:publier_titre_hierarchie:></strong>
 </div>]
 <div class="content-principal">
-	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|non)
+	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|ou{#GET{contenu_attente}}|non)
 	<div class="cartouche">
 		<h1 class="h1"><:diogene:erreur:></h1>
 	</div>
@@ -70,7 +70,7 @@
 			<p class="reponse_formulaire_erreur">[(#ENV{type_objet}|?{<:diogene:erreur_objet_publier_aucun:>,<:diogene:erreur_objet_publier:>})]</p>
 		</div>
 	</div>]
-	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|oui)
+	[(#GET{contenu}|ou{#GET{contenu_attente_vous}}|ou{#GET{contenu_attente}}|oui)
 	<div class="cartouche">
 		<h1 class="h1"><:diogene:publier_titre:></h1>
 	</div>
@@ -82,6 +82,10 @@
 		[<div id="diogene_proposes_vous">
 			<h2 class="h2"><:diogene:titre_publier_proposes_page_vous:></h2>
 			(#GET{contenu_attente_vous})
+		</div>]
+		[<div id="diogene_proposes">
+			<h2 class="h2"><:diogene:titre_publier_proposes_page:></h2>
+			(#GET{contenu_attente})
 		</div>]
 	</div>]
 </div>

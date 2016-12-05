@@ -1,0 +1,25 @@
+<!--[if lt IE 7 ]> <body class="no-js ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7 ]>    <body class="no-js ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8 ]>    <body class="no-js ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9 ]>    <body class="no-js ie ie9 lte9" > <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body>
+<!--<![endif]-->
+	<div class="page">
+		<div class="container">
+			<div class="header" id="header">
+				<INCLURE{fond=header/dist,env,nu=oui} />
+			</div>
+			<div class="container_top"></div>
+			<div class="maincontainer" id="maincontainer">
+				<div class="wrapper" id="wrapper">
+					<div class="content primary" id="content">
+						<INCLURE{fond=content/#ENV{type-page},env} />
+					</div>
+				</div>
+			<div class="retour_haut">
+				<a href="#"><:thalim:retour_haut:></a>
+			</div>
+		</div>
+	</div>
+</body>

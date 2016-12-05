@@ -1,0 +1,342 @@
+#SET{affichage_duree,#ENV{affichage_duree,2}}
+#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_dateplus{5184000,'Y-m-d 00:00:00'}}
+#SET{date_mois_prochain,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+[(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
+	#SET{affichage_duree,12} 
+	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+	#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
+	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+]
+[(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
+[(#GET{date_debut}|annee|unique{annee}|non)]
+
+<style type="text/css">
+body, xbody {
+    background-color:#f4e94f;
+}
+.liste-puce li:before {
+    content: "\2022 "; /* caractère UTF-8 */
+    font-size:18px;
+    float:left;
+    margin-top:0;
+    margin-left:-18px;
+    line-height:12pt;
+}
+a {
+    color:black;
+    text-decoration: none;
+}
+a:hover {
+    color:black;
+    text-decoration: none;
+    background: #f4e94f;
+    background: -webkit-linear-gradient(to right,#ffffff 0%,#ffffff 2%,#f4e94f 50%,#ffffff 100%);
+    background: -moz-linear-gradient(to right,#ffffff 0%,#ffffff 2%,#f4e94f 50%,#ffffff 100%);
+    background: -o-linear-gradient(to right,#ffffff 0%,#ffffff 2%,#f4e94f 50%,#ffffff 100%);
+    background: -webkit-gradient(linear,100% 0,0 0,from(#ffffff),color-stop(0.02,#ffffff),color-stop(0.50,#f4e94f),to(#ffffff));
+    background: linear-gradient(to right,#ffffff 0%,#ffffff 2%,#f4e94f 50%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ffffff',GradientType=1);
+}
+</style>
+<body style="background-color:#f4e94f">
+<div style="background-color:#f4e94f;min-width:640px;width:100%;margin:0px auto;padding:20px 20px 20px 20px;" align="left">
+    <div style="width:600px;margin-top:20px">
+        <p style="font-style:italic;font-size:9pt;font-family:'century_gothic','Century Gothic',Arial,sans-serif;">Si votre messagerie n'affiche pas cette page correctement, en particulier si vous utilisez Microsoft Office Outlook, <a href="http://www.thalim.cnrs.fr/?page=thalimnewsletter">cliquez ici</a>&nbsp;</p>
+    </div>
+    <div style="background-color:#f4e94f;width:600px;max-height:164px;height:164px;overflow:hidden;padding:0;">
+            <img src="http://www.thalim.cnrs.fr/IMG/png/bandeau_Newsletter_THALIM-600.png" class="logo" width="600px" height="164px" style="border:none;width:600px;max-width:600px;height:164px;margin:0px auto;" alt="thalim" />
+    </div>
+    <div style="background-color:#f4e94f;width:600px;overflow:hidden;padding:0;margin-bottom:20px;text-align:left;" align="left" width="600px">
+    <table id="page" style="background-color:#fff;max-width:600px;width:600px;border-top: 0px;border-collapse:collapse;border-spacing:none;padding:0px;margin:0px auto;text-align:left;" align="left" width="600px">
+        <tbody style="font-size:12pt;line-height:1.5em;font-family:'century_gothic','Century Gothic',Arial,sans-serif;color:#020202;background-color:#fff;max-width:600px;width:600px;margin:0px auto;" align="left">
+            <tr><td colspan="3" style="background-color:#fff;height:20px;">&nbsp;</td></tr>
+            <tr><td style="background-color:#fff;width:20px;text-align:left">&nbsp;</td><td style="text-align:left;background-color:#fff;max-width:560px;width:560px;">
+            <h1 class="ellipse" style="font-size:16pt;line-height: 1.1em;font-weight: normal;;overflow:hidden;border:none;max-width:200px;width:200px;margin:0px;height:36px;">
+                <img style="border:none;max-width:200px;width:200px;margin:0px;height:36px;" src="http://www.thalim.cnrs.fr/IMG/png/Titre_actualites_ellipse_200px.png" alt="Actualit&eacute;s">
+            </h1>
+            #SET{has_event,non}
+
+            #SET{exposition,#ARRAY}
+            <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{doublons art}>
+                <BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}>
+                [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                [(#SET{exposition,[(#GET{exposition}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+                </BOUCLE_ev_expo2>
+            </BOUCLE_ev_expo>
+            [(#GET{exposition}|count|>{0}|oui) #SET{expos,ok}]
+            <BOUCLE_si_expo(CONDITION){si #GET{expos}|=={ok}|oui}>
+                <B_data_expo>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{mot,220}</h3>
+                <ul class="liste-items liste-puce evenements" style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_data_expo(DATA){si #GET{exposition}|count|>{0}}{source tableau,#GET{exposition}}{!par cle}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
+                    </li>
+                </BOUCLE_data_expo>
+                </ul>
+                </B_data_expo>
+            </BOUCLE_si_expo>
+
+            #SET{prix,#ARRAY}
+            <BOUCLE_ev_prix(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{doublons art}>
+                <BOUCLE_ev_prix2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=1050}>
+                    [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                    [(#SET{prix,[(#GET{prix}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+                </BOUCLE_ev_prix2>
+            </BOUCLE_ev_prix>
+            [(#GET{prix}|count|>{0}|oui) #SET{prixes,ok}]
+            <BOUCLE_si_prix(CONDITION){si #GET{prixes}|=={ok}|oui}>
+                <B_data_prix>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{mot,1050}</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_data_prix(DATA){si #GET{prix}|count|>{0}}{source tableau,#GET{prix}}{!par cle}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
+                    </li>
+                </BOUCLE_data_prix>
+                </ul>
+                </B_data_prix>
+            </BOUCLE_si_prix>
+
+            <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
+                <BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
+                #SET{communications,#ARRAY}
+                <BOUCLE_comm1(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
+                    <BOUCLE_aut_comm1(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                    [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    </BOUCLE_aut_comm1>
+                </BOUCLE_comm1>
+                <BOUCLE_comm2(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
+                    <BOUCLE_aut_comm2(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                    [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    </BOUCLE_aut_comm2>
+                </BOUCLE_comm2>
+                <BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+                    <BOUCLE_aut_evcomm1(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                    [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
+                    </BOUCLE_aut_evcomm1>
+                </BOUCLE_evcomm1>
+                <B_evcomm>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_evcomm(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
+                    <BOUCLE_si_val(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #VALEUR
+                    </li>
+                    </BOUCLE_si_val>
+                </BOUCLE_evcomm>
+                </ul>
+                </B_evcomm>
+                </BOUCLE_si_rub_communications>
+                </B_si_rub_communications>
+                <B_evt1>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_evt1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+                    <BOUCLE_evt1_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document,intro=non,env}
+                    </li>
+                    </BOUCLE_evt1_thalim>
+                </BOUCLE_evt1>
+                </ul>
+                </B_evt1>
+            </BOUCLE_rubriques>
+            </B_rubriques>
+            <BOUCLE_annee3(RUBRIQUES){id_rubrique=250}>
+            <B_ev_colloque>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+                    <BOUCLE_ev_colloque_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
+                    </li>
+                    </BOUCLE_ev_colloque_thalim>
+                </BOUCLE_ev_colloque>
+                </ul>
+                #SET{has_event,oui}
+            </B_ev_colloque>
+            </BOUCLE_annee3>
+            #SET{evenements,#ARRAY}
+            <BOUCLE_rubriques3(RUBRIQUES){id_rubrique=262}>
+                [(#REM)Les appels qui commencent dans ce qui reste de mois]
+                <BOUCLE_ev3_1(ARTICLES){auteurs.statut IN 0minirezo,1comite}{date > #ENV{date}}{date > #GET{date_debut}}{date < #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+                    [(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+                </BOUCLE_ev3_1>
+                <BOUCLE_ev3_2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac < #ENV{date}}{date > #ENV{date}}{id_mot?}{id_rubrique}{doublons}>
+                    [(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE_REDAC|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+                </BOUCLE_ev3_2>
+                <BOUCLE_ev3_21(ARTICLES){auteurs.statut IN 0minirezo,1comite}{date_redac != ''}{date_redac != '0000-00-00 00:00'}{date_redac >= #ENV{date}}{date_redac < #GET{date_fin}}{date > #GET{date_fin}}{id_mot?}{id_rubrique}{doublons}>
+                    [(#SET{evenements,[(#GET{evenements}|array_merge{[(#ARRAY{[(#DATE_REDAC|replace{' ','_'}|replace{':','_'})]_[(#COMPTEUR_BOUCLE)],#ID_ARTICLE})]})]})]
+                </BOUCLE_ev3_21>
+                <B_ev3_3>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#TITRE</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_ev3_3(DATA){source table,#GET{evenements}}{par cle}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_date_redac_newsletter,id_article=#VALEUR,sans_document=oui,intro=non,env}
+                    </li>
+                </BOUCLE_ev3_3>
+                </ul>
+                #SET{has_event,oui}
+                </B_ev3_3>
+            </BOUCLE_rubriques3>
+            <BOUCLE_annee4(RUBRIQUES){id_rubrique=270}>
+            <B_ev_soutenance>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_ev_soutenance(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
+                    </li>
+                </BOUCLE_ev_soutenance>
+                </ul>
+                #SET{has_event,oui}
+            </B_ev_soutenance>
+            </BOUCLE_annee4>
+
+            #SET{publications_ouvrages,#ARRAY}
+            #SET{publications_articles,#ARRAY}
+            #SET{mots_ouvrages,#LISTE{463,1053}}
+            #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
+            #SET{mots_articles,#LISTE{495,1052}}
+            #SET{type_hal_articles,#LISTE{ART,COUV}}
+            <BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+                <BOUCLE_aut_ev1(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,env})]})]})]})]
+                </BOUCLE_aut_ev1>
+            </BOUCLE_ev1>
+            <BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+                <BOUCLE_aut_ev2(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,env})]})]})]})]
+                </BOUCLE_aut_ev2>
+            </BOUCLE_ev2>
+            <BOUCLE_ev3(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+                <BOUCLE_aut_ev3(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,env})]})]})]})]
+                </BOUCLE_aut_ev3>
+            </BOUCLE_ev3>
+            <BOUCLE_ev4(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_articles}>
+                <BOUCLE_aut_ev4(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,env})]})]})]})]
+                </BOUCLE_aut_ev4>
+            </BOUCLE_ev4>
+            <BOUCLE_rubriques_pub(RUBRIQUES){racine}{composition=publications}>
+                <BOUCLE_ouvrages_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
+                [(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
+                #SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication_newsletter,id_article,sans_document=oui,intro=non,env}}}}
+                </BOUCLE_ouvrages_pub>
+                <BOUCLE_articles_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_articles}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
+                [(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
+                [(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication_newsletter,id_article,sans_document=oui,intro=non,env})]})]})]})]
+                </BOUCLE_articles_pub>
+            </BOUCLE_rubriques_pub>
+            [(#GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui) #SET{publications,ok}]
+            <BOUCLE_si_publications(CONDITION){si #GET{publications}|=={ok}|oui}>
+                <div class="publications">
+                    <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,3}</h3>
+                    <B_data_publications>
+                    <h4><:thalim:titre_ouvrages:></h4>
+                    <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                    <BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}>
+                        <BOUCLE_si_val2(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+                        <li class="item" style="padding: 0.8em 0;">
+                            #VALEUR
+                        </li>
+                        </BOUCLE_si_val2>
+                    </BOUCLE_data_publications>
+                    </ul>
+                    </B_data_publications>
+                    <B_data_publications_articles>
+                    <h4><:thalim:titre_articles:></h4>
+                    <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                    <BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}>
+                        <BOUCLE_si_val3(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+                        <li class="item" style="padding: 0.8em 0;">
+                            #VALEUR
+                        </li>
+                        </BOUCLE_si_val3>
+                    </BOUCLE_data_publications_articles>
+                    </ul>
+                    </B_data_publications_articles>
+                </div>
+            </BOUCLE_si_publications>
+                #SET{has_event,oui}
+            </B_si_publications>
+            <BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,271,267}>
+            <BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
+            #SET{communications,#ARRAY}
+                <BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #ENV{date}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
+                    <BOUCLE_aut_comm12(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                    [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    </BOUCLE_aut_comm12>
+                </BOUCLE_comm12>
+                <BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #ENV{date}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
+                    <BOUCLE_aut_comm22(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+                    [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    </BOUCLE_aut_comm22>
+                </BOUCLE_comm22>
+                <BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+                    <BOUCLE_aut_evcomm12(ARTICLES){statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                    [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
+                    </BOUCLE_aut_evcomm12>
+                </BOUCLE_evcomm12>
+                <B_evcomm2>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#_rubriques2:TITRE</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_evcomm2(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
+                    <BOUCLE_si_val4(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #VALEUR
+                    </li>
+                    </BOUCLE_si_val4>
+                </BOUCLE_evcomm2>
+                </ul>
+                #SET{has_event,oui}
+                </B_evcomm2>
+            </BOUCLE_si_communication>
+            </B_si_communication>
+            <B_ev>
+            <B_ev_autre>
+                <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#TITRE</h3>
+                <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
+                <BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{doublons art}>
+                    <BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                    <li class="item" style="padding: 0.8em 0;">
+                        #INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
+                    </li>
+                    </BOUCLE_ev_autre>
+                </BOUCLE_ev>
+                </ul>
+                #SET{has_event,oui}
+            </B_ev_autre>
+            </B_ev>
+            </BOUCLE_rubriques2>
+        </td><td style="background-color:#fff;width:20px;text-align:left"></td>
+    </tr>
+    <tr>
+        <td colspan="3" style="padding:30px 150px 0px 150px;background-color:#fff">
+            <div align="center" style="border-top:1px solid #ccc" width="200px">
+                <p style="font-style:italic;font-size:8pt;"><a style="text-decoration:none;color:black;" href="mailto:sympa@groupes.renater.fr?subject=unsubscribe%20thalimnewsletter&body=Pour%20ne%20plus%20recevoir%20la%20newsletter%20thalim,%20merci%20d%27envoyer%20ce%20message.">Cliquez ici, pour vous d&eacute;sinscrire de la newsletter thalim.</a>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</div>
+</body>

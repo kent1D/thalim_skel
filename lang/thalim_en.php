@@ -4,6 +4,9 @@
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
+	//A
+	'abonnement_newsletter' => 'Sign up for our newsletter',
+	
 	// B
 	'bouton_retour_membre' => 'Back to its member page',
 

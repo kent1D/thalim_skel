@@ -1,0 +1,36 @@
+<BOUCLE_article_evt(ARTICLES){id_evenement=#ENV{id,#ENV{id_evenement}}}>
+<BOUCLE_vevent(EVENEMENTS){id_evenement=#ENV{id,#ENV{id_evenement}}}{tout}>
+<article class="entry vevent id_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event" style="margin-bottom: 0;">
+	<span itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]"></span>
+	<span itemprop="endDate" content="[(#DATE_FIN|date_iso)]" /></span>
+	<div class="entry-title summary #EDIT{titre}" style="margin-bottom:6pt;margin-top:0;font-size: 9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;"><p style="margin-top:0;margin-bottom:0px;line-height:12pt;"><a style="color:black;text-decoration: none" itemprop="url" class="url" href="[(#URL_EVENEMENT)]">[(#LOGO_EVENEMENT|image_reduire{150,100}|inserer_attribut{itemprop,image})]<span itemprop="name">[(#TITRE|propre|PtoBR|replace{'<a ','<a style="color:black;text-decoration:none"'})]</span></a></p>
+	[(#_article_evt:SEMINAIRE|=={on}|ou{#_article_evt:ID_SECTEUR|=={247}}|oui)
+	[<p style="margin-top:0;margin-bottom:0px;line-height:10.8pt"><:seminaire:info_seminaire|replace{' : ',''}:> &laquo;&nbsp;<a style="color:black;text-decoration: none;" href="#URL_ARTICLE">(#_article_evt:TITRE)</a>&nbsp;&raquo;</p>]]
+	[(#_article_evt:ID_SECTEUR|=={267}|oui)
+	[<p style="margin-top:0;margin-bottom:0;line-height:10.8pt">(#_article_evt:SOUSTITRE)</p>]]
+	[<p style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;font-family:'century_gothic','Century Gothic',Times,serif">(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</p>]</div>
+	[(#ENV{intro}|=={non}|non|et{#ENV{afficher_lieu}|=={oui}}|=={oui}|oui)<div class="entry-content">]
+	#SET{intro,''}<BOUCLE_art(ARTICLES){si #ENV{sinon_intro_article,oui}|=={non}|ou{#ENV{intro}|=={non}}|non}{id_article}>#SET{intro,#INTRODUCTION{#ENV{coupe,200}}</BOUCLE_art>
+	[(#ENV{intro,oui}|=={non}|non)[<div class="introduction #EDIT{descriptif}" itemprop="description">(#DESCRIPTIF|couper{200}|sinon{#GET{intro}})</div>]]
+
+	[(#ENV{afficher_lieu}|=={oui}|oui)
+	[<p class="location" itemprop="location"><span class="lieu #EDIT{lieu}">(#LIEU)</span>[<br /><span class="adresse #EDIT{adresse}">(#ADRESSE|PtoBR)</span>]</p>]]
+	[(#ENV{intro}|=={non}|non|et{#ENV{afficher_lieu}|=={oui}}|=={oui}|oui)</div>]
+	<B_documents>
+	<p>
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,programme}{' '}>
+	[(#DOCUMENT_TYPE|=={affiche}|oui)
+	<a style="color:black;text-decoration: none;" href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_programme:>})]</a>]
+	[(#DOCUMENT_TYPE|=={affiche}|non)
+	<a style="color:black;text-decoration: none;" href="#URL_DOCUMENT" class="lien_document[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|oui)mediabox]">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_programme:>})]</a>]
+	</BOUCLE_documents>
+	</p>
+	</B_documents>
+	<B_mots_art>
+	<p class="meta-publi">
+		<span class="sep">|</span> <BOUCLE_mots_art(MOTS){si #ENV{afficher_tags}|=={oui}}{id_article=#_article_evt:ID_ARTICLE}{par num titre,titre}{' '}{doublons mots}><span class="category"><i class="icon-tag"></i> <a style="color:black;text-decoration: none;" href="#URL_MOT">#TITRE</a></span></BOUCLE_mots_art>
+	</p>
+	</B_mots_art>
+</article>
+</BOUCLE_vevent>
+</BOUCLE_article_evt>

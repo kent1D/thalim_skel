@@ -1,0 +1,13 @@
+.project
+.DS_Store
+test_*
+*.old
+new_*
+Copy\ of\ *
+tmp/*
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+local/*
+IMG/*

@@ -7,6 +7,8 @@
 			class="lire-la-suite hide"><i class="icon-chevron-right" title="<:zpip:lire_la_suite|attribut_html:><:zpip:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></div>
 	[(#_article_evt:SEMINAIRE|=={on}|ou{#_article_evt:ID_SECTEUR|=={247}}|oui)
 	[<p><:seminaire:info_seminaire|replace{' : ',''}:> &laquo;&nbsp;<a href="#URL_ARTICLE">(#_article_evt:TITRE)</a>&nbsp;&raquo;</p>]]
+	[(#_article_evt:ID_SECTEUR|=={267}|oui)
+	[<p>(#_article_evt:SOUSTITRE)</p>]]
 	[<strong>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</strong>]
 	[(#ENV{intro}|=={non}|non|et{#ENV{afficher_lieu}|=={oui}}|=={oui}|oui)<div class="entry-content">]
 	#SET{intro,''}<BOUCLE_art(ARTICLES){si #ENV{sinon_intro_article,oui}|=={non}|ou{#ENV{intro}|=={non}}|non}{id_article}>#SET{intro,#INTRODUCTION{#ENV{coupe,200}}</BOUCLE_art>

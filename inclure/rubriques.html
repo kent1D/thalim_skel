@@ -19,6 +19,9 @@
 		<li[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]>
 			<a href="#URL_SITE_SPIP"[(#ENV{type-page,#ENV{page}}|=={sommaire}|oui)class="on"]><:thalim:lien_accueil_site:></a>
 		</li>
+		<li>
+			<a href="https://groupes.renater.fr/sympa/subscribe/thalimnewsletter" target="_blank" ><:thalim:abonnement_newsletter:></a>
+		</li>
 	<BOUCLE_rub_connecte(RUBRIQUES){composition=connecte}{si #SESSION{id_auteur}|>{0}}>
 		<li[ class="(#EXPOSE{active})"]>
 			<a href="#URL_RUBRIQUE"[ class="(#EXPOSE)"]>#TITRE</a>
