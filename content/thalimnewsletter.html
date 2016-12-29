@@ -21,18 +21,11 @@
 	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
 	#SET{date_fin,#GET{date_debut}|agenda_dateplus{5184000,'Y-m-d 00:00:00'}}
 	#SET{date_mois_prochain,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
-	[(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
-		#SET{affichage_duree,12} 
-		#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-		#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-01-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-		#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
-		#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
-	]
 	[(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 	[(#GET{date_debut}|annee|unique{annee}|non)]
  	#SET{exposition,#ARRAY}
-		<BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
-			<BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{doublons evt}>
+            <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+                <BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{doublons #ID_EVENEMENT}>
 			[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 			[(#SET{exposition,[(#GET{exposition}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
 			</BOUCLE_ev_expo2>
@@ -50,17 +43,15 @@
 			</ul>
 			</B_data_expo>
 		</BOUCLE_si_expo>
-		<//BOUCLE_si_expo>
 
 		#SET{prix,#ARRAY}
-		<BOUCLE_annee2(RUBRIQUES){id_rubrique IN #LISTE{271}}>
-			<BOUCLE_ev_prix(EVENEMENTS){auteurs.statut IN 0minirezo,1comite}{id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
-				<BOUCLE_ev_prix2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=1050}{doublons evt}>
+            <BOUCLE_ev_prix(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+                <BOUCLE_ev_prix2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=1050}{doublons #ID_EVENEMENT}>
 					[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 					[(#SET{prix,[(#GET{prix}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
 				</BOUCLE_ev_prix2>
 			</BOUCLE_ev_prix>
-			[(#GET{prixes}|count|>{0}|oui) #SET{prixes,ok}]
+			[(#GET{prix}|count|>{0}|oui) #SET{prixes,ok}]
 			<BOUCLE_si_prix(CONDITION){si #GET{prixes}|=={ok}|oui}>
 				<B_data_prix>
 				<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{mot,1050}</h3>
@@ -73,8 +64,6 @@
 				</ul>
 				</B_data_prix>
 			</BOUCLE_si_prix>
-			<//BOUCLE_si_prix>
-		</BOUCLE_annee2>
 
 		<BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 			<BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
@@ -92,7 +81,7 @@
 				</BOUCLE_aut_comm2>
 			</BOUCLE_comm2>
 			<BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-				<BOUCLE_aut_evcomm1(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons evt}>
+				<BOUCLE_aut_evcomm1(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
 				</BOUCLE_aut_evcomm1>
@@ -108,14 +97,12 @@
 			</BOUCLE_evcomm>
 			</ul>
 			</B_evcomm>
-			<p>Il n'y a pas d'événement ce mois-ci</p>
-			<//B_evcomm>
 			</BOUCLE_si_rub_communications>
 			</B_si_rub_communications>
 			<B_evt1>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
 			<BOUCLE_evt1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-				<BOUCLE_evt1_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons evt}>
+				<BOUCLE_evt1_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				<li class="item" style="padding: 0.8em 0;">
 					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document,intro=non,env}
 				</li>
@@ -123,12 +110,6 @@
 			</BOUCLE_evt1>
 			</ul>
 			</B_evt1>
-			[(#GET{affichage_duree,1}|=={1}|oui)
-			<p>Il n'y a pas d'événement ce mois-ci</p>]
-			[(#GET{affichage_duree,1}|=={12}|oui)
-			<p>Il n'y a pas d'événement cette année</p>]
-			<//B_evt1>
-			<//B_si_rub_communications>
 		</BOUCLE_rubriques>
 		</B_rubriques>
 		<BOUCLE_annee3(RUBRIQUES){id_rubrique=250}>
@@ -136,7 +117,7 @@
 			<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
 			<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
-				<BOUCLE_ev_colloque_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons evt}>
+				<BOUCLE_ev_colloque_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				<li class="item" style="padding: 0.8em 0;">
 					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
 				</li>
@@ -170,10 +151,6 @@
 			#SET{has_event,oui}
 			</B_ev3_3>
 		</BOUCLE_rubriques3>
-		[(#GET{has_event}|=={non}|oui)
-			<p><:agenda:info_aucun_evenement:></p>
-		]
-		<//B_rubriques>
 		<BOUCLE_annee4(RUBRIQUES){id_rubrique=270}>
 		<B_ev_soutenance>
 			<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
@@ -233,7 +210,7 @@
 			<div class="publications">
 				<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,3}</h3>
 				<B_data_publications>
-				<h4><:thalim:titre_ouvrages:></h4>
+				<h4 style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;text-rendering: optimizelegibility;"><:thalim:titre_ouvrages:></h4>
 				<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
 				<BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}>
 					<BOUCLE_si_val2(CONDITION){si #VALEUR|?{non,#VALEUR}}>
@@ -245,7 +222,7 @@
 				</ul>
 				</B_data_publications>
 				<B_data_publications_articles>
-				<h4><:thalim:titre_articles:></h4>
+				<h4 style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;text-rendering: optimizelegibility;"><:thalim:titre_articles:></h4>
 				<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
 				<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}>
 					<BOUCLE_si_val3(CONDITION){si #VALEUR|?{non,#VALEUR}}>
@@ -260,7 +237,6 @@
 		</BOUCLE_si_publications>
 			#SET{has_event,oui}
 		</B_si_publications>
-		<//B_si_publications>
 		<BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,271,267}>
 		<BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
 		#SET{communications,#ARRAY}
@@ -277,7 +253,7 @@
 				</BOUCLE_aut_comm22>
 			</BOUCLE_comm22>
 			<BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-				<BOUCLE_aut_evcomm12(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons evt}>
+				<BOUCLE_aut_evcomm12(ARTICLES){statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
 				</BOUCLE_aut_evcomm12>
@@ -297,20 +273,26 @@
 			</B_evcomm2>
 		</BOUCLE_si_communication>
 		</B_si_communication>
-		<B_ev>
+            #SET{evts,#ARRAY}
+            <BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+                <BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons #ID_EVENEMENT}>
+                [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+                </BOUCLE_ev_autre>
+            </BOUCLE_ev>
+            [(#GET{evts}|count|>{0}|oui) #SET{fi_evts,ok}]
+            <BOUCLE_si_evts(CONDITION){si #GET{fi_evts}|=={ok}|oui}>
+                <B_data_evts>
 			<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#TITRE</h3>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
-			<BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-				<BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons evt}>
+			<BOUCLE_data_evts(DATA){si #GET{evts}|count|>{0}}{source tableau,#GET{evts}}{par cle}>
 				<li class="item" style="padding: 0.8em 0;">
-					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
+					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
 				</li>
-				</BOUCLE_ev_autre>
-			</BOUCLE_ev>
+                </BOUCLE_data_evts>
 			</ul>
-			#SET{has_event,oui}
-		</B_ev>
-		<//B_si_communication>
+			</B_data_evts>
+		</BOUCLE_si_evts>
 		</BOUCLE_rubriques2>
 		<div id="sinscrire" align="center" style="padding:10px 150px 0px 150px;background-color:#fff">
 			<div align="center" style="border-top:1px solid #ccc" width="200px">
