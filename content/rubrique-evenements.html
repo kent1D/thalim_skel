@@ -8,13 +8,8 @@
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
-			<p>here1</p>
 			[(#AGENDA|=={1}|non)
-				<p>here2</p>
-				[(#ID_RUBRIQUE|=={247}|oui)
-				<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env} />]
-				[(#ID_RUBRIQUE|=={247}|oui)
-				<INCLURE{fond=liste/seminaires-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env} />]]
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_secteur=#ID_RUBRIQUE,titre=#GET{titre},env} />]
 			[(#AGENDA|=={1}|oui)
 			[(#ID_RUBRIQUE|=={3}|oui)
 			<INCLURE{fond=inclure/agenda-liste_contributions,id_rubrique=#ID_RUBRIQUE,affichage_duree=12,env} />]
