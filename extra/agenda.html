@@ -1,19 +1,20 @@
 #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_debut_mois,#GET{date_debut,#ENV{date}}|affdate{'Y-m-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 #SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
-#SET{date_fin,#GET{date_debut}|agenda_dateplus{86400,'Y-m-d 00:00:00'}}
+#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}
+[(#GET{date_debut}|annee|unique{annee}|non)]
 #SET{evenements,#ARRAY}
-<p>#GET{date_debut}</p>
-<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=250}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
 	#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
 </BOUCLE_ev_colloque>
-<BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut}}{date <= #GET{date_fin}}{par date}>
+<BOUCLE_publications(ARTICLES){id_secteur = 3}{date >= #GET{date_debut_mois}}{date <= #GET{date_fin}}{par date}>
 	#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
 </BOUCLE_publications>
 </B_publications>
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique IN 247,251,267,271}>
-<BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 	#SET{evenements,#GET{evenements}|push{#ID_ARTICLE}}
 </BOUCLE_ev>
 </BOUCLE_rubriques>

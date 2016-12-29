@@ -1,5 +1,5 @@
 <composition>
 	<nom>Rubrique Programmes</nom>
 	<description>Composition dédiée à la rubrique des programmes</description>
-	<branche type="article" composition="programme" />
+	<branche type="article" composition="programmes" />
 </composition>

@@ -17,14 +17,18 @@
 	<div class="main">
 	#SET{affichage_duree,#ENV{affichage_duree,2}}
 	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-	#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
 	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
-	#SET{date_fin,#GET{date_debut}|agenda_dateplus{5184000,'Y-m-d 00:00:00'}}
-	#SET{date_mois_prochain,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+	[(#ENV{date}|>={#GET{date_debut}|affdate{'Y-m-30 00:00:00'}}|oui)
+	#SET{date_debut,#GET{date_debut}|agenda_moisdecal{1,'Y-m-01 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}]
+	[(#REM) #SET{date_fin,#GET{date_debut}|agenda_dateplus{5184000,'Y-m-d 00:00:00'}}
+	#SET{date_mois_prochain,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}]
+	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}
 	[(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 	[(#GET{date_debut}|annee|unique{annee}|non)]
  	#SET{exposition,#ARRAY}
-            <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+            <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
                 <BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{doublons #ID_EVENEMENT}>
 			[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 			[(#SET{exposition,[(#GET{exposition}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
@@ -45,7 +49,7 @@
 		</BOUCLE_si_expo>
 
 		#SET{prix,#ARRAY}
-            <BOUCLE_ev_prix(EVENEMENTS){id_rubrique=271}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+            <BOUCLE_ev_prix(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
                 <BOUCLE_ev_prix2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=1050}{doublons #ID_EVENEMENT}>
 					[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 					[(#SET{prix,[(#GET{prix}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
@@ -80,7 +84,7 @@
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 				</BOUCLE_aut_comm2>
 			</BOUCLE_comm2>
-			<BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+			<BOUCLE_evcomm1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 				<BOUCLE_aut_evcomm1(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
@@ -101,7 +105,7 @@
 			</B_si_rub_communications>
 			<B_evt1>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
-			<BOUCLE_evt1(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+			<BOUCLE_evt1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 				<BOUCLE_evt1_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				<li class="item" style="padding: 0.8em 0;">
 					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document,intro=non,env}
@@ -116,7 +120,7 @@
 		<B_ev_colloque>
 			<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
-			<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+			<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
 				<BOUCLE_ev_colloque_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				<li class="item" style="padding: 0.8em 0;">
 					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
@@ -155,7 +159,7 @@
 		<B_ev_soutenance>
 			<h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
 			<ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
-			<BOUCLE_ev_soutenance(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
+			<BOUCLE_ev_soutenance(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
 				<li class="item" style="padding: 0.8em 0;">
 					#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env}
 				</li>
@@ -252,7 +256,7 @@
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
 				</BOUCLE_aut_comm22>
 			</BOUCLE_comm22>
-			<BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+			<BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
 				<BOUCLE_aut_evcomm12(ARTICLES){statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
 				[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
 				[(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
@@ -274,7 +278,7 @@
 		</BOUCLE_si_communication>
 		</B_si_communication>
             #SET{evts,#ARRAY}
-            <BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+            <BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
                 <BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons #ID_EVENEMENT}>
                 [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
                 [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
