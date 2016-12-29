@@ -16,6 +16,7 @@
 ]
 [(#REM) Ne pas afficher l'annee de depart, elle est dans le h2)]
 [(#GET{date_debut}|annee|unique{annee}|non)]
+<p>#GET{date_debut}</p>
 <div id="agenda-liste" class="liste long evenements agenda_futur">
 <h2>[(#GET{date_debut}|affdate_periode{#GET{affichage_duree},#GET{affichage_debut}})]</h2>
 #SET{has_event,non}
