@@ -19,7 +19,8 @@
 <div id="agenda-liste" class="liste long evenements">
 <h2>[(#GET{date_debut}|affdate_periode{#GET{affichage_duree},#GET{affichage_debut}})]</h2>
 #SET{has_event,non}
-
+<p>#GET{date_debut}</p>
+<p>#GET{date_fin}</p>
 <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 	<BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
 	#SET{communications,#ARRAY}
