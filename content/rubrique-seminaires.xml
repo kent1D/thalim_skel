@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Séminaire</nom>
+	<description>Composition dédiée à la rubrique des séminaires</description>
+	<branche type="article" composition="seminaires" />
+</composition>

@@ -1,0 +1,29 @@
+#SET{affichage_duree,12}
+#SET{affichage_debut,date_jour}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|oui)
+#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}]
+[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|non)
+#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}]
+#SET{date_fin,#GET{date_debut}|agenda_dateplus{-86400}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+#SET{articles,#ARRAY}
+<BOUCLE_articles_set(EVENEMENTS){id_rubrique}{fusion id_article}{id_mot ?}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{par hasard}>
+#SET{articles,#GET{articles}|push{#ID_ARTICLE}}
+</BOUCLE_articles_set>
+<BOUCLE_affiches(DOCUMENTS){id_article IN #GET{articles,#ARRAY}}{document_type IN #LISTE{affiche,couverture,programme}}{0,1}>
+<div id="sjcycle_affiches_#ID_RUBRIQUE" class="documents_vignette">
+	<div class="cycle-slideshow" data-cycle-fx="#CONFIG{sjcycle/fx,fade}" data-cycle-speed="#CONFIG{sjcycle/speed}" data-cycle-sync="#CONFIG{sjcycle/sync}" data-cycle-timeout="#CONFIG{sjcycle/timeout}" data-cycle-auto-height="calc"[ data-cycle-random="(#CONFIG{sjcycle/random})"] data-cycle-overlay-template="<div>{{title}}</div>" data-cycle-slides="div.affiche">
+		<BOUCLE_articles(ARTICLES){id_article IN #GET{articles,#ARRAY}}>
+		<BOUCLE_affiches2(DOCUMENTS){id_article}{document_type IN #LISTE{affiche,couverture,programme}}{0,1}>
+		<div class="affiche">
+			<div class="ovale"></div>
+			[<a href="#URL_ARTICLE">
+				(#LOGO_DOCUMENT|image_passe_partout{230,300})
+			</a>]
+		</div>
+		</BOUCLE_affiches2>
+		</BOUCLE_articles>
+	</div>
+</div>
+</BOUCLE_affiches>
+#FILTRE{trim}
