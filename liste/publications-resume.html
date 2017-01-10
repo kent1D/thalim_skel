@@ -25,7 +25,7 @@
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 	</BOUCLE_ouvrages_pub>
-	<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_programme?}{id_mot IN #GET{mots_articles}}{id_auteur}>
+	<BOUCLE_articles_pub(ARTICLES){branche}{id_auteur?}{id_mot?}{id_programme?}{id_mot IN #GET{mots_articles}}>
 	[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 	#SET{publications_articles,#GET{publications_articles}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,intro=non,afficher_auteur=non,env}}}}
 	</BOUCLE_articles_pub>
