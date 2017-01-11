@@ -12,14 +12,13 @@
 			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},nb=20,env,ajax} />
 			</div>
 		</BOUCLE_articles>
+		#SET{ss_rub,#ARRAY}
 		<BOUCLE_rubriques(RUBRIQUES){id_parent}>
-		<BOUCLE_articles_rub(ARTICLES){id_rubrique}{0,1}>
-			[<h2>(#_rubriques:TITRE)</h2>]
-			<div class="liste articles">
-			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},nb=20,env,ajax} />
-			</div>
-		</BOUCLE_articles_rub>
+			[(#SET{ss_rub,#GET{ss_rub}|push{#ID_RUBRIQUE}})]
 		</BOUCLE_rubriques>
+		<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},tab_rubriques=#GET{ss_rub},titre=#GET{titre},tri=titre,nb=20,env,ajax} />
+		</div>
 	<//B_articles>
 	</div>
 
