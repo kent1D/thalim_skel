@@ -1,11 +1,9 @@
-#SET{affichage_duree,12}
 #SET{affichage_debut,date_jour}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|oui)
-#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}]
-[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|non)
-#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}]
-#SET{date_fin,#GET{date_debut}|agenda_dateplus{-86400}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+#SET{date_debut,#ENV{date_debut, '2014-01-01 00:00:00'}|affdate{'Y-m-d 00:00:00'}}
+#SET{date_fin, '9999-12-31 00:00:00'}
+#SET{date_prev, '1900-01-01'}
+[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
+#SET{date_fin, '2014-01-01 00:00:00'}]
 #SET{articles,#ARRAY}
 <BOUCLE_articles_set(EVENEMENTS){id_rubrique}{fusion id_article}{id_mot ?}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{par hasard}>
 #SET{articles,#GET{articles}|push{#ID_ARTICLE}}

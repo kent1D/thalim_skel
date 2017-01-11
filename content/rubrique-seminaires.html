@@ -25,32 +25,32 @@
 
 		<BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 			<B_ev>
-			<h3 class="h3">&bull; S&eacute;ance(s) &agrave; venir</h3>
+			<h3 class="seances">&bull; S&eacute;ance(s) &agrave; venir</h3>
 			<BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
 				<B_articles>
 				<ul class="liste-items">
 					<BOUCLE_articles(ARTICLES){id_article}{origine_traduction}{0,1}{doublons}>
 					<BOUCLE_articles_lang(ARTICLES){traduction}{lang=#ENV{lang}}>
 						<BOUCLE_evenement_lang(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
-						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,env}</li>
 						</BOUCLE_evenement_lang>
 						</B_evenement_lang>
-						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,env}</li>
 						<//B_evenement_lang>
 					</BOUCLE_articles_lang>
 					</B_articles_lang>
 						<BOUCLE_evenement(EVENEMENTS{id_article}{0,1}>
-						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,env}</li>
 						</BOUCLE_evenement>
 						</B_evenement>
-						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,env}</li>
 						<//B_evenement>
 					<//B_articles_lang>
 					</BOUCLE_articles>
 				</ul>
 			    </B_articles>
 			</BOUCLE_ev>
-			<h3 class="h3">&bull; S&eacute;ance(s) pass&eacute;e(s)</h3>
+			<h3 class="seances">&bull; S&eacute;ance(s) pass&eacute;e(s)</h3>
 			</B_ev>
 			<BOUCLE_ev2(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
 				<B_articles2>
@@ -58,18 +58,18 @@
 					<BOUCLE_articles2(ARTICLES){id_article}{origine_traduction}{0,1}{doublons}>
 					<BOUCLE_articles_lang2(ARTICLES){traduction}{lang=#ENV{lang}}>
 						<BOUCLE_evenement_lang2(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
-						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,env}</li>
 						</BOUCLE_evenement_lang2>
 						</B_evenement_lang2>
-						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,env}</li>
 						<//B_evenement_lang2>
 					</BOUCLE_articles_lang2>
 					</B_articles_lang2>
 						<BOUCLE_evenement2(EVENEMENTS{id_article}{0,1}>
-						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,env}</li>
 						</BOUCLE_evenement2>
 						</B_evenement2>
-						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,env}</li>
 						<//B_evenement2>
 					<//B_articles_lang2>
 					</BOUCLE_articles2>
