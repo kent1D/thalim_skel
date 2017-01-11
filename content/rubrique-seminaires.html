@@ -1,14 +1,14 @@
-#SET{affichage_duree,12}
 #SET{affichage_debut,date_jour}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
-[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|oui)
-#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}]
-[(#GET{date_debut}|<{#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}|non)
-#SET{date_debut,#GET{date_debut}|affdate{'Y-08-01 00:00:00'}}]
-#SET{date_prev,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1}, 'Y-m-d 00:00:00'}}
-#SET{date_fin,#GET{date_debut}|agenda_dateplus{-86400}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
-#SET{label_prcdt,(#GET{date_prev}|annee)&nbsp;-&nbsp;(#GET{date_prev}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}|annee)}
-#SET{label_svt,(#GET{date_fin}|annee)&nbsp;-&nbsp;(#GET{date_fin}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}|annee)}
+#SET{date_debut,#ENV{date_debut, '2014-01-01 00:00:00'}|affdate{'Y-m-d 00:00:00'}}
+#SET{date_fin, '9999-12-31 00:00:00'}
+#SET{date_prev, '1900-01-01'}
+#SET{label_prcdt,'S&eacute;minaires pass&eacute;s'}
+#SET{label_svt,''}
+[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
+#SET{date_fin, '2014-01-01 00:00:00'}
+#SET{label_svt,'S&eacute;minaires actuels'}
+#SET{label_prcdt,''}]
+<script type="text/javascript">$(function(){$('.disabled').hide();})</script>
 <BOUCLE_content(RUBRIQUES){id_rubrique}>
 <section class="span6 offset1">
 	<header class="cartouche">
@@ -18,12 +18,16 @@
 
 	<div class="main">
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
-		<h2>[[(#GET{date_debut}|annee)]&nbsp;-&nbsp;(#GET{date_fin}|annee)]</h2>
+		[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
+		<h2>S&eacute;minaires pass&eacute;s</h2>]
+		[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|oui)
+		<h2>S&eacute;minaires actuels</h2>]
 
 		<BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
-			<BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
+			<B_ev>
+			<h3 class="h3">&bull; S&eacute;ance(s) &agrave; venir</h3>
+			<BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
 				<B_articles>
-				[<h2 class="h2">&bull; (#ENV{titre}|strtolower)</h2>]
 				<ul class="liste-items">
 					<BOUCLE_articles(ARTICLES){id_article}{origine_traduction}{0,1}{doublons}>
 					<BOUCLE_articles_lang(ARTICLES){traduction}{lang=#ENV{lang}}>
@@ -45,23 +49,55 @@
 					</BOUCLE_articles>
 				</ul>
 			    </B_articles>
-		    </BOUCLE_ev>
+			</BOUCLE_ev>
+			<h3 class="h3">&bull; S&eacute;ance(s) pass&eacute;e(s)</h3>
+			</B_ev>
+			<BOUCLE_ev2(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
+				<B_articles2>
+				<ul class="liste-items">
+					<BOUCLE_articles2(ARTICLES){id_article}{origine_traduction}{0,1}{doublons}>
+					<BOUCLE_articles_lang2(ARTICLES){traduction}{lang=#ENV{lang}}>
+						<BOUCLE_evenement_lang2(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						</BOUCLE_evenement_lang2>
+						</B_evenement_lang2>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<//B_evenement_lang2>
+					</BOUCLE_articles_lang2>
+					</B_articles_lang2>
+						<BOUCLE_evenement2(EVENEMENTS{id_article}{0,1}>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,env}</li>
+						</BOUCLE_evenement2>
+						</B_evenement2>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,env}</li>
+						<//B_evenement2>
+					<//B_articles_lang2>
+					</BOUCLE_articles2>
+				</ul>
+			    </B_articles2>
+		    </BOUCLE_ev2>
 		    #SET{has_event,oui}
-		    </B_ev>
+		    </B_ev2>
 		</BOUCLE_rubriques>
 		<div class="pagination">
-			#SET{hasprev,''}
-			<BOUCLE_prev1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_a_venir #GET{date_prev}}{0,1}> #SET{hasprev,1}</BOUCLE_prev1>
-			#SET{hasnext,''}
-			<BOUCLE_next1(EVENEMENTS){id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}{!evenement_passe #GET{date_fin}}{0,1}> #SET{hasnext,1}</BOUCLE_next1>
-			[(#GET{hasprev}|=={1}|ou{#GET{hasnext}|=={1}}|oui)
+			[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|oui)
 			[(#INCLURE{fond=modeles/pagination_precedent_suivant,
 			label_precedent=#GET{label_prcdt},
 			label_suivant=#GET{label_svt},
-			nombre_pages=#VAL{1}|plus{#GET{hasprev}|?{1,0}}|plus{#GET{hasnext}|?{1,0}},
-			page_courante=#GET{hasprev}|?{2,1},
+			nombre_pages=2,
+			page_courante=2,
 			url_precedent=#SELF|parametre_url{date_debut,#GET{date_prev}|affdate{Y-m-d}},
-			url_suivant=#SELF|parametre_url{date_debut,#GET{date_mois_prochain,#GET{date_fin}|agenda_dateplus{86400}}|affdate{Y-m-d}},
+			url_suivant='',
+			ancre=agenda-liste,
+			separateur=' | '})]]
+			[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
+			[(#INCLURE{fond=modeles/pagination_precedent_suivant,
+			label_precedent=#GET{label_prcdt},
+			label_suivant=#GET{label_svt},
+			nombre_pages=2,
+			page_courante=1,
+			url_precedent='',
+			url_suivant=#SELF|parametre_url{date_debut,'2014-01-01'},
 			ancre=agenda-liste,
 			separateur=' | '})]]
 		</div>
