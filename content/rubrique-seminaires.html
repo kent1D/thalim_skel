@@ -2,11 +2,11 @@
 #SET{date_debut,#ENV{date_debut, '2014-01-01 00:00:00'}|affdate{'Y-m-d 00:00:00'}}
 #SET{date_fin, '9999-12-31 00:00:00'}
 #SET{date_prev, '1900-01-01'}
-#SET{label_prcdt,'S&eacute;minaires pass&eacute;s'}
+#SET{label_prcdt,<:titre_seminaires_passes:>}
 #SET{label_svt,''}
 [(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
 #SET{date_fin, '2014-01-01 00:00:00'}
-#SET{label_svt,'S&eacute;minaires actuels'}
+#SET{label_svt,<:titre_seminaires_actuels:>}
 #SET{label_prcdt,''}]
 <script type="text/javascript">$(function(){$('.disabled').hide();})</script>
 <BOUCLE_content(RUBRIQUES){id_rubrique}>
@@ -19,13 +19,13 @@
 	<div class="main">
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
 		[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|non)
-		<h2>S&eacute;minaires pass&eacute;s</h2>]
+		<h2><:titre_seminaires_passes:></h2>]
 		[(#GET{date_debut}|=={'2014-01-01 00:00:00'}|oui)
-		<h2>S&eacute;minaires actuels</h2>]
+		<h2><:titre_seminaires_actuels:></h2>]
 
 		<BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
 			<B_ev>
-			<h3 class="seances">&bull; S&eacute;ance(s) &agrave; venir</h3>
+			<h3 class="seances">&bull; <:titre_seminaires_seances_a_venir:></h3>
 			<BOUCLE_ev(EVENEMENTS){!evenement_passe #ENV{date}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
 				<B_articles>
 				<ul class="liste-items">
@@ -50,7 +50,7 @@
 				</ul>
 			    </B_articles>
 			</BOUCLE_ev>
-			<h3 class="seances">&bull; S&eacute;ance(s) pass&eacute;e(s)</h3>
+			<h3 class="seances">&bull; <:titre_seances_seminaires_passees:></h3>
 			</B_ev>
 			<BOUCLE_ev2(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
 				<B_articles2>

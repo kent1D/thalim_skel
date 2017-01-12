@@ -136,6 +136,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_seances_seminaire' => 'Séances du séminaire',
 	'titre_seances_seminaires_avenir' => 'À venir',
 	'titre_seances_seminaires_passees' => 'Séance(s) passée(s)',
+	'titre_seminaires_passes' => 'Séminaires passés',
+	'titre_seminaires_actuels' => 'Séminaires actuels',
+	'titre_seminaires_seances_a_venir' => 'Séance(s) à venir',
+	'tutelles' => 'Tutelles',
 );
 
 ?>
