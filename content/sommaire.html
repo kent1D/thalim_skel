@@ -3,10 +3,11 @@
 		<h1>#NOM_SITE_SPIP</h1>
 	</header>
 	<div class="main row">
-		[<div id="descriptif_site_spip" class="span6 offset1">(#DESCRIPTIF_SITE_SPIP)</div>]
+		[<div id="descriptif_site_spip" class="span6 offset1">(#DESCRIPTIF_SITE_SPIP|couper{245, <a href=#URL_RUBRIQUE{252}>(...)</a>})</div>]
 		<INCLURE{fond=inclure/axes_transversaux} />
 		[(#REM)
 		<INCLURE{fond=inclure/prochains_evenements} />]
+		<INCLURE{fond=inclure/sommaire_actualites} /
 		<div class="offset1 span6">
 		#INCLURE{fond=inclure/thesaurus,env}
 		</div>

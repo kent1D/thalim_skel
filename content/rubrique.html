@@ -20,6 +20,7 @@
 		</BOUCLE_articles>
 
 		[(#REM) Si aucun article, affiche un plan de la rubrique ]
+		<BOUCLE_si_presentation(CONDITION){si #ID_RUBRIQUE|=={252}|non}>
 		<B_sous_rubriques>
 		<div class="menu rubriques">
 			<ul class="menu-items menu-liste">
@@ -44,7 +45,8 @@
 			</ul>
 			</div>
 		</B_sous_rubriques>
-	<//B_articles>
+		</BOUCLE_si_presentation>
+		<//B_articles>
 	</div>
 
 	<aside>

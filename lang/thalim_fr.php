@@ -131,6 +131,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_membres_associes_pole' => 'Membres associés',
 	'titre_organigramme' => 'Organigramme',
 	'titre_ouvrages' => 'Ouvrages',
+	'titre_page_presentation' => 'Présentation',
 	'titre_publications' => 'Publications',
 	'titre_revues' => 'Collections et revues',
 	'titre_seances_seminaire' => 'Séances du séminaire',

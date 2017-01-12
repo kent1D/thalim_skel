@@ -3,20 +3,13 @@
 	Affiche la liste des évènements sur la home
 
 ]
-<div class="axes_transversaux row offset1">
-	<B_axes>
-	<div class="span3 col1">
-	<BOUCLE_axes(MOTS){id_groupe = 8}{par num titre}{0,3}>
-		<div class="ellipse"><div class="ovale"></div><h2><a class="url" href="[(#URL_MOT)]"><span class="titre">#TITRE</span></a></h2></div>
-	</BOUCLE_axes>
-	</div>
-	</B_axes>
-	<B_axes2>
-	<div class="span3 col2">
-	<BOUCLE_axes2(MOTS){id_groupe = 8}{par num titre}{3,6}>
-		<div class="ellipse"><div class="ovale"></div><h2><a class="url" href="[(#URL_MOT)]"><span class="titre">#TITRE</span></a></h2></div>
-	</BOUCLE_axes2>
-		</div>
-	</B_axes2>
+<div class="axes_transversaux row offset1 span6">
+	<header class="cartouche">
+		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><span class="titre">th&eacute;matiques transversales</span></h1>
+		<BOUCLE_axes(MOTS){id_groupe = 8}{par descriptif, titre}{' &bull; '}>
+			<h3 class="h3" style="display:inline"><a class="url" href="[(#URL_MOT)]"><span class="titre">#TITRE</span></a></h3>
+		</BOUCLE_axes>
+	</header>
 </div>
 
