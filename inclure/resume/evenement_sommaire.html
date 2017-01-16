@@ -1,0 +1,18 @@
+<BOUCLE_article_evt(ARTICLES){id_evenement=#ENV{id,#ENV{id_evenement}}}>
+<BOUCLE_vevent(EVENEMENTS){id_evenement=#ENV{id,#ENV{id_evenement}}}{tout}>
+<article class="entry vevent id_#ID_EVENEMENT" itemscope itemtype="http://schema.org/Event">
+	<span itemprop="startDate" content="[(#DATE_DEBUT|date_iso)]"></span>
+	<span itemprop="endDate" content="[(#DATE_FIN|date_iso)]"></span>
+	<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]" title="[(#DATE_DEBUT|date_iso)] - [(#DATE_FIN|date_iso)]">
+		<B_documents>
+		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,programme}{' '}>
+		[(#DOCUMENT_TYPE|=={affiche}|oui)
+		<img src="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|image_reduire{150,100})]" class="lien_document mediabox" alt='Affiche'/>]
+		</BOUCLE_documents>
+		</B_documents>
+		<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
+		<div class="entry-title summary #EDIT{titre}"><span itemprop="name">[(#TITRE|propre|PtoBR)]</span></div>
+	</a>
+</article>
+</BOUCLE_vevent>
+</BOUCLE_article_evt>

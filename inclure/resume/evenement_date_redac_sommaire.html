@@ -1,0 +1,16 @@
+<BOUCLE_article_evt(ARTICLES){id_article}>
+<article class="entry vevent idart_#ID_ARTICLE" itemscope itemtype="http://schema.org/Event">
+	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]" title="[(#DATE|date_iso)]">
+		<B_documents>
+		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+		[(#DOCUMENT_TYPE|=={affiche}|oui)
+		<img src="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox" alt='Affiche' />]
+		</BOUCLE_documents>
+		</B_documents>
+		<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
+		<div class="entry-title #EDIT{titre}">
+			<span itemprop="name">[(#TITRE|propre|PtoBR)]</span>
+		</div>
+	</a>
+</article>
+</BOUCLE_article_evt>

@@ -1,0 +1,25 @@
+[(#REM)
+
+  Squelette Presentation resumee d'une publication dans une liste
+  Distribue sous licence GPL
+
+]
+<BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
+<BOUCLE_auteurs(AUTEURS){si #ENV{afficher_auteur}|!={non}}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+#SET{auteur,#NOM}
+#SET{url_auteur,<a href="#URL_AUTEUR">#NOM</a>}
+#SET{auteur_complet,<p class="lesauteurs"><a href="#URL_AUTEUR">#NOM</a></p>}
+</BOUCLE_auteurs>
+<article class="entry article vevent">
+	<a href="#URL_HALS_PUBLICATION" rel="bookmark">
+	<B_documents>
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{' '}>
+	<img src="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox" />
+	</BOUCLE_documents>
+	</B_documents>
+	<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
+	<div class="entry-title"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
+	</a>
+</article>
+</BOUCLE_publication_hal>
+#FILTRE{trim}

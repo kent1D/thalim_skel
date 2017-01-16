@@ -1,0 +1,21 @@
+[(#REM)
+
+  Squelette Presentation resumee d'un article dans une liste
+  Distribue sous licence GPL
+
+]
+<BOUCLE_articles(ARTICLES) {id_article} {statut?}>
+<article class="entry article vevent">
+	<a href="#URL_ARTICLE" rel="bookmark">
+	<B_documents>
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>
+	<img href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox" />
+	</BOUCLE_documents>
+	</B_documents>
+	<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
+	<div class="entry-title">
+		<span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span>
+	</div>
+	</a>
+</article>
+</BOUCLE_articles>
