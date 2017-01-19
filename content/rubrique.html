@@ -7,6 +7,7 @@
 
 	<div class="main">
 		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
+		<BOUCLE_si_non_presentation(CONDITION){si #ID_RUBRIQUE|=={252}|non}>
 		<BOUCLE_articles(ARTICLES){id_rubrique}{0,1}>
 			<div class="liste articles">
 			[(#AGENDA|=={1}|non)
@@ -20,7 +21,6 @@
 		</BOUCLE_articles>
 
 		[(#REM) Si aucun article, affiche un plan de la rubrique ]
-		<BOUCLE_si_presentation(CONDITION){si #ID_RUBRIQUE|=={252}|non}>
 		<B_sous_rubriques>
 		<div class="menu rubriques">
 			<ul class="menu-items menu-liste">
@@ -45,37 +45,48 @@
 			</ul>
 			</div>
 		</B_sous_rubriques>
-		</BOUCLE_si_presentation>
 		<//B_articles>
-	</div>
-
-	<aside>
-		[(#REM) Gestion du portfolio et des documents ]
-		[(#INCLURE{fond=inclure/documents,id_rubrique})]
-
-		[(#REM) Sites de la rubrique ]
-		<B_sites>
-		<div class="liste sites">
-				<h2 class="h2"><:sur_web:></h2>
-				<ul class="liste-items">
-					<BOUCLE_sites(SITES) {id_rubrique} {par nom_site}>
-					<li class="item short">#INCLURE{fond=inclure/resume/site,id_syndic}
-							<B_syndic>
-							<ul class="spip">
-									<BOUCLE_syndic(SYNDIC_ARTICLES) {id_syndic} {age<180} {par date}{inverse} {0,3}>
-									<li class="short with-publication-inline">#INCLURE{fond=inclure/resume/syndic_article,id_syndic_article}</li>
-									</BOUCLE_syndic>
-							</ul>
-							</B_syndic>
-					</li>
-					</BOUCLE_sites>
-				</ul>
 		</div>
-		</B_sites>
-	</aside>
 
-	<footer>
-		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
-	</footer>
-</section>
+		<aside>
+			[(#REM) Gestion du portfolio et des documents ]
+			[(#INCLURE{fond=inclure/documents,id_rubrique})]
+
+			[(#REM) Sites de la rubrique ]
+			<B_sites>
+			<div class="liste sites">
+					<h2 class="h2"><:sur_web:></h2>
+					<ul class="liste-items">
+						<BOUCLE_sites(SITES) {id_rubrique} {par nom_site}>
+						<li class="item short">#INCLURE{fond=inclure/resume/site,id_syndic}
+								<B_syndic>
+								<ul class="spip">
+										<BOUCLE_syndic(SYNDIC_ARTICLES) {id_syndic} {age<180} {par date}{inverse} {0,3}>
+										<li class="short with-publication-inline">#INCLURE{fond=inclure/resume/syndic_article,id_syndic_article}</li>
+										</BOUCLE_syndic>
+								</ul>
+								</B_syndic>
+						</li>
+						</BOUCLE_sites>
+					</ul>
+			</div>
+			</B_sites>
+		</aside>
+
+		<footer>
+			[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+		</footer>
+		</BOUCLE_si_non_presentation>
+	</div>
+	</section>
+	<BOUCLE_sous_rubriques_pres(RUBRIQUES) {id_parent} {par num titre, titre}>
+		<INCLURE{fond=content/rubrique-equipe,id_rubrique,presentation=oui,env} />
+	</BOUCLE_sous_rubriques_pres>
+	[<section class="span6 offset1">
+	<header class="cartouche">
+		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><a class="url" href="(#URL_PAGE{membres})"><span class="titre">Membres de l&apos;unit&eacute;</span></a></h1>
+	</header>
+	</section>]
+	<//B_si_non_presentation>
 </BOUCLE_content>
