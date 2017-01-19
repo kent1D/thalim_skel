@@ -11,14 +11,19 @@
 #SET{auteur_complet,<p class="lesauteurs"><a href="#URL_AUTEUR">#NOM</a></p>}
 </BOUCLE_auteurs>
 <article class="entry article vevent">
-	<a href="#URL_HALS_PUBLICATION" rel="bookmark">
+	<a href="#URL_HALS_PUBLICATION" rel="bookmark" title="Ouvrage" >
 	<B_documents>
-	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{' '}>
-	<img src="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox" />
+	<div class="img sommaire">
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN affiche,couverture}{' '}>
+	[(#DOCUMENT_TYPE|=={couverture}|oui)
+	[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'Affiche'}|inserer_attribut{class,"lien_document sommaire"})]]
 	</BOUCLE_documents>
+	</div>
+	<div class="entry-title img"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
 	</B_documents>
-	<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
-	<div class="entry-title"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
+	<div class="entry-title img"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
+	[<div class="type"><span>(#GET{titre_mot})</span></div>]
+	<//B_documents>
 	</a>
 </article>
 </BOUCLE_publication_hal>

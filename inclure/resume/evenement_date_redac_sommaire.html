@@ -1,16 +1,21 @@
 <BOUCLE_article_evt(ARTICLES){id_article}>
-<article class="entry vevent idart_#ID_ARTICLE" itemscope itemtype="http://schema.org/Event">
-	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]" title="[(#DATE|date_iso)]">
+<BOUCLE_mot(MOTS){id_article}{id_groupe=3}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
+<article class="entry vevent idart_#ID_ARTICLE sommaire" itemscope itemtype="http://schema.org/Event">
+	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]" title="[(#GET{titre_mot})]">
 		<B_documents>
+		<div class="img sommaire">
 		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
 		[(#DOCUMENT_TYPE|=={affiche}|oui)
-		<img src="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox" alt='Affiche' />]
+		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'Affiche'}|inserer_attribut{class,"lien_document sommaire"})]]
 		</BOUCLE_documents>
-		</B_documents>
-		<p>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</p>
-		<div class="entry-title #EDIT{titre}">
+		</div>
+		<div class="entry-title img #EDIT{titre}">
 			<span itemprop="name">[(#TITRE|propre|PtoBR)]</span>
 		</div>
+		</B_documents>
+		<div class="sommaire entry-title no-img #EDIT{titre}"><span itemprop="name">[(#TITRE|propre|PtoBR)]</span></div>
+		[<div class="type"><span>(#GET{titre_mot})</span></div>]
+		<//B_documents>
 	</a>
 </article>
 </BOUCLE_article_evt>
