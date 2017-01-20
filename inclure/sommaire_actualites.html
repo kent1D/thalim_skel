@@ -8,6 +8,20 @@
  */
 ]
 <section id="sommaire_actualites" class="offset1 span6">
+    <script>
+        $(function(){
+            $(".toggle-img").hide();
+            $(".entry.sommaire").mouseenter(function(event) {
+                event.stopPropagation();
+                // $(this).find(".img").hide();
+                $(this).find(".toggle-img").fadeToggle();
+            }).mouseleave(function(event) {
+                event.stopPropagation();
+                // $(this).find(".img").show();
+                $(this).find(".toggle-img").fadeToggle();
+            })
+        });
+    </script>
 	<header>
 		<h1 class="ellipse #EDIT{meta-agenda/titre}"><div class="ovale"> </div><span class="titre">[(#CONFIG{agenda/titre}|sinon{<:agenda:titre_sur_l_agenda:>}|typo)]</span></h1>
 	</header>

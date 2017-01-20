@@ -19,10 +19,9 @@
 	[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'Affiche'}|inserer_attribut{class,"lien_document sommaire"})]]
 	</BOUCLE_documents>
 	</div>
-	<div class="entry-title img"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
+	<div class="entry-title toggle-img sommaire"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
 	</B_documents>
-	<div class="entry-title img"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
-	[<div class="type"><span>(#GET{titre_mot})</span></div>]
+	<div class="entry-title no-img sommaire"><span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
 	<//B_documents>
 	</a>
 </article>

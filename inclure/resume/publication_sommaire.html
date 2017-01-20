@@ -15,12 +15,11 @@
 		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'Affiche'}|inserer_attribut{class,"lien_document  sommaire"})]]
 	</BOUCLE_documents>
 		</div>
-		<div class="entry-title img">
+		<div class="entry-title toggle-img">
 			<span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span>
 		</div>
 	</B_documents>
 		<div class="entry-title no-img #EDIT{titre}"><span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span></div>
-		[<div class="type"><span>(#GET{titre_mot})</span></div>]
 	<//B_documents>
 	</a>
 </article>
