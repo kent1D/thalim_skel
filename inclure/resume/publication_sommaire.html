@@ -8,19 +8,15 @@
 <BOUCLE_mot(MOTS){id_article}{id_groupe=3}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
 <article class="entry article vevent">
 	<a href="#URL_ARTICLE" rel="bookmark" title="[(#GET{titre_mot})]" >
-	<B_documents>
-	<div class="img sommaire">
-	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>
-		[(#DOCUMENT_TYPE|=={couverture}|oui)
-		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'Affiche'}|inserer_attribut{class,"lien_document  sommaire"})]]
-	</BOUCLE_documents>
-		</div>
-		<div class="entry-title toggle-img">
-			<span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span>
-		</div>
-	</B_documents>
-		<div class="entry-title no-img #EDIT{titre}"><span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span></div>
-	<//B_documents>
+        <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
+		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
+		    <div class="entry-title toggle-img"><div class="padding">
+                <span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span>
+		    </div></div>
+        </BOUCLE_documents>
+        <div class="entry-title no-img #EDIT{titre}"><div class="padding"><span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span></div></div>
+    	<//B_documents>
 	</a>
 </article>
 </BOUCLE_articles>

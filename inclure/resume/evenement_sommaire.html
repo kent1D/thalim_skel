@@ -8,11 +8,11 @@
 		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
 		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
 		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
-			<div class="entry-title toggle-img sommaire #EDIT{titre}">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#GET{titre_evt}|propre|PtoBR)]</span></div>
+			<div class="entry-title toggle-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#GET{titre_evt}|propre|PtoBR)]</span></div></div>
 		</div>
 		</BOUCLE_documents>
 		</B_documents>
-		<div class="entry-title no-img sommaire #EDIT{titre}">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#TITRE|propre|PtoBR)]</span></div>
+		<div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#TITRE|propre|PtoBR)]</span></div></div>
 		<//B_documents>
 	</a>
 </article>

@@ -15,10 +15,17 @@
             $(".no-img").css('padding-top','0');
             $(".toggle-img").css('background-color','#fff');
             $(".toggle-img").height(function() {
-                return $(this).parent().width() * 1.4142857143;
+                var hght = $(this).parent().width() * 1.4142857143;
+                $(this).children(".padding").height(hght);
+                return hght;
             });
             $(".no-img").css('padding-top','0');
             $(".no-img").height(function() {
+                var hght = $(this).width() * 1.4142857143;
+                $(this).children(".padding").height(hght);
+                return hght;
+            });
+            $("article.sommaire").height(function() {
                 return $(this).width() * 1.4142857143;
             });
             $(".img.sommaire").css('margin-bottom','1em');
