@@ -11,14 +11,25 @@
     <script>
         $(function(){
             $(".toggle-img").hide();
-            $(".entry.sommaire").mouseenter(function(event) {
+            $(".toggle-img").css('padding-top','0');
+            $(".no-img").css('padding-top','0');
+            $(".toggle-img").css('background-color','#fff');
+            $(".toggle-img").height(function() {
+                return $(this).parent().width() * 1.4142857143;
+            });
+            $(".no-img").css('padding-top','0');
+            $(".no-img").height(function() {
+                return $(this).width() * 1.4142857143;
+            });
+            $(".img.sommaire").css('margin-bottom','1em');
+            $(".img.sommaire").mouseenter(function(event) {
                 event.stopPropagation();
                 // $(this).find(".img").hide();
-                $(this).find(".toggle-img").fadeToggle();
+                $(this).children(".toggle-img").fadeToggle();
             }).mouseleave(function(event) {
                 event.stopPropagation();
                 // $(this).find(".img").show();
-                $(this).find(".toggle-img").fadeToggle();
+                $(this).children(".toggle-img").fadeToggle();
             })
         });
     </script>
@@ -134,7 +145,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_expo>
@@ -152,7 +163,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_prix>
@@ -170,7 +181,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 #VALEUR
                 </div>
             </BOUCLE_data_colloq>
@@ -188,7 +199,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 #INCLURE{fond=inclure/resume/evenement_date_redac_sommaire,id_article=#VALEUR,sans_document=non,intro=non,env}
                 </div>
         </BOUCLE_ev3_3>
@@ -208,7 +219,7 @@
                     #SET{cmpt,#GET{cmpt}|moins{4}}
                     </div>
                     <div class="row-fluid">]
-                    <div class="span3">
+                    <div class="span3 sommaire">
                     #VALEUR
                     </div>
                 </BOUCLE_si_val2>
@@ -228,7 +239,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 [(#INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env})]
                 </div>
             </BOUCLE_data_sout>
@@ -246,7 +257,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3">
+                <div class="span3 sommaire">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_evts>
