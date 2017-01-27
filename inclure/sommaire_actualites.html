@@ -11,33 +11,34 @@
     <script>
         $(function(){
             $(".toggle-img").hide();
-            $(".toggle-img").css('padding-top','0');
-            $(".no-img").css('padding-top','0');
-            $(".toggle-img").css('background-color','#fff');
-            $(".toggle-img").height(function() {
-                var hght = $(this).parent().width() * 1.4142857143;
-                $(this).children(".padding").height(hght);
-                return hght;
-            });
-            $(".no-img").css('padding-top','0');
-            $(".no-img").height(function() {
-                var hght = $(this).width() * 1.4142857143;
-                $(this).children(".padding").height(hght);
-                return hght;
-            });
-            $("article.sommaire").height(function() {
-                return $(this).width() * 1.4142857143;
-            });
-            $(".img.sommaire").css('margin-bottom','1em');
-            $(".img.sommaire").mouseenter(function(event) {
+            $(".padding span").css('text-align', 'center');
+            setTitleHeight();
+            $(window).resize(function(event) {
                 event.stopPropagation();
-                // $(this).find(".img").hide();
+                setTitleHeight();
+            });
+            $(".wrapper.sommaire").mouseenter(function(event) {
+                event.stopPropagation();
                 $(this).children(".toggle-img").fadeToggle();
             }).mouseleave(function(event) {
                 event.stopPropagation();
-                // $(this).find(".img").show();
                 $(this).children(".toggle-img").fadeToggle();
             })
+
+            function setTitleHeight() {
+                $(".toggle-img .padding span").height(function() {
+                    return $(this).parent().parent().height() - ($(this).siblings('p').first().height() * 2);
+                });
+                $(".no-img .padding span").height(function() {
+                    return $(this).closest("article").height() - ($(this).siblings('p').first().height() * 2);
+                });
+                $(".toggle-img .padding span").width(function() {
+                    return $(this).parent().parent().width();
+                });
+                $(".no-img .padding span").width(function() {
+                    return $(this).closest("article").width();
+                });
+            }
         });
     </script>
 	<header>
@@ -242,6 +243,7 @@
         <BOUCLE_si_sout(CONDITION){si #GET{souts}|=={ok}|oui}>
             <B_data_sout>
             <BOUCLE_data_sout(DATA){si #GET{sout}|count|>{0}}{source tableau,#GET{sout}}{!par cle}>
+                #SET{cmpt,#GET{cmpt}|plus{1}}
                 [(#GET{cmpt}|=={5}|oui)
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>

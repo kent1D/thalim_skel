@@ -7,15 +7,19 @@
 <BOUCLE_articles(ARTICLES) {id_article} {statut?}>
 <BOUCLE_mot(MOTS){id_article}{id_groupe=3}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
 <article class="entry article vevent">
-	<a href="#URL_ARTICLE" rel="bookmark" title="[(#GET{titre_mot})]" >
+	<a href="#URL_ARTICLE" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] >
         <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+		<div class="wrapper sommaire">
 		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
 		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
+		</div>
 		    <div class="entry-title toggle-img"><div class="padding">
-                <span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span>
+				[<p>(#GET{titre_mot})</p>]<span itemprop="name"><em>[(#TITRE|propre|PtoBR|couper{60})]</em></span>
 		    </div></div>
         </BOUCLE_documents>
-        <div class="entry-title no-img #EDIT{titre}"><div class="padding"><span itemprop="name">[(#LESAUTEURS), ][(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})]</span></div></div>
+        <div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">
+			[<p>(#GET{titre_mot,Ouvrage})</p>]<span itemprop="name"><em>[(#TITRE|propre|PtoBR|couper{60})]</em></span>
+		</div></div>
     	<//B_documents>
 	</a>
 </article>
