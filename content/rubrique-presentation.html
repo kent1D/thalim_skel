@@ -1,0 +1,87 @@
+<BOUCLE_content(RUBRIQUES){id_rubrique}>
+<section class="span6 offset1">
+	<header class="cartouche">
+		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+		<h1 class="ellipse #EDIT{titre}"><div class="ovale"> </div><span class="titre">#TITRE</span></h1>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{texte} chapo">(#TEXTE|adaptive_images)</div>]
+	</div>
+</section>
+
+[<section class="span6 offset1">
+<header class="cartouche membres row-fluid">
+	[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+	<h1 class="ellipse #EDIT{titre} span8"><div class="ovale"> </div><a class="url" href="(#URL_PAGE{membres})"><span class="titre">Membres de l&apos;unit&eacute;</span></a></h1>
+</header>
+</section>]
+
+<B_sous_rubriques_pres>
+<section class="span6 offset1 equipes">
+<div class="row-fluid">
+<BOUCLE_sous_rubriques_pres(RUBRIQUES) {id_parent} {par num titre, titre}>
+	<div class="span6">
+	<header class="cartouche">
+		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+		<h1><span class="titre">#TITRE</span></h1>
+	</header>
+
+		<B_articles>
+		<div class="liste articles">
+			<ul class="liste-items liste-puce">
+			<BOUCLE_articles(ARTICLES){id_rubrique}{par num titre}{origine_traduction}>
+			<BOUCLE_article_langue(ARTICLES){traduction}{lang=#ENV{lang}}>
+				<li class="item">
+					<article class="entry article hentry">
+						<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+						<BOUCLE_si_non_presentation(CONDITION){si #GET{presentation}|=={non}}>
+							[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
+							<BOUCLE_chercheurs(AUTEURS){id_article}{role != membre_associe}{0,1}{tout}>
+							<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
+							</BOUCLE_chercheurs>
+							<BOUCLE_membres(AUTEURS){id_article}{role = membre_associe}{0,1}{tout}>
+							<div class="membres_associes"><a href="[(#URL_ARTICLE|ancre_url{membres_associes})]" class="lien_important"><:thalim:lien_membres_associes:></a></div>
+							</BOUCLE_membres>
+							<div class="activites"><a href="[(#URL_ARTICLE|ancre_url{activites})]" class="lien_important"><:thalim:lien_activites:></a></div>
+							<div class="publications"><a href="[(#URL_ARTICLE|ancre_url{publications})]" class="lien_important"><:thalim:lien_publications:></a></div>
+						</BOUCLE_si_non_presentation>
+					</article>
+				</li>
+			</BOUCLE_article_langue>
+			</B_article_langue>
+			<li class="item">
+				<article class="entry article hentry">
+					<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+						class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+					[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
+					<BOUCLE_chercheurs_orig(AUTEURS){id_article}{role != membres_associes}{0,1}{tout}>
+					<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
+					</BOUCLE_chercheurs_orig>
+					<BOUCLE_membres_orig(AUTEURS){id_article}{role = membres_associes}{0,1}{tout}>
+					<div class="membres_associes"><a href="[(#URL_ARTICLE|ancre_url{membres})]" class="lien_important"><:thalim:lien_membres_associes:></a></div>
+					</BOUCLE_membres_orig>
+					<div class="activites"><a href="[(#URL_ARTICLE|ancre_url{activites})]" class="lien_important"><:thalim:lien_activites:></a></div>
+					<div class="publications"><a href="[(#URL_ARTICLE|ancre_url{publications})]" class="lien_important"><:thalim:lien_publications:></a></div>
+				</article>
+			</li>
+			<//B_article_langue>
+			</BOUCLE_articles>
+			</ul>
+		</div>
+		</B_articles>
+	</div>
+	<aside>
+		[(#REM) Gestion du portfolio et des documents ]
+		[(#INCLURE{fond=inclure/documents,id_rubrique})]
+	</aside>
+
+	<footer>
+		[<div class="notes"><h2><:info_notes:></h2>(#NOTES)</div>]
+	</footer>
+
+</BOUCLE_sous_rubriques_pres>
+</div>
+</section>
+</BOUCLE_content>
