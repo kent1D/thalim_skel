@@ -8,9 +8,9 @@
 <BOUCLE_mot(MOTS){id_article}{id_groupe=3}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
 <article class="entry article vevent">
 	<a href="#URL_ARTICLE" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] >
-        <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+        <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>
 		<div class="wrapper sommaire">
-		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
+		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
 		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
 		</div>
 		    <div class="entry-title toggle-img"><div class="padding">

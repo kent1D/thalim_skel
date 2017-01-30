@@ -110,7 +110,7 @@
 	<BOUCLE_rubriques_pub(RUBRIQUES){racine}{composition=publications}>
 		<BOUCLE_ouvrages_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
-			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication_sommaire,id_article,sans_document=non,intro=non,env})]})]})]})]
+			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication_sommaire,id_article,intro=non,env})]})]})]})]
 		</BOUCLE_ouvrages_pub>
 	</BOUCLE_rubriques_pub>
 
