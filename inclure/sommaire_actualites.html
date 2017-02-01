@@ -9,13 +9,13 @@
 ]
 <section id="sommaire_actualites" class="offset1 span6">
     <script>
-        $(function(){
+       $(function(){
             $(".toggle-img").hide();
             $(".padding span").css('text-align', 'center');
-            setTitleHeight();
+            setHeights();
             $(window).resize(function(event) {
                 event.stopPropagation();
-                setTitleHeight();
+                setHeights();
             });
             $(".wrapper.sommaire").mouseenter(function(event) {
                 event.stopPropagation();
@@ -25,18 +25,28 @@
                 $(this).children(".toggle-img").fadeToggle();
             })
 
-            function setTitleHeight() {
+            function setHeights() {
+                $("#sommaire_actualites").find("img").width(function() {
+                    $(this).height('auto');
+                    return $(this).closest(".span3").width();
+                });
+                var maxHeight = Math.max.apply(null, $("#sommaire_actualites").find("img").map(function () {
+                            return $(this).height();
+                        }).get());
+                $("article").height(maxHeight);
                 $(".toggle-img .padding span").height(function() {
+                    // $(this).width(function() {
+                    //     return $(this).parent().parent().width();
+                    // });
                     return $(this).parent().parent().height() - ($(this).siblings('p').first().height() * 2);
                 });
+                var widthNoImg = maxHeight * .707070;
+                $("article.sommaire-no-img").width(widthNoImg);
                 $(".no-img .padding span").height(function() {
-                    return $(this).closest("article").height() - ($(this).siblings('p').first().height() * 2);
-                });
-                $(".toggle-img .padding span").width(function() {
-                    return $(this).parent().parent().width();
-                });
-                $(".no-img .padding span").width(function() {
-                    return $(this).closest("article").width();
+                    // $(this).width(function() {
+                    //     return widthNoImg;
+                    // });
+                    return maxHeight - ($(this).siblings('p').first().height() * 2);
                 });
             }
         });
@@ -47,8 +57,9 @@
 	#SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
 	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
     #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}}
-	#SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}
-
+    [(#REM) #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}]
+    #SET{date_debut_ouv,#ENV{date}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+    #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
  	#SET{exposition,#ARRAY}
     <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
         <BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{doublons #ID_EVENEMENT}>
@@ -95,20 +106,20 @@
 	#SET{publications_ouvrages,#ARRAY}
 	#SET{mots_ouvrages,#LISTE{463,1053}}
 	#SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
-	<BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+	<BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut_ouv}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 		<BOUCLE_aut_ev1(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
 		    [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 		    [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 		</BOUCLE_aut_ev1>
 	</BOUCLE_ev1>
-	<BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+	<BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut_ouv}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
 		<BOUCLE_aut_ev2(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
 	    	[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 	    	[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 		</BOUCLE_aut_ev2>
 	</BOUCLE_ev2>
 	<BOUCLE_rubriques_pub(RUBRIQUES){racine}{composition=publications}>
-		<BOUCLE_ouvrages_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut}}{date < #GET{date_fin}}>
+		<BOUCLE_ouvrages_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut_ouv}}{date < #GET{date_fin}}>
 			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication_sommaire,id_article,intro=non,env})]})]})]})]
 		</BOUCLE_ouvrages_pub>
@@ -153,7 +164,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_expo>
@@ -171,7 +182,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_prix>
@@ -189,7 +200,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 #VALEUR
                 </div>
             </BOUCLE_data_colloq>
@@ -207,7 +218,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_date_redac_sommaire,id_article=#VALEUR,sans_document=non,intro=non,env}
                 </div>
         </BOUCLE_ev3_3>
@@ -227,7 +238,7 @@
                     #SET{cmpt,#GET{cmpt}|moins{4}}
                     </div>
                     <div class="row-fluid">]
-                    <div class="span3 sommaire">
+                    <div class="span3 sommaire align-middle">
                     #VALEUR
                     </div>
                 </BOUCLE_si_val2>
@@ -248,7 +259,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 [(#INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env})]
                 </div>
             </BOUCLE_data_sout>
@@ -266,7 +277,7 @@
                 #SET{cmpt,#GET{cmpt}|moins{4}}
                 </div>
                 <div class="row-fluid">]
-                <div class="span3 sommaire">
+                <div class="span3 sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_evts>
@@ -275,8 +286,8 @@
 
     </BOUCLE_display>
     [(#GET{cmpt}|<{4}|oui)
-    #SET{reste,#GET{cmpt}|mult{-1}|plus{4}|mult{3}}]
+    #SET{reste,#GET{cmpt}|mult{-1}|plus{4}|mult{3}}
     <div class="span#GET{reste}" />
-    </div>
+    </div>]
     </B_display>
 </section>

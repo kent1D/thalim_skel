@@ -10,17 +10,20 @@
 #SET{url_auteur,<a href="#URL_AUTEUR">#NOM</a>}
 #SET{auteur_complet,<p class="lesauteurs"><a href="#URL_AUTEUR">#NOM</a></p>}
 </BOUCLE_auteurs>
-<article class="entry article vevent sommaire">
-	<a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] >
-        <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+    <B_documents>
+    <article class="entry article vevent sommaire-img">
+    <a href="#URL_HALS_PUBLICATION" rel="bookmark"[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui) title="(#TITRE|propre|attribut_html)"] > 
+    <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>   
         <div class="wrapper sommaire">
-		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
-		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
-		</div>
+            [(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
+            [(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'couverture'}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]])
 		    <div class="entry-title toggle-img"><div class="padding">
                 <p>Ouvrage</p><span itemprop="name">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui)<em>(#TITRE|propre|PtoBR|couper{60})</em>]</span>
             </div></div>
-        </BOUCLE_documents>
+        </div>
+    </BOUCLE_documents>
+    <article class="entry article vevent sommaire-no-img">
+	<a href="#URL_HALS_PUBLICATION" rel="bookmark"[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui) title="(#TITRE|propre|attribut_html)"] >
         <div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">
             <p>Ouvrage</p><span itemprop="name">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui)<em>(#TITRE|propre|PtoBR|couper{60})</em>]</span>
         </div></div>
