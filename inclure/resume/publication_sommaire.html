@@ -15,14 +15,14 @@
 					[(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
 					[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'couverture'}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]]
 					<div class="entry-title toggle-img sommaire"><div class="padding">
-						[<p>(#GET{titre_mot, Ouvrage})</p>]<span itemprop="name">[<em>(#GET{titre_pub}|propre|PtoBR|couper{60})</em>]</span>
+						[<p>(#GET{titre_mot, Ouvrage})</p>]<span itemprop="name" class="soixante">[<em>(#GET{titre_pub}|propre|PtoBR|couper{60})</em>]</span><span itemprop="name" class="vingt">[<em>(#GET{titre_pub}|propre|PtoBR|couper{20})</em>]</span>
 					</div></div>
 				</div>
 		</BOUCLE_documents>
 			<article class="entry article vevent sommaire-no-img">	
 			<a href="#URL_ARTICLE" rel="bookmark"[ title="(#GET{titre_pub}|propre|attribut_html)"] >
         <div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">
-						[<p>(#GET{titre_mot,Ouvrage})</p>]<span itemprop="name">[<em>(#GET{titre_pub}|propre|PtoBR|couper{60})</em>]</span>
+						[<p>(#GET{titre_mot,Ouvrage})</p>]<span itemprop="name" class="soixante">[<em>(#GET{titre_pub}|propre|PtoBR|couper{60})</em>]</span>
 		</div></div>
     	<//B_documents>
 	</a>

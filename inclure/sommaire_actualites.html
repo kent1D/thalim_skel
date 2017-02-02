@@ -34,18 +34,25 @@
                             return $(this).height();
                         }).get());
                 $("article").height(maxHeight);
-                $(".toggle-img .padding span").height(function() {
-                    // $(this).width(function() {
-                    //     return $(this).parent().parent().width();
-                    // });
-                    return $(this).parent().parent().height() - ($(this).siblings('p').first().height() * 2);
+                $(".toggle-img .padding span.soixante").height(function() {
+                    var hght = $(this).parent().parent().height() - ($(this).siblings('p').first().height() * 2);
+                    if (hght < 50) {
+                        $(this).css("white-space", "nowrap");
+                        return hght;
+                    } else if (hght < 80 && $(this).text().length > 20) {
+                        $(this).siblings('span').first().css('display','table-cell');
+                        $(this).siblings('span').first().height("3em");
+                        $(this).hide();
+                        return '';
+                    } else {
+                        $(this).siblings('span').first().hide();
+                        $(this).css('display','table-cell')
+                        return hght;
+                    }
                 });
                 var widthNoImg = maxHeight * .707070;
                 $("article.sommaire-no-img").width(widthNoImg);
                 $(".no-img .padding span").height(function() {
-                    // $(this).width(function() {
-                    //     return widthNoImg;
-                    // });
                     return maxHeight - ($(this).siblings('p').first().height() * 2);
                 });
             }
