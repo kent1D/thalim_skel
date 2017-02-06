@@ -16,7 +16,7 @@
     <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>   
         <div class="wrapper sommaire">
             [(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
-            [(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{'couverture'}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]])
+            [(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{#TITRE|propre|attribut_html}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]])
 		    <div class="entry-title toggle-img"><div class="padding">
                 <p>Ouvrage</p><span itemprop="name" class="soixante">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui)<em>(#TITRE|propre|PtoBR|couper{60})</em>]</span><span itemprop="name" class="vingt">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|oui)<em>(#TITRE|propre|PtoBR|couper{20})</em>]</span>
             </div></div>
