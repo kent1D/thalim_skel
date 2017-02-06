@@ -10,13 +10,6 @@
 	</div>
 </section>
 
-[<section class="span6 offset1">
-<header class="cartouche membres row-fluid">
-	[(#LOGO_RUBRIQUE|image_reduire{200,200})]
-	<h1 class="ellipse #EDIT{titre} span8"><div class="ovale"> </div><a class="url" href="(#URL_PAGE{membres})"><span class="titre">Membres de l&apos;unit&eacute;</span></a></h1>
-</header>
-</section>]
-
 <B_sous_rubriques_pres>
 <section class="span6 offset1 equipes">
 <div class="row-fluid">
@@ -24,7 +17,7 @@
 	<div class="span6">
 	<header class="cartouche">
 		[(#LOGO_RUBRIQUE|image_reduire{200,200})]
-		<h1><span class="titre">#TITRE</span></h1>
+		<h4><span class="titre">#TITRE</span></h4>
 	</header>
 
 		<B_articles>
@@ -34,16 +27,16 @@
 			<BOUCLE_article_langue(ARTICLES){traduction}{lang=#ENV{lang}}>
 				<li class="item">
 					<article class="entry article hentry">
-						<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
-							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+						<p class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+							class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></p>
 					</article>
 				</li>
 			</BOUCLE_article_langue>
 			</B_article_langue>
 			<li class="item">
 				<article class="entry article hentry">
-					<strong class="h3-like entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
-						class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></strong>
+					<p class="entry-title"><a href="#URL_ARTICLE" rel="bookmark">[(#ENV{logo_rubrique,' '}|?{#LOGO_ARTICLE_RUBRIQUE,#LOGO_ARTICLE}|image_reduire{#ENV{largeur_logo,-1},#ENV{hauteur_logo,-1}}|responsive_logo)]#TITRE<span
+						class="read-more hide"><i class="icon-chevron-right" title="<:zcore:lire_la_suite|attribut_html:><:zcore:lire_la_suite_de|attribut_html:>&laquo;[(#TITRE|attribut_html)]&raquo;"></i></span></a></p>
 					[<div class="#EDIT{introduction} introduction entry-content">(#INTRODUCTION{#ENV{coupe,300}})</div>]
 					<BOUCLE_chercheurs_orig(AUTEURS){id_article}{role != membres_associes}{0,1}{tout}>
 					<div class="chercheurs"><a href="[(#URL_ARTICLE|ancre_url{chercheurs})]" class="lien_important"><:thalim:lien_chercheurs:></a></div>
@@ -73,4 +66,12 @@
 </BOUCLE_sous_rubriques_pres>
 </div>
 </section>
+
+[<section class="span6 offset1">
+<header class="cartouche membres chapo">
+	[(#LOGO_RUBRIQUE|image_reduire{200,200})]
+	<p><a class="url" href="(#URL_PAGE{membres})"><span class="titre"><:thalim:titre_membres:></span></a></p>
+</header>
+</section>]
+
 </BOUCLE_content>
