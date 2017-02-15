@@ -16,6 +16,20 @@
 			[(#ID_RUBRIQUE|=={3}|non)
 			<INCLURE{fond=inclure/agenda-liste,id_rubrique=#ID_RUBRIQUE,env} />]]
 			</div>
+			<B_sous_rubs>
+			<div class="menu rubriques">
+				<BOUCLE_sous_rubs(RUBRIQUES) {id_parent} {par num titre, titre}>
+					<h3 class="sous-rub">[(#TITRE)]</h3>
+					<BOUCLE_articles_sous_rubs(ARTICLES){id_rubrique}{0,1}>
+						<div class="liste articles">
+						<INCLURE{fond=liste/articles-resume,articles_exclus=#GET{exclus},id_rubrique=#ID_RUBRIQUE,titre=#GET{titre},env} />
+						</div>
+					</BOUCLE_articles_sous_rubs>
+					[(#REM) Une boucle recursive pour les articles de la sous-rubrique]
+					<BOUCLE_a2(BOUCLE_sous_rubs)></BOUCLE_a2>
+				</BOUCLE_sous_rubs>
+			</div>
+			</B_sous_rubs>
 		</BOUCLE_articles>
 
 		[(#REM) Si aucun article, affiche un plan de la rubrique ]
