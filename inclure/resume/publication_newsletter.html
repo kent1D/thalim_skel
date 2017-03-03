@@ -8,7 +8,7 @@
 <article class="entry article vevent" style="margin-bottom: 0;">
 	<BOUCLE_mot(MOTS){id_article}{id_groupe=11}> #SET{id_mot,#ID_MOT}</BOUCLE_mot>
 	<div class="entry-title" style="background-color:#fff;margin-top:0;margin-bottom:6pt;font-size: 9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;"><p style="margin-top:0;margin-bottom:0px;line-height:12pt;">
-		[(#LESAUTEURS|replace{'<a ','<a style="color:black;text-decoration:none;" '} ), ][<a style="color:black;text-decoration: none;" href="#URL_ARTICLE" rel="bookmark">(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em style="color:black;text-decoration: none;">[(#TITRE|propre|PtoBR)]</em>})</a>, ][<em>in</em> (#DIRECTEURS) (dir.), ][<em style="color:black;text-decoration:none;">(#SURTITRE|?{[(#TITRE|propre|PtoBR)],''})</em>, ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</p>
+		[(#LESAUTEURS|replace{'<a ','<a style="color:black;text-decoration:none;" '}), ][<a style="color:black;text-decoration: none;" href="#URL_ARTICLE" rel="bookmark">[(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,''})]<em style="color:black;text-decoration: none;">(#TITRE|propre|PtoBR)</em></a>, ][<em>in</em> (#DIRECTEURS) (dir.), ][<em style="color:black;text-decoration:none;">(#SURTITRE|?{[(#TITRE|propre|PtoBR)],''})</em>, ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]</p>
 	</div>
 	[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]]
 	<B_documents>

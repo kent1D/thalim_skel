@@ -8,7 +8,7 @@
 	#SET{afficher_seances,#ENV{afficher_seances,oui}}
 	[(#_article_evt:SEMINAIRE|=={on}|ou{#_article_evt:ID_SECTEUR|=={247}}|oui|et{afficher_seances}|=={oui}|oui)
 	[<p><:seminaire:info_seminaire|replace{' : ',''}:> &laquo;&nbsp;<a href="#URL_ARTICLE">(#_article_evt:TITRE)</a>&nbsp;&raquo;</p>]]
-	[(#_article_evt:ID_SECTEUR|=={267}|oui)
+	[(#_article_evt:ID_SECTEUR|=={267}|ou{#_article_evt:ID_SECTEUR|=={271}}|oui)
 	[<p>(#_article_evt:SOUSTITRE)</p>]]
 	[<strong>(#DATE_DEBUT|agenda_affdate_debut_fin{#DATE_FIN,#HORAIRE*,'hcal annee'})</strong>]
 	[(#ENV{intro}|=={non}|non|et{#ENV{afficher_lieu}|=={oui}}|=={oui}|oui)<div class="entry-content">]
