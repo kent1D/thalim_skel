@@ -1,0 +1,300 @@
+[(#REM)
+/**
+ * Plugin Agenda 4 pour Spip 3.0
+ * Licence GPL 3
+ *
+ * 2006-2011
+ * Auteurs : cf paquet.xml
+ */
+]
+<BOUCLE_content(ARTICLES){id_article}>
+<article class="span6 offset1">
+	<header class="cartouche">
+		[(#LOGO_ARTICLE|image_reduire{200,200})]
+		[<p class="#EDIT{surtitre} surtitre">(#SURTITRE)</p>]
+		<h1><span class="#EDIT{titre}">#TITRE</span>[
+			<small class="#EDIT{soustitre} soustitre">(#SOUSTITRE)</small>
+		]</h1>
+		[(#REM) Inclure le modele des liens de traductions ]
+		<div class="postmeta">
+			#MODELE{article_traductions}
+			<BOUCLE_groupes_mots(GROUPES_MOTS){id_groupe IN 3,2,8,1}>
+			<B_tags>
+			<p>
+			<span class="tags">
+				<ul class="inline">
+					<li><strong>#TITRE : </strong></li>
+					<BOUCLE_tags(MOTS){id_groupe}{id_article}>
+					<li><a class="label" href="#URL_MOT"><i class="icon-tag"></i> #TITRE</a></li>
+					</BOUCLE_tags>
+				</ul>
+			</span>
+			</p>
+			</B_tags>
+			</BOUCLE_groupes_mots>
+		</div>
+	</header>
+
+	<div class="main">
+		[<div class="#EDIT{chapo} chapo surlignable">(#CHAPO|adaptive_images)</div>]
+		[<div class="#EDIT{texte} texte surlignable">(#TEXTE|adaptive_images)</div>]
+
+	#SET{affichage_duree,#ENV{affichage_duree,60}}
+	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+	#SET{date_debut,#ENV{date_debut}|affdate{'Y-m-d 00:00:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+	#SET{date_fin,#ENV{date_fin}|affdate{'Y-m-d 00:00:00'}}
+	<B_membres>
+	<div class="membres" id="chercheurs">
+		<h2><:thalim:titre_membres_pole:></h2>
+		<p>
+		<BOUCLE_membres(AUTEURS){id_article}{par nom_famille,nom}{role != membre_associe}{', '}{tout}><strong><a href="#URL_AUTEUR">#NOM</a></strong></BOUCLE_membres>
+		</p>
+	</div>
+	</B_membres>
+	<B_membres_associes>
+	<div class="membres membres_associes" id="membres_associes">
+		<h2><:thalim:titre_membres_associes_pole:></h2>
+		<p>
+		<BOUCLE_membres_associes(AUTEURS){id_article}{role = membre_associe}{par nom_famille,nom}{', '}{tout}><strong>[(#STATUT|=={6forum}|et{#ROLE|=={membre_associe}|non}|?{'',<a href="#URL_AUTEUR">})]#NOM[(#STATUT|=={6forum}|et{#ROLE|=={membre_associe}|non}|?{'',</a>})]</strong></BOUCLE_membres_associes>
+		</p>
+	</div>
+	</B_membres_associes>
+	<BOUCLE_mots(MOTS){id_article}{id_groupe = 10}{0,1}>
+		<BOUCLE_articles_rub(ARTICLES){id_mot}{id_secteur=257}{0,1}>
+		<div class="programmes" id="programmes">
+			[<h2>(#INFO_TITRE{rubrique,257})</h2>]
+			<div class="liste articles">
+			<INCLURE{fond=liste/articles-resume,id_secteur=#ID_SECTEUR,id_mot=#ID_MOT,nb=1000,sans_document=oui,intro=non,ajax} />
+			</div>
+		</div>
+		</BOUCLE_articles_rub>
+		<B_activites_editoriales>
+			<div class="activites_editoriales" id="activites_editoriales">
+				#ANCRE_PAGINATION
+				[<h2 class="h2">(#INFO_TITRE{rubrique,264})</h3>]
+				<ul class="liste-items liste-activites_editoriales">
+			<BOUCLE_activites_editoriales(ARTICLES){id_mot}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
+					<li class="item">
+						[(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})]
+						[(#CHAPO)]
+					</li>
+			</BOUCLE_activites_editoriales>
+				</ul>
+				[<div class="pagination">(#PAGINATION)</div>]
+			</div>
+		</B_activites_editoriales>
+
+ 		#SET{exposition,#ARRAY}
+		<BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_evenement_source?}>
+			<BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{id_mot?}{doublons #ID_EVENEMENT}>
+		[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+		[(#SET{exposition,[(#GET{exposition}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+		</BOUCLE_ev_expo2>
+		</BOUCLE_ev_expo>
+		[(#GET{exposition}|count|>{0}|oui) #SET{expos,ok}]
+		<BOUCLE_si_expo(CONDITION){si #GET{expos}|=={ok}|oui}>
+			<B_data_expo>
+			<h2>#INFO_TITRE{mot,220}</h2>
+			<ul class="liste-items evenements">
+			<BOUCLE_data_expo(DATA){si #GET{exposition}|count|>{0}}{source tableau,#GET{exposition}}{!par cle}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
+				</li>
+			</BOUCLE_data_expo>
+			</ul>
+			</B_data_expo>
+		</BOUCLE_si_expo>
+
+		#SET{prix,#ARRAY}
+        <BOUCLE_ev_prix(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_evenement_source?}>
+			<BOUCLE_ev_prix2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=1050}{id_mot?}{doublons #ID_EVENEMENT}>
+				[(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+				[(#SET{prix,[(#GET{prix}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+			</BOUCLE_ev_prix2>
+		</BOUCLE_ev_prix>
+		[(#GET{prix}|count|>{0}|oui) #SET{prixes,ok}]
+		<BOUCLE_si_prix(CONDITION){si #GET{prixes}|=={ok}|oui}>
+			<B_data_prix>
+			<h2>#INFO_TITRE{mot,1050}</h2>
+			<ul class="liste-items evenements" >
+			<BOUCLE_data_prix(DATA){si #GET{prix}|count|>{0}}{source tableau,#GET{prix}}{!par cle}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
+				</li>
+			</BOUCLE_data_prix>
+			</ul>
+			</B_data_prix>
+		</BOUCLE_si_prix>
+
+		<BOUCLE_rubriques(RUBRIQUES){id_rubrique!=251}>
+			<B_evt1>
+			<ul class="liste-items evenements" >
+			<BOUCLE_evt1(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+				<BOUCLE_evt1_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_mot?}{id_evenement=#ID_EVENEMENT}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement,sans_document,intro=non,env}
+				</li>
+				</BOUCLE_evt1_thalim>
+			</BOUCLE_evt1>
+			</ul>
+			</B_evt1>
+		</BOUCLE_rubriques>
+		</B_rubriques>
+		<BOUCLE_annee3(RUBRIQUES){id_rubrique=250}>
+		<B_ev_colloque>
+			<h2>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h2>
+			<ul class="liste-items evenements" >
+			<BOUCLE_ev_colloque(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_evenement_source?}>
+				<BOUCLE_ev_colloque_thalim(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_mot?}{id_evenement=#ID_EVENEMENT}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement,sans_document=oui,intro=non,env}
+				</li>
+				</BOUCLE_ev_colloque_thalim>
+			</BOUCLE_ev_colloque>
+			</ul>
+			#SET{has_event,oui}
+		</B_ev_colloque>
+		</BOUCLE_annee3>
+
+		<BOUCLE_annee4(RUBRIQUES){id_rubrique=270}>
+		<B_ev_soutenance>
+			<h2>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h2>
+			<ul class="liste-items evenements" >
+			<BOUCLE_ev_soutenance(EVENEMENTS){id_rubrique=#ID_RUBRIQUE}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{!par date_debut}{id_mot?}{id_evenement_source?}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement,sans_document=oui,intro=non,env}
+				</li>
+			</BOUCLE_ev_soutenance>
+			</ul>
+			#SET{has_event,oui}
+		</B_ev_soutenance>
+		</BOUCLE_annee4>
+
+		#SET{publications_ouvrages,#ARRAY}
+		#SET{publications_articles,#ARRAY}
+		#SET{mots_ouvrages,#LISTE{463,1053}}
+		#SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
+		#SET{mots_articles,#LISTE{495,1052}}
+		#SET{type_hal_articles,#LISTE{ART,COUV}}
+
+		<BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{id_mot?}{doublons hal_ouvrages}>
+			<BOUCLE_aut_ev1(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+			</BOUCLE_aut_ev1>
+		</BOUCLE_ev1>
+		<BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{id_mot?}{doublons hal_ouvrages}>
+			<BOUCLE_aut_ev2(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+			</BOUCLE_aut_ev2>
+		</BOUCLE_ev2>
+		<BOUCLE_ev3(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production != 0000-00-00 00:00:00}{!par date_production}{id_mot?}{doublons hal_articles}>
+			<BOUCLE_aut_ev3(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+			</BOUCLE_aut_ev3>
+		</BOUCLE_ev3>
+		<BOUCLE_ev4(HALS_PUBLICATIONS){date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_articles}}{date_production = 0000-00-00 00:00:00}{!par date_production}{id_mot?}{doublons hal_articles}>
+			<BOUCLE_aut_ev4(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+			[(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,env})]})]})]})]
+			</BOUCLE_aut_ev4>
+		</BOUCLE_ev4>
+		<BOUCLE_rubriques_pub(RUBRIQUES){racine}{composition=publications}>
+			<BOUCLE_ouvrages_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_ouvrages}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{id_mot?}>
+			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
+			#SET{publications_ouvrages,#GET{publications_ouvrages}|array_merge{#ARRAY{#GET{cle},#INCLURE{fond=inclure/resume/publication,id_article,sans_document=oui,intro=non,env}}}}
+			</BOUCLE_ouvrages_pub>
+			<BOUCLE_articles_pub(ARTICLES){auteurs.statut IN 0minirezo,1comite}{branche}{id_mot IN #GET{mots_articles}}{date >= #GET{date_debut}}{date < #GET{date_fin}}{id_mot?}>
+			[(#SET{cle,[(#DATE|replace{-,''}|replace{:,''}|replace{' ',''})_article_#ID_ARTICLE]})]
+			[(#SET{publications_articles,[(#GET{publications_articles}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication,id_article,sans_document=oui,intro=non,env})]})]})]})]
+			</BOUCLE_articles_pub>
+		</BOUCLE_rubriques_pub>
+		[(#GET{publications_articles}|array_merge{#GET{publications_ouvrages}}|count|>{0}|oui) #SET{publications,ok}]
+		<BOUCLE_si_publications(CONDITION){si #GET{publications}|=={ok}|oui}>
+			<div class="publications">
+				<h2>#INFO_TITRE{rubrique,3}</h2>
+				<B_data_publications>
+				<h4><:thalim:titre_ouvrages:></h4>
+				<ul class="liste-items evenements" >
+				<BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}>
+					<BOUCLE_si_val2(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+					<li class="item">
+						#VALEUR
+					</li>
+					</BOUCLE_si_val2>
+				</BOUCLE_data_publications>
+				</ul>
+				</B_data_publications>
+				<B_data_publications_articles>
+				<h4><:thalim:titre_articles:></h4>
+				<ul class="liste-items evenements" >
+				<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}>
+					<BOUCLE_si_val3(CONDITION){si #VALEUR|?{non,#VALEUR}}>
+					<li class="item">
+						#VALEUR
+					</li>
+					</BOUCLE_si_val3>
+				</BOUCLE_data_publications_articles>
+				</ul>
+				</B_data_publications_articles>
+			</div>
+		</BOUCLE_si_publications>
+			#SET{has_event,oui}
+		</B_si_publications>
+		<BOUCLE_rub_sem(RUBRIQUES){id_rubrique=247}>
+		<B_ev5>
+			<h2>#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h2>
+		<BOUCLE_ev5(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par articles.titre}{id_evenement_source?}{id_rubrique}{!id_article IN #ENV{articles_exclus,#ARRAY}}>
+			<B_articles2>
+			<ul class="liste-items">
+				<BOUCLE_articles2(ARTICLES){id_article}{origine_traduction}{0,1}{id_mot?}{doublons}>
+					<BOUCLE_articles_lang2(ARTICLES){traduction}{lang=#ENV{lang}}>
+						<BOUCLE_evenement_lang2(EVENEMENTS){si #SEMINAIRE|!={on}}{id_article}{0,1}>
+							<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,sans_document=oui,env}</li>
+						</BOUCLE_evenement_lang2>
+						</B_evenement_lang2>
+							<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,sans_document=oui,env}</li>
+						<//B_evenement_lang2>
+					</BOUCLE_articles_lang2>
+					</B_articles_lang2>
+					<BOUCLE_evenement2(EVENEMENTS){id_article}{0,1}>
+						<li class="item">#INCLURE{fond=inclure/resume/evenement_home,id_evenement,afficher_seances=non,sans_document=oui,env}</li>
+						</BOUCLE_evenement2>
+						</B_evenement2>
+						<li class="item">#INCLURE{fond=inclure/resume/article_seminaire,id_article,afficher_seances=non,sans_document=oui,env}</li>
+						<//B_evenement2>
+					<//B_articles_lang2>
+				</BOUCLE_articles2>
+			</ul>
+			</B_articles2>
+		</BOUCLE_ev5>
+		</BOUCLE_rub_sem>
+		<BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 271,267}>
+            #SET{evts,#ARRAY}
+            <BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{id_evenement_source?}{id_rubrique}>
+                <BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_mot?}{id_evenement=#ID_EVENEMENT}{doublons #ID_EVENEMENT}>
+                [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
+                [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},#ID_EVENEMENT})]})]})]
+                </BOUCLE_ev_autre>
+            </BOUCLE_ev>
+            [(#GET{evts}|count|>{0}|oui) #SET{fi_evts,ok}]
+            <BOUCLE_si_evts(CONDITION){si #GET{fi_evts}|=={ok}|oui}>
+                <B_data_evts>
+			<h2>#TITRE</h2>
+			<ul class="liste-items evenements" >
+			<BOUCLE_data_evts(DATA){si #GET{evts}|count|>{0}}{source tableau,#GET{evts}}{!par cle}>
+				<li class="item">
+					#INCLURE{fond=inclure/resume/evenement_home,id_evenement=#VALEUR,sans_document=oui,intro=non,env}
+				</li>
+                </BOUCLE_data_evts>
+			</ul>
+			</B_data_evts>
+		</BOUCLE_si_evts>
+		</BOUCLE_rubriques2>
+
+	</div>
+</BOUCLE_mots>	
+</article>
+</BOUCLE_content>
