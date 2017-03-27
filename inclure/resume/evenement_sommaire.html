@@ -2,15 +2,21 @@
 <BOUCLE_mot(MOTS){id_article}{id_groupe=3}>#SET{titre_mot,#TITRE}</BOUCLE_mot>
 <BOUCLE_vevent(EVENEMENTS){id_evenement=#ENV{id,#ENV{id_evenement}}}{tout}>
 #SET{titre_evt,#TITRE}
-<article class="entry vevent id_#ID_EVENEMENT sommaire" itemscope itemtype="http://schema.org/Event">
-	<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]" title="[(#GET{titre_mot})]" >
-		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
-		<div class="img sommaire" style="background-image: url([(#DOCUMENT_TYPE|=={affiche}|oui)
-		[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]]);background-size: 100%;background-repeat:no-repeat;background-position: left top;">
-			<div class="entry-title toggle-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#GET{titre_evt}|propre|PtoBR)]</span></div></div>
+	<B_documents>
+	<article class="entry vevent id_#ID_EVENEMENT sommaire-img" itemscope itemtype="http://schema.org/Event">
+	<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] >
+	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
+		<div class="wrapper sommaire">
+			[(#DOCUMENT_TYPE|=={affiche}|oui)
+			[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{#TITRE|propre|attribut_html}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]]
+			<div class="entry-title toggle-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</span><span itemprop="name" class="vingt">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</span></div></div>
 		</div>
 		</BOUCLE_documents>
-		<div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name">[(#TITRE|propre|PtoBR)]</span></div></div>
+		<article class="entry vevent id_#ID_EVENEMENT sommaire-no-img" itemscope itemtype="http://schema.org/Event">
+		<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] >
+		<div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">
+			[<p>(#GET{titre_mot})</p>]<span itemprop="name" class="soixante">[(#TITRE|propre|PtoBR|couper{60})]</span>
+		</div></div>
 		<//B_documents>
 	</a>
 </article>
