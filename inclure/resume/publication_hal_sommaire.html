@@ -18,10 +18,11 @@
 		    <div class="entry-title toggle-img"><div class="padding">
                 <span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span>
             </div></div>
+        </div>
         </BOUCLE_documents>
         <div class="entry-title no-img #EDIT{titre}"><div class="padding">
-            <span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span></div>
-        </div>
+            <span itemprop="name">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ][(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})][,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</span>
+        </div></div>
         <//B_documents>
 	</a>
 </article>

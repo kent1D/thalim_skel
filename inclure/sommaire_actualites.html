@@ -7,38 +7,38 @@
  * Auteurs : cf paquet.xml
  */
 ]
-<section id="sommaire_actualites" class="offset1 span6">
+<div id="sommaire_actualites" class="offset1 span6">
     <script>
-        $(function(){
-            $(".toggle-img").hide();
-            $(".toggle-img").css('padding-top','0');
-            $(".no-img").css('padding-top','0');
-            $(".toggle-img").css('background-color','#fff');
-            $(".toggle-img").height(function() {
-                var hght = $(this).parent().width() * 1.4142857143;
-                $(this).children(".padding").height(hght);
-                return hght;
-            });
-            $(".no-img").css('padding-top','0');
-            $(".no-img").height(function() {
-                var hght = $(this).width() * 1.4142857143;
-                $(this).children(".padding").height(hght);
-                return hght;
-            });
-            $("article.sommaire").height(function() {
-                return $(this).width() * 1.4142857143;
-            });
-            $(".img.sommaire").css('margin-bottom','1em');
-            $(".img.sommaire").mouseenter(function(event) {
-                event.stopPropagation();
-                // $(this).find(".img").hide();
-                $(this).children(".toggle-img").fadeToggle();
-            }).mouseleave(function(event) {
-                event.stopPropagation();
-                // $(this).find(".img").show();
-                $(this).children(".toggle-img").fadeToggle();
-            })
-        });
+        // $(function(){
+            // $(".toggle-img").hide();
+            // $(".toggle-img").css('padding-top','0');
+            // $(".no-img").css('padding-top','0');
+            // $(".toggle-img").css('background-color','#fff');
+            // $(".toggle-img").height(function() {
+            //     var hght = $(this).parent().width() * 1.4142857143;
+            //     $(this).children(".padding").height(hght);
+            //     return hght;
+            // });
+            // $(".no-img").css('padding-top','0');
+            // $(".no-img").height(function() {
+            //     var hght = $(this).width() * 1.4142857143;
+            //     $(this).children(".padding").height(hght);
+            //     return hght;
+            // });
+            // $("article.sommaire").height(function() {
+            //     return $(this).width() * 1.4142857143;
+            // });
+            // $(".img.sommaire").css('margin-bottom','1em');
+            // $(".img.sommaire").mouseenter(function(event) {
+            //     event.stopPropagation();
+            //     // $(this).find(".img").hide();
+            //     $(this).children(".toggle-img").fadeToggle();
+            // }).mouseleave(function(event) {
+            //     event.stopPropagation();
+            //     // $(this).find(".img").show();
+            //     $(this).children(".toggle-img").fadeToggle();
+            // })
+        // });
     </script>
 	<header>
 		<h1 class="ellipse #EDIT{meta-agenda/titre}"><div class="ovale"> </div><span class="titre">[(#CONFIG{agenda/titre}|sinon{<:agenda:titre_sur_l_agenda:>}|typo)]</span></h1>
@@ -275,6 +275,6 @@
     [(#GET{cmpt}|<{4}|oui)
     #SET{reste,#GET{cmpt}|mult{-1}|plus{4}|mult{3}}]
     <div class="span#GET{reste}" />
-    </div>
+    </div></div>
     </B_display>
-</section>
+</div>

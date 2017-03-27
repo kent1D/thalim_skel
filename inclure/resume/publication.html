@@ -10,7 +10,7 @@
 	<div class="entry-title">
 		[(#LESAUTEURS), ][<a href="#URL_ARTICLE" rel="bookmark">(#SURTITRE|?{&laquo;&nbsp;#SURTITRE&nbsp;&raquo;,<em>[(#TITRE|propre|PtoBR)]</em>})</a>, ][<em>in</em> (#DIRECTEURS) (dir.), ][<em>(#SURTITRE|?{[(#TITRE|propre|PtoBR)],''})</em>, ][(#EDITEUR), ][(#GET{id_mot}|=={463}|?{[(#DATE|annee|ucfirst)],[(#DATE|affdate_mois_annee|ucfirst)]})]
 	</div>
-	[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]
+	[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]]
 	<B_documents>
 	<p>
 	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche,couverture}{' '}>
