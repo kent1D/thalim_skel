@@ -1,0 +1,5 @@
+<composition>
+	<nom>Rubrique Presentation</nom>
+	<description>Composition dédiée à la page de présentation</description>
+	<branche type="article" composition="presentation" />
+</composition>
