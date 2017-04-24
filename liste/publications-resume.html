@@ -4,6 +4,7 @@
 #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
 #SET{mots_articles,#LISTE{495,1052}}
 #SET{type_hal_articles,#LISTE{ART,COUV}}
+[<pre>(#ENV**|unserialize|print_r{1})</pre>]
 <BOUCLE_ev1(HALS_PUBLICATIONS){si #ENV{id_programme,0}|>{0}|non}{id_auteur?}{id_mot?}{typdoc IN #GET{type_hal_ouvrages}}{date_ecriture != 0000-00-00 00:00:00}{!par date_ecriture}{doublons hal_ouvrages}>
 [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
 [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
@@ -37,7 +38,7 @@
 	#ANCRE_PAGINATION
 	<h3><:thalim:titre_ouvrages:></h3>
 	<ul class="liste-items publications">
-	<BOUCLE_data_publications(DATA){source tableau,#GET{publications_ouvrages}}{!par cle}{pagination 5}>
+	<BOUCLE_data_publications(DATA){source tableau,#GET{publications_ouvrages}}{!par cle}{pagination #ENV{nb,5}}>
 		<li class="item">
 			#VALEUR
 		</li>
@@ -49,7 +50,7 @@
 	#ANCRE_PAGINATION
 	<h3><:thalim:titre_articles:></h3>
 	<ul class="liste-items publications">
-	<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}{pagination 5}>
+	<BOUCLE_data_publications_articles(DATA){source tableau,#GET{publications_articles}}{!par cle}{pagination #ENV{nb,5}}>
 		<li class="item">
 			#VALEUR
 		</li>

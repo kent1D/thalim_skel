@@ -1,7 +1,6 @@
 #SET{tablo_rubriques,#ARRAY}
 #SET{tablo_rubriques,#ENV{tab_rubriques,#GET{tablo_rubriques}|push{#ENV{id_rubrique}}}}
 
-
 <B_articles>
 	#ANCRE_PAGINATION
 	[<h2 class="h2">&bull; (#ENV{titre}|strtolower)</h2>]

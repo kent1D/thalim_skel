@@ -4,7 +4,7 @@
 #SET{titre_evt,#TITRE}
 	<B_documents>
 	<article class="entry vevent id_#ID_EVENEMENT sommaire-img" itemscope itemtype="http://schema.org/Event">
-	<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] >
+	<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] target="_blank">
 	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
 		<div class="wrapper sommaire">
 			[(#DOCUMENT_TYPE|=={affiche}|oui)
@@ -13,7 +13,7 @@
 		</div>
 		</BOUCLE_documents>
 		<article class="entry vevent id_#ID_EVENEMENT sommaire-no-img" itemscope itemtype="http://schema.org/Event">
-		<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] >
+		<a itemprop="url" class="url" href="[(#URL_EVENEMENT)]"[ title="(#TITRE|propre|attribut_html)"] target="_blank">
 		<div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">
 			[<p>(#GET{titre_mot})</p>]<span itemprop="name" class="soixante">[(#TITRE|propre|PtoBR|couper{60})]</span>
 		</div></div>
