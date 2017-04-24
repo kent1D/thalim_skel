@@ -15,12 +15,9 @@
 			[(#COMPTEUR_BOUCLE|<{3}|?{#SET{direction,oui},#SET{direction,non}})]
 			<BOUCLE_auteurs_mot(AUTEURS){id_mot}{tout}>[(#SET{auteurs,#GET{auteurs}|push{#ID_AUTEUR}})][(#GET{direction}|=={oui}|oui)#SET{auteurs_direction,#GET{auteurs_direction}|push{#ID_AUTEUR}}]</BOUCLE_auteurs_mot>
 			<BOUCLE_auteurs_plusieurs(CONDITION){si #GET{auteurs}|count|>{1}}>
-			<B_roles_chercheurs_cnrs>
-			<div class="chercheurs_cnrs">
-			<h3><:thalim:roles_chercheurs_cnrs:></h3>
-			<BOUCLE_roles_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{directeur_recherche,charge_recherche}}{fusion role}{tout}>
-			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
-				<h4>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})]</h4>]
+			<B_roles_membres_equipe>
+			<div class="membres_equipe">
+			<BOUCLE_roles_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{directeur_recherche,charge_recherche,professeur,prof_emerite,maitre_conference}}{fusion role}{tout}{par nom_famille}>
 			<p>
 			<BOUCLE_auteurs_role_chercheurs_cnrs(AUTEURS){id_auteur IN #GET{auteurs}}{role}{par nom_famille}{', '}{tout}>
 			<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_chercheurs_cnrs></p>
@@ -30,10 +27,7 @@
 			</B_roles_chercheurs_cnrs>
 			<B_roles_enseignants_chercheurs>
 			<div class="enseignants_chercheurs">
-			<h3><:thalim:roles_enseignants_chercheurs:></h3>
 			<BOUCLE_roles_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{role IN #LISTE{professeur,prof_emerite,maitre_conference}}{fusion role}{!par role}{tout}>
-			[(#GRAND_TOTAL|>{1}|oui)<div class="sous_fonction">
-				<h4>[(#LISTER_VALEURS**{role}|table_valeur{#ROLE**})]</h4>]
 			<p>
 			<BOUCLE_auteurs_role_enseignants_chercheurs(AUTEURS){id_auteur IN #GET{auteurs}}{par nom_famille}{role}{', '}{tout}>
 			<a href="#URL_AUTEUR">#NOM</a>[(#ID_AUTEUR|in_array{#GET{auteurs_direction}}|?{'',[ ((#FONCTION_COMPLEMENT))]})]</BOUCLE_auteurs_role_enseignants_chercheurs></p>
