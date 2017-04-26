@@ -8,12 +8,12 @@
 		<div class="wrapper sommaire">
 			[(#DOCUMENT_TYPE|=={affiche}|oui)
 			[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{#GET{titre_evt}|propre|attribut_html}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]]
-			<div class="entry-title toggle-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</span><span itemprop="name" class="vingt">[(#GET{titre_evt}|propre|PtoBR|couper{20})]</span></div></div>
+			<div class="entry-title toggle-img sommaire #EDIT{titre}">[<div class="type">(#GET{titre_mot})</div>]<div itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</div><div itemprop="name" class="vingt">[(#GET{titre_evt}|propre|PtoBR|couper{20})]</div></div>
 		</div>
 	</BOUCLE_documents>
 	<article class="entry vevent idart_#ID_ARTICLE sommaire-no-img" itemscope itemtype="http://schema.org/Event">
 	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]"[ title="(#GET{titre_evt}|propre|attribut_html)"]>
-		<div class="entry-title no-img sommaire #EDIT{titre}"><div class="padding">[<p>(#GET{titre_mot})</p>]<span itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</span></div></div>
+		<div class="entry-title no-img sommaire #EDIT{titre}">[<div class="type">(#GET{titre_mot})</div>]<div itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</div></div>
 		<//B_documents>
 	</a>
 </article>

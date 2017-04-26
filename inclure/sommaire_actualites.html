@@ -12,10 +12,10 @@
        $(window).on('load', function() {
             $(".toggle-img").hide();
             $(".padding span").css('text-align', 'center');
-            setHeights();
+            //setHeights();
             $(window).resize(function(event) {
                 event.stopPropagation();
-                setHeights();
+                //setHeights();
             });
             $(".wrapper.sommaire").mouseenter(function(event) {
                 event.stopPropagation();
@@ -24,38 +24,34 @@
                 event.stopPropagation();
                 $(this).children(".toggle-img").fadeToggle();
             })
+            $(".toggle-img div.soixante").height(function() {
+                var hght = $(this).parent().height() - ($(this).siblings('div').first().height() * 2);
+                if (hght < 50) {
+                    $(this).css("white-space", "nowrap");
+                } else if (hght < 80 && $(this).text().length > 20) {
+                    $(this).siblings('div.vingt').first().show();
+                    $(this).hide();
+                } else {
+                    $(this).siblings('div.vingt').first().hide();
+                }
+            });
 
-            function setHeights() {
+/*            function setHeights() {
                 $("#sommaire_actualites").find("img").width(function() {
                     $(this).height('auto');
-                    return $(this).closest(".span3").width();
+                    return $(this).closest(".element").width();
                 });
                 var maxHeight = Math.max.apply(null, $("#sommaire_actualites").find("img").map(function () {
                             return $(this).height();
                         }).get());
                 $("article").height(maxHeight);
-                $(".toggle-img .padding span.soixante").height(function() {
-                    var hght = $(this).parent().parent().height() - ($(this).siblings('p').first().height() * 2);
-                    if (hght < 50) {
-                        $(this).css("white-space", "nowrap");
-                        return hght;
-                    } else if (hght < 80 && $(this).text().length > 20) {
-                        $(this).siblings('span').first().css('display','table-cell');
-                        $(this).siblings('span').first().height("3em");
-                        $(this).hide();
-                        return '';
-                    } else {
-                        $(this).siblings('span').first().hide();
-                        $(this).css('display','table-cell')
-                        return hght;
-                    }
-                });
+
                 var widthNoImg = maxHeight * .707070;
                 $("article.sommaire-no-img").width(widthNoImg);
                 $(".no-img .padding span").height(function() {
                     return maxHeight - ($(this).siblings('p').first().height() * 2);
                 });
-            }
+            }*/
         });
     </script>
 	<header>
@@ -159,19 +155,14 @@
     ]
     #SET{cmpt,0}
     <B_display>
-    <div class="row-fluid">
+    <div class="flex-container-sommaire">
     <BOUCLE_display(CONDITION){si #VAL{1}|=={1}}>
         [(#REM) affiche EXPOS]
         [(#GET{exposition}|count|>{0}|oui) #SET{expos,ok}]
         <BOUCLE_si_expo(CONDITION){si #GET{expos}|=={ok}|oui}>
             <B_data_expo>
             <BOUCLE_data_expo(DATA){si #GET{exposition}|count|>{0}}{source tableau,#GET{exposition}}{!par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_expo>
@@ -184,12 +175,7 @@
         <BOUCLE_si_prix(CONDITION){si #GET{prixes}|=={ok}|oui}>
             <B_data_prix>
             <BOUCLE_data_prix(DATA){si #GET{prix}|count|>{0}}{source tableau,#GET{prix}}{!par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_prix>
@@ -202,12 +188,7 @@
         <BOUCLE_si_colloq(CONDITION){si #GET{colloq}|=={ok}|oui}>
             <B_data_colloq>
             <BOUCLE_data_colloq(DATA){si #GET{colloques}|count|>{0}}{source tableau,#GET{colloques}}{!par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 #VALEUR
                 </div>
             </BOUCLE_data_colloq>
@@ -220,12 +201,7 @@
         <BOUCLE_si_appel(CONDITION){si #GET{appel}|=={ok}|oui}>
         <B_ev3_3>
         <BOUCLE_ev3_3(DATA){source table,#GET{appels}}{par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_date_redac_sommaire,id_article=#VALEUR,sans_document=non,intro=non,env}
                 </div>
         </BOUCLE_ev3_3>
@@ -240,12 +216,7 @@
             <B_data_publications>
             <BOUCLE_data_publications(DATA){si #GET{publications_ouvrages}|count|>{0}}{source tableau,#GET{publications_ouvrages}}{!par cle}>
                 <BOUCLE_si_val2(CONDITION){si #VALEUR|?{non,#VALEUR}}>
-                    #SET{cmpt,#GET{cmpt}|plus{1}}
-                    [(#GET{cmpt}|=={5}|oui)
-                    #SET{cmpt,#GET{cmpt}|moins{4}}
-                    </div>
-                    <div class="row-fluid">]
-                    <div class="span3 sommaire align-middle">
+                    <div class="flex-item sommaire align-middle">
                     #VALEUR
                     </div>
                 </BOUCLE_si_val2>
@@ -261,12 +232,7 @@
         <BOUCLE_si_sout(CONDITION){si #GET{souts}|=={ok}|oui}>
             <B_data_sout>
             <BOUCLE_data_sout(DATA){si #GET{sout}|count|>{0}}{source tableau,#GET{sout}}{!par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 [(#INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env})]
                 </div>
             </BOUCLE_data_sout>
@@ -279,12 +245,7 @@
         <BOUCLE_si_evts(CONDITION){si #GET{fi_evts}|=={ok}|oui}>
             <B_data_evts>
             <BOUCLE_data_evts(DATA){si #GET{evts}|count|>{0}}{source tableau,#GET{evts}}{par cle}>
-                #SET{cmpt,#GET{cmpt}|plus{1}}
-                [(#GET{cmpt}|=={5}|oui)
-                #SET{cmpt,#GET{cmpt}|moins{4}}
-                </div>
-                <div class="row-fluid">]
-                <div class="span3 sommaire align-middle">
+                <div class="flex-item sommaire align-middle">
                 #INCLURE{fond=inclure/resume/evenement_sommaire,id_evenement=#VALEUR,sans_document=non,intro=non,env}
                 </div>
             </BOUCLE_data_evts>
@@ -292,9 +253,9 @@
         </BOUCLE_si_evts>
 
     </BOUCLE_display>
-    [(#GET{cmpt}|<{4}|oui)
-    #SET{reste,#GET{cmpt}|mult{-1}|plus{4}|mult{3}}
-    <div class="span#GET{reste}" />
-    </div>]
+    <div class="flex-item sommaire empty"></div>
+    <div class="flex-item sommaire empty"></div>
+    <div class="flex-item sommaire empty"></div>
+    </div>
     </B_display>
 </section>
