@@ -48,7 +48,7 @@
 <li class="item">
 <!--_BL_ 	<h3 class="h3"><a href="[(#URL_PAGE{#ENV{page},type_objet=#TYPE})]">#TITRE</a></h3> -->
 	<h3 class="h3"><a href="[(#URL_PAGE{#ENV{page}}|parametre_url{type_objet,#TYPE}|parametre_url{id_rubrique,#ID_SECTEUR})]">#TITRE</a></h3>
-	#DESCRIPTION
+	[(#DESCRIPTION|inserer_attribut{class,'warning'})]
 </li>})]})]]
 [(#OBJET|in_array{#LISTE{article,emballe_media,site}}|oui)
 	[(#SET{fond,inclure/diogene_attente_publication_[(#_diogene_principaux:OBJET)]})]

@@ -57,8 +57,8 @@
 	<header>
 		<h1 class="ellipse #EDIT{meta-agenda/titre}"><div class="ovale"> </div><span class="titre">[(#CONFIG{agenda/titre}|sinon{<:agenda:titre_sur_l_agenda:>}|typo)]</span></h1>
 	</header>
-	#SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
-	#SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
+    #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
+    #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}}}
     #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}}
     [(#REM) #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}]
     #SET{date_debut_ouv,#ENV{date}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
