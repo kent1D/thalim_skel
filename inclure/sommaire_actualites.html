@@ -26,9 +26,11 @@
             })
             $(".toggle-img div.soixante").height(function() {
                 var hght = $(this).parent().height() - ($(this).siblings('div').first().height() * 2);
-                if (hght < 50) {
+                console.log(hght);
+/*                if (hght < 50) {
                     $(this).css("white-space", "nowrap");
-                } else if (hght < 80 && $(this).text().length > 20) {
+                } else */
+                if (hght < 80 && $(this).text().length > 20) {
                     $(this).siblings('div.vingt').first().show();
                     $(this).hide();
                 } else {
