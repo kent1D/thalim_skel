@@ -69,8 +69,8 @@
             </B_data_prix>
         </BOUCLE_si_prix>
 
-        #SET{evts,#ARRAY}
-        <BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
+        [(#REM)#SET{evts,#ARRAY}]
+        <!-- BOUCLE_rubriques(RUBRIQUES){id_rubrique}>
         <BOUCLE_si_rub_communications(CONDITION){si #ID_RUBRIQUE|=={251}}>
             [(#REM) #SET{communications,#ARRAY}]
             [(#REM) BOUCLE_comm1: {doublons hal_communications}]
@@ -96,7 +96,7 @@
                 [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
                 </BOUCLE_aut_evcomm1>
             </BOUCLE_evcomm1>
-            <!-- B_evcomm>
+            <B_evcomm>
             <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
             <BOUCLE_evcomm(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{!par cle}>
                 <BOUCLE_si_val(CONDITION){si #VALEUR|?{non,#VALEUR}}>
@@ -106,7 +106,7 @@
                 </BOUCLE_si_val>
             </BOUCLE_evcomm>
             </ul>
-            </B_evcomm-->
+            </B_evcomm>
         </BOUCLE_si_rub_communications>
         </B_si_rub_communications>
             <B_evt1>
@@ -122,7 +122,7 @@
             </ul>
             </B_evt1>
         </BOUCLE_rubriques>
-        </B_rubriques>
+    </B_rubriques -->
         <BOUCLE_annee3(RUBRIQUES){id_rubrique=250}>
         <B_ev_colloque>
             <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">#INFO_TITRE{rubrique,#ID_RUBRIQUE}</h3>
@@ -249,34 +249,35 @@
         #SET{has_event,oui}
         </B_si_publications>
         <BOUCLE_rubriques2(RUBRIQUES){id_rubrique IN 247,251,271,267}>
-            #SET{evts,#ARRAY}
+            [(#REM)#SET{evts,#ARRAY}]
             <BOUCLE_si_communication(CONDITION){si #ID_RUBRIQUE|=={251}}>
-            [(#REM)#SET{communications,#ARRAY}]
-                <BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications_bis}>
+            #SET{communications,#ARRAY}
+                <BOUCLE_comm12(HALS_PUBLICATIONS){typdoc IN COMM}{date_ecriture >= #GET{date_debut}}{date_ecriture < #GET{date_fin}}{!par date_ecriture}{doublons hal_communications}>
                 <p>HAL: #ID_HALS_PUBLICATION</p>
                     <BOUCLE_aut_comm12(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
                     [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
-                    [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
                     </BOUCLE_aut_comm12>
                 </BOUCLE_comm12>
-                <BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications_bis}>
+                <BOUCLE_comm22(HALS_PUBLICATIONS){typdoc IN COMM}{date_production >= #GET{date_debut}}{date_production < #GET{date_fin}}{!par date_production}{doublons hal_communications}>
                 <p>HAL: #ID_HALS_PUBLICATION</p>
                     <BOUCLE_aut_comm22(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
                     [(#SET{cle,[(#DATE_ECRITURE|!={'0000-00-00 00:00:00'}|?{#DATE_ECRITURE,#DATE_PRODUCTION}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
-                    [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_newsletter,id_hals_publication,intro=non,afficher_auteur=non,env})]})]})]})]
                     </BOUCLE_aut_comm22>
                 </BOUCLE_comm22>
-                <BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
-                <p>COMM: #ID_EVENEMENT</p>
-                    <BOUCLE_aut_evcomm12(ARTICLES){statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}>
+                <BOUCLE_evcomm12(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{doublons event}>
+                    #SET{id_evt,#ID_EVENEMENT}
+                    <BOUCLE_aut_evcomm12(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons #ID_EVENEMENT}>
+                    <p>COMM: #GET{id_evt}</p>
                     [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
-                    [(#SET{evts,[(#GET{evts}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
+                    [(#SET{communications,[(#GET{communications}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/evenement_home_newsletter,id_evenement,sans_document=oui,intro=non,env})]})]})]})]
                     </BOUCLE_aut_evcomm12>
                 </BOUCLE_evcomm12>
                 <B_evcomm2>
                 <h3 style="border-bottom: 1px solid #ccc;padding: 0.8em 0;font-size: 14pt;line-height: 1.1em;font-weight: normal;text-rendering: optimizelegibility;">1: #_rubriques2:TITRE</h3>
                 <ul class="liste-items liste-puce evenements"  style="font-size: 9pt;padding: 0;margin-left: 15px;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif">
-                <BOUCLE_evcomm2(DATA){si #GET{evts}|count|>{0}}{source tableau,#GET{evts}}{!par cle}>
+                <BOUCLE_evcomm2(DATA){si #GET{communications}|count|>{0}}{source tableau,#GET{communications}}{par cle}>
                     <BOUCLE_si_val4(CONDITION){si #VALEUR|?{non,#VALEUR}}>
                     <li class="item" style="padding: 0.8em 0;">
                         #VALEUR
@@ -288,8 +289,8 @@
             </B_evcomm2>
             </BOUCLE_si_communication>
             </B_si_communication>
-            [(#REM)#SET{evts,#ARRAY}]
-            <BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}>
+            #SET{evts,#ARRAY}
+            <BOUCLE_ev(EVENEMENTS){!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_mot?}{id_evenement_source?}{id_rubrique}{doublons event}>
             <p>#ID_EVENEMENT</p>
                 <BOUCLE_ev_autre(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{doublons #ID_EVENEMENT}>
                 [(#SET{cle,[(#DATE_DEBUT|replace{-,''}|replace{:,''}|replace{' ',''})_evenement_#ID_EVENEMENT]})]
