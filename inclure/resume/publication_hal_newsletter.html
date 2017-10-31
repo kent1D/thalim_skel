@@ -5,28 +5,30 @@
 
 ]
 <BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
-<BOUCLE_auteurs(AUTEURS){si #ENV{afficher_auteur}|!={non}}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
-#SET{auteur,#NOM}
-#SET{url_auteur,<a style="color:black;text-decoration: none;" href="#URL_AUTEUR">#NOM</a>}
-#SET{auteur_complet,<p class="lesauteurs"><a style="color:black;text-decoration: none;" href="#URL_AUTEUR">#NOM</a></p>}
-</BOUCLE_auteurs>
-<BOUCLE_si_aut_thalim(CONDITION){si #GET{auteur}|?{non,#GET{auteur}}}>
-<article class="entry article vevent" style="margin-bottom:0;">
-	<div class="entry-title" style="background-color:#fff;margin-top:0;margin-bottom:6pt;font-size: 9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;"><p style="margin-top:0;margin-bottom:0px;line-height:12pt;">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ]<a style="color:black;text-decoration:none;" href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em style="color:black;text-decoration: none;">#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})]</a>[,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo|replace{'<a ','<a style="color:black;text-decoration:none;"'})]]</p>
-	[(#TYPDOC**|=={COMM}|oui)[<p style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;font-family:'century_gothic','Century Gothic',Times,serif">(#DATE_PRODUCTION|agenda_affdate_debut_fin{#DATE_PRODUCTION,non,'hcal annee'})</p>]]</div>
-	[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]]
-	[(#GET{auteur_ok}|=={ok}|non)#GET{auteur_complet}]
-	[(#ENV{sans_document,oui}|=={oui}|non)[<p>
-	<a style="color:black;text-decoration: none;" href="(#LOGO_HALS_PUBLICATION|extraire_attribut{src})" class="lien_document"><:thalim:document_couverture:></a>
-	</p>]]
-	<B_documents>
-	<p>
-	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{' '}>
-	<a style="color:black;text-decoration: none;" href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
-	</BOUCLE_documents>
-	</p>
-	</B_documents>
-</article>
-</BOUCLE_si_aut_thalim>
+	<BOUCLE_auteurs(AUTEURS){id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+	#SET{auteur,#NOM}
+	#SET{url_auteur,<a style="color:black;text-decoration: none;" href="#URL_AUTEUR">#NOM</a>}
+	#SET{auteur_complet,<p class="lesauteurs"><a style="color:black;text-decoration: none;" href="#URL_AUTEUR">#NOM</a></p>}
+	</BOUCLE_auteurs>
+	<article class="entry article vevent" style="margin-bottom:0;">
+		<div class="entry-title" style="background-color:#fff;margin-top:0;margin-bottom:6pt;font-size: 9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;">
+			<p style="margin-top:0;margin-bottom:0px;line-height:12pt;">
+				<BOUCLE_si_auteur(CONDITION){si #ENV{afficher_auteur}|!={non}}>[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ]</BOUCLE_si_auteur>
+				<a style="color:black;text-decoration:none;" href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em style="color:black;text-decoration: none;">[(#TITRE|typo|trim)]</em>,[(#TYPDOC**|=={COMM}|?{#TITRE,&laquo;&nbsp;[(#TITRE|trim|typo)]&nbsp;&raquo;})]})]</a>[,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo|replace{'<a ','<a style="color:black;text-decoration:none;"'})]]
+			</p>
+		[(#TYPDOC**|=={COMM}|oui)[<p style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;font-family:'century_gothic','Century Gothic',Times,serif">(#DATE_PRODUCTION|agenda_affdate_debut_fin{#DATE_PRODUCTION,non,'hcal annee'})</p>]]</div>
+		[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]]
+		[(#REM)[(#GET{auteur_ok}|=={ok}|non)#GET{auteur_complet}]]
+		[(#ENV{sans_document,oui}|=={oui}|non)[<p>
+		<a style="color:black;text-decoration: none;" href="(#LOGO_HALS_PUBLICATION|extraire_attribut{src})" class="lien_document"><:thalim:document_couverture:></a>
+		</p>]]
+		<B_documents>
+		<p>
+		<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{' '}>
+		<a style="color:black;text-decoration: none;" href="[(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**})]" class="lien_document mediabox">[(#DOCUMENT_TYPE|=={affiche}|?{<:thalim:document_affiche:>,<:thalim:document_couverture:>})]</a>
+		</BOUCLE_documents>
+		</p>
+		</B_documents>
+	</article>
 </BOUCLE_publication_hal>
 #FILTRE{trim}
