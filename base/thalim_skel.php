@@ -248,7 +248,7 @@ function thalim_skel_declarer_champs_extras($champs = array()) {
 		      '10_secretaire_gestionnaire' => 'Secrétariat et gestion',
 		      '20_communication' => 'Information, diffusion et médias',
 		      '30_Edition' => 'Conception graphique et éditoriale, site web',
-		      16 => 'Ressources documentaires',
+		      '50_documentation' => 'Ressources documentaires',
 		    ),
 		    'restrictions' => 
 		    array (
