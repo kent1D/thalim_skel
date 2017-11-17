@@ -59,12 +59,13 @@
 	<header>
 		<h1 class="ellipse #EDIT{meta-agenda/titre}"><div class="ovale"> </div><span class="titre">[(#CONFIG{agenda/titre}|sinon{<:agenda:titre_sur_l_agenda:>}|typo)]</span></h1>
 	</header>
-    #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,12}}}
-    #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}}}
+    #SET{affichage_duree,#ENV{affichage_duree,#CONFIG{agenda/affichage_duree,1}}}
+    #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
     #SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-d 00:00:00'}}
     [(#REM) #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-01 23:59:59'}|agenda_dateplus{-86400}}]
-    #SET{date_debut_ouv,#ENV{date}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+    #SET{date_debut_ouv,#GET{date_debut}|agenda_moisdecal{-2,'Y-m-d 00:00:00'}}
     #SET{date_fin,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree},'Y-m-d 00:00:00'}}
+
  	#SET{exposition,#ARRAY}
     <BOUCLE_ev_expo(EVENEMENTS){id_rubrique=271}{!evenement_passe #GET{date_debut}}{!evenement_a_venir #GET{date_fin}}{par date_debut}{id_article?}{id_rubrique?}{id_mot?}{id_evenement_source?}>
         <BOUCLE_ev_expo2(ARTICLES){auteurs.statut IN 0minirezo,1comite}{id_evenement=#ID_EVENEMENT}{id_mot=220}{doublons #ID_EVENEMENT}>
@@ -115,7 +116,7 @@
         [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
         [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev1>
-    <BOUCLE_ev2(HALS_PUBLICATIONS){date_production >= #GET{date_debut_ouv}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+    <BOUCLE_ev2(HALS_PUBLICATIONS){date_ecriture >= #GET{date_debut_ouv}}{date_ecriture < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
         [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
         [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev2>
@@ -185,7 +186,7 @@
         [(#GET{colloques}|count|>{0}|oui) #SET{colloq,ok}]
         <BOUCLE_si_colloq(CONDITION){si #GET{colloq}|=={ok}|oui}>
             <B_data_colloq>
-            <BOUCLE_data_colloq(DATA){si #GET{colloques}|count|>{0}}{source tableau,#GET{colloques}}{!par cle}>
+            <BOUCLE_data_colloq(DATA){si #GET{colloques}|count|>{0}}{source tableau,#GET{colloques}}{par cle}>
                 <div class="flex-item sommaire align-middle">
                 #VALEUR
                 </div>
