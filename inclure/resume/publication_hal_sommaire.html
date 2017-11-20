@@ -14,7 +14,7 @@
 </BOUCLE_auteurs>
     <B_documents>
     <article class="entry article vevent sommaire-img">
-    <a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"]> 
+    <a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] target="_blank"> 
     <BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_hals_publication}{document_type IN couverture}{0,1}{' '}>   
         <div class="wrapper sommaire">
             [(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
@@ -24,7 +24,7 @@
         </div>
     </BOUCLE_documents>
     <article class="entry article vevent sommaire-no-img">
-	<a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"]>
+	<a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] target="_blank">
         <div class="entry-title no-img sommaire #EDIT{titre}"><div class="type">
             Ouvrage</div><div itemprop="name" class="soixante em">[(#GET{titre_pub}|propre|PtoBR|couper{60})]</div>
         </div>
