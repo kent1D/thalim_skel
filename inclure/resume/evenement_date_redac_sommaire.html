@@ -3,7 +3,7 @@
 <BOUCLE_mot(MOTS){id_article}{id_groupe=3}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
 	<B_documents>
 	<article class="entry vevent idart_#ID_ARTICLE sommaire-img" itemscope itemtype="http://schema.org/Event">
-	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]"[ title="(#GET{titre_evt}|propre|attribut_html)"]>
+	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]"[ title="(#GET{titre_evt}|propre|attribut_html)"] target="_blank">
 	<BOUCLE_documents(DOCUMENTS){si #ENV{sans_document,non}|=={non}}{id_article}{document_type IN affiche}{' '}>
 		<div class="wrapper sommaire">
 			[(#DOCUMENT_TYPE|=={affiche}|oui)
@@ -12,7 +12,7 @@
 		</div>
 	</BOUCLE_documents>
 	<article class="entry vevent idart_#ID_ARTICLE sommaire-no-img" itemscope itemtype="http://schema.org/Event">
-	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]"[ title="(#GET{titre_evt}|propre|attribut_html)"]>
+	<a itemprop="url" class="url" href="[(#URL_ARTICLE)]"[ title="(#GET{titre_evt}|propre|attribut_html)"] target="_blank">
 		<div class="entry-title no-img sommaire #EDIT{titre}">[<div class="type">(#GET{titre_mot})</div>]<div itemprop="name" class="soixante">[(#GET{titre_evt}|propre|PtoBR|couper{60})]</div></div>
 		<//B_documents>
 	</a>
