@@ -1,8 +1,17 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".rub256").parent().hide();
-        $(".equipe").hover(function(e){
-            $(".rub256").parent().slideToggle();
+        $(".equipe").mouseenter(function(e){
+			e.stopPropagation();
+            $(".rub256").parent().slideDown();
+        });
+		$(".rub256").parent().mouseenter(function(e){
+			e.stopPropagation();
+            $(this).slideDown();
+        });
+		$(".rub256").parent().mouseleave(function(e){
+			e.stopPropagation();
+            $(this).slideUp();
         });
     });
 </script>
