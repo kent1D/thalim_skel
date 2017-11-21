@@ -1,3 +1,11 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".rub256").parent().hide();
+        $(".equipe").hover(function(e){
+            $(".rub256").parent().slideToggle();
+        });
+    });
+</script>
 <div class="well">
 	[<div class="menu-conteneur nav nav-list">
 		(#INCLURE{fond=inclure/menu, env, identifiant=barright})
