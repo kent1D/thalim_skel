@@ -123,7 +123,7 @@
 			<ul class="liste-items">
 			<BOUCLE_activites_editoriales(ARTICLES){id_auteur}{id_secteur IN 264}{par id_rubrique}{pagination 10}>
 				<li class="item">
-					&laquo; [(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})] &raquo;
+					[(#TEXTE|?{<a href="#URL_ARTICLE">,#URL_SITE|?{<a href="#URL_SITE" class="spip_out">}})]#TITRE[(#TEXTE|ou{#URL_SITE}|?{</a>,''})]
 					[(#CHAPO)]
 				</li>
 			</BOUCLE_activites_editoriales>
