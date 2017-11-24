@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
 	jQuery(".editer_diogene_gerer_auteurs .explication,.editer_liens_sites legend,.editer_liens_sites h3,.editer_nom_site,.editer_langue,#diogene_auteurs legend,#diogene_auteurs h3").remove();
 	jQuery(".editer_url_site label").text("Lien pour plus d'informations sur l'événement");
 	jQuery(".editer_texte label").text('Texte de présentation');
-	jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
+	//jQuery(".diogene_mots legend").text('A relier à (pas obligatoire pour tous)');
 	jQuery(".editer_groupe_17").detach().insertAfter('.editer_diogene_gerer_auteurs');
 	jQuery(".saisie_programme_recherche").detach().insertAfter('.diogene_mots ul:last-child');
 	jQuery("#date_debut").unbind('change').change(function(){
