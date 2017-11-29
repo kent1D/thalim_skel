@@ -6,7 +6,7 @@
 ]
 <BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
 #SET{titre_pub,(#SURTITRE|sinon{#TITRE})}
-        
+<BOUCLE_mot(MOTS){id_hals_publication}{id_groupe=11}> #SET{titre_mot,#TITRE}</BOUCLE_mot>
 <BOUCLE_auteurs(AUTEURS){statut IN 0minirezo,1comite}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
 #SET{auteur,#NOM}
 #SET{url_auteur,<a href="#URL_AUTEUR">#NOM</a>}
@@ -19,14 +19,14 @@
         <div class="wrapper sommaire">
             [(#DOCUMENT_TYPE|=={couverture}|ou{#DOCUMENT_TYPE|=={affiche}}|oui)
             [(#EXTENSION|in_array{#LISTE{jpg,png,gif}}|?{#URL_DOCUMENT,#LOGO_DOCUMENT**}|balise_img{#TITRE|propre|attribut_html}|vider_attribut{width}|vider_attribut{height}|inserer_attribut{class,"img sommaire"})]]
-		    <div class="entry-title toggle-img sommaire"><div class="type">Ouvrage</div><div itemprop="name" class="soixante em">[(#GET{titre_pub}|propre|PtoBR|couper{60})]</div><div itemprop="name" class="vingt em">[(#GET{titre_pub}|propre|PtoBR|couper{20})]</div>
+		    <div class="entry-title toggle-img sommaire"><div class="type">[(#GET{titre_mot,Ouvrage})]</div><div itemprop="name" class="soixante em">[(#GET{titre_pub}|propre|PtoBR|couper{60})]</div><div itemprop="name" class="vingt em">[(#GET{titre_pub}|propre|PtoBR|couper{20})]</div>
             </div>
         </div>
     </BOUCLE_documents>
     <article class="entry article vevent sommaire-no-img">
 	<a href="#URL_HALS_PUBLICATION" rel="bookmark"[ title="(#TITRE|propre|attribut_html)"] target="_blank">
-        <div class="entry-title no-img sommaire #EDIT{titre}"><div class="type">
-            Ouvrage</div><div itemprop="name" class="soixante em">[(#GET{titre_pub}|propre|PtoBR|couper{60})]</div>
+        <div class="entry-title no-img sommaire #EDIT{titre}">[<div class="type">
+            (#GET{titre_mot,Ouvrage})</div>]<div itemprop="name" class="soixante em">[(#GET{titre_pub}|propre|PtoBR|couper{60})]</div>
         </div>
     <//B_documents>
 	</a>

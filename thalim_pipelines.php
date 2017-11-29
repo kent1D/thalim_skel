@@ -123,6 +123,7 @@ function thalim_skel_diogene_objets($flux){
  * 		Le contexte du pipeline modifié
  */
 function thalim_skel_editer_contenu_objet($flux){
+	var_dump($flux['args']['contexte']['typdoc']);
 	/**
 	 * On vérifie que on a fichier_* dans le formulaire
 	 */
@@ -156,7 +157,20 @@ function thalim_skel_editer_contenu_objet($flux){
 		/**
 		 * Ajouter les mots clés
 		 */
-		$mots_obligatoires = array('8','10','13');
+		// $mots_obligatoires = array('8','10','13');
+		 /**
+		 * Ajout BL: type de publication pour publis HAL
+		 */
+		/**
+		 * On récupère le type de publication
+		 */
+		$type_hal_old = sql_fetsel('hals.typdoc','spip_hals_publications as hals','hals.id_hals_publication='.intval($id_objet));
+		$type_hal = $flux['args']['contexte']['typdoc'];
+		echo "<h1>$type_hal</h1>";
+		/**
+		 * On définit les groupes de mots obligatoire en fonction du type
+		 */
+		$mots_obligatoires = ($type_hal == 'COMM') ? array('8','10','13','3') : array('8','10','13','11');
 
 		$valeurs_mots['id_groupes'] = $mots_obligatoires;
 		/**
@@ -179,7 +193,7 @@ function thalim_skel_editer_contenu_objet($flux){
 		if (is_array($valeurs_mots))
 			$flux['args']['contexte'] = array_merge($flux['args']['contexte'],$valeurs_mots);
 		
-		$flux['args']['contexte']['legende'] = "À relier à :";
+		$flux['args']['contexte']['legende'] = "Sélectionner les autres pages concernées par votre annonce";
 		$saisie = recuperer_fond('formulaires/diogene_ajouter_medias_mots',$flux['args']['contexte']);
 		
 		/**
@@ -350,7 +364,11 @@ function thalim_skel_formulaire_traiter($flux){
 		$id_objet = $flux['data']['id_hals_publication'];
 
 		include_spip('inc/editer_mots');
-		$groupes_possibles = array('8','10','13');
+		/**
+		 * BL : ajout du type de publication
+		 */
+		// $groupes_possibles = array('8','10','13');
+		$groupes_possibles = array('8','10','13','3','11');
 
 		/**
 		 * On traite chaque groupe séparément
