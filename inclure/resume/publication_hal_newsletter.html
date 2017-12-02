@@ -13,7 +13,7 @@
 	<article class="entry article vevent" style="margin-bottom:0;">
 		<div class="entry-title" style="background-color:#fff;margin-top:0;margin-bottom:6pt;font-size: 9pt;padding: 0;list-style: none;border-top: 0;list-style-type: none;font-family:'century_gothic','Century Gothic',Verdana,Arial,sans-serif;text-decoration: none;">
 			<p style="margin-top:0;margin-bottom:0px;line-height:12pt;">
-				<BOUCLE_si_auteur(CONDITION){si #ENV{afficher_auteur}|!={non}}>[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ]</BOUCLE_si_auteur>
+				<BOUCLE_si_auteur(CONDITION){si #ENV{afficher_auteur}|!={non}}>[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC**|=={DOUV}|oui)(dir.)], ]</BOUCLE_si_auteur>
 				<a style="color:black;text-decoration:none;" href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em style="color:black;text-decoration: none;">[(#TITRE|typo|trim)]</em>,[(#TYPDOC**|=={COMM}|?{#TITRE,&laquo;&nbsp;[(#TITRE|trim|typo)]&nbsp;&raquo;})]})]</a>[,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo|replace{'<a ','<a style="color:black;text-decoration:none;"'})]]
 			</p>
 		[(#TYPDOC**|=={COMM}|oui)[<p style="margin-top:0;margin-bottom:0;font-weight:bold;line-height:10.8pt;font-size: 8pt;font-family:'century_gothic','Century Gothic',Times,serif">(#DATE_PRODUCTION|agenda_affdate_debut_fin{#DATE_PRODUCTION,non,'hcal annee'})</p>]]</div>
