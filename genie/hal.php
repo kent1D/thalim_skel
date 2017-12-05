@@ -210,6 +210,7 @@ function inserer_publication_hal ($data, $now_id_hal, $statut, $url_syndic, &$fa
 			'livre' => $data['livre'],
 			'revue' => $data['revue'],
 			'revue_id' => $data['revue_id'],
+			'resume' => $data['resume'],
 			'commentaire' => $data['commentaire'],
 			'isbn' => $data['isbn'],
 			//'format' => $data['format'],

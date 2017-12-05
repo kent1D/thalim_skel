@@ -149,6 +149,21 @@ function analyser_publications($json, $url_syndic='') {
 						case 'authFullName_s':
 							$infos_publication[$base] = implode(', ',$contenu_publication[$champ]);
 							break;
+						case 'abstract_s':						
+							$multi = array();
+							foreach($contenu_publication[$champ] as $key => $content){								
+								if (count($contenu_publication['language_s']) == count($contenu_publication[$champ]) && isset($contenu_publication['language_s'][$key])) {
+									$lang = _T('hals_publication:abstract_'.strtolower($contenu_publication['language_s'][$key]));
+									if ($lang != "") {
+										$infos_publication[$base] .= "<div><strong>".$lang."</strong><p>".htmlentities($content)."</p></div>";
+									} else {
+										$infos_publication[$base] .= "<div><p>".htmlentities($content)."</p></div>";
+									}
+								} else {
+									$infos_publication[$base] .= "<div><p>".htmlentities($content)."</p></div>";
+								}
+							}
+							break;
 						default:
 							if ($base == 'citation_reference')
 								break;
@@ -157,9 +172,19 @@ function analyser_publications($json, $url_syndic='') {
 									$infos_publication[$base] = $contenu_publication[$champ][0];
 								else{
 									$infos_publication[$base] = "<multi>";
-									foreach($contenu_publication[$champ] as $key => $content){
-										if(isset($contenu_publication['language_s'][$key]))
-											$infos_publication[$base] .= "[".$contenu_publication['language_s'][$key]."]".$content;
+									if (count($contenu_publication['language_s']) == count($contenu_publication[$champ])) {
+										foreach($contenu_publication[$champ] as $key => $content){
+											if (isset($contenu_publication['language_s'][$key])) {
+												$infos_publication[$base] .= "[".$contenu_publication['language_s'][$key]."]".htmlentities($content);
+											}
+										}
+									} else {
+										$infos_publication[$base] .= htmlentities(array_shift($contenu_publication[$champ]));
+										foreach($contenu_publication[$champ] as $key => $content){
+											if (isset($contenu_publication['language_s'][$key])) {
+												$infos_publication[$base] .= " [".htmlentities($content)."]";
+											}
+										}
 									}
 									$infos_publication[$base] .= "</multi>";
 								}
@@ -185,9 +210,9 @@ function analyser_publications($json, $url_syndic='') {
 					if (isset($contenu_publication['scientificEditor_s'])) {
 						if (is_array($contenu_publication['scientificEditor_s'])) {
 							if (count($contenu_publication['scientificEditor_s']) > 1)
-								$sci_eds = implode(',', $contenu_publication['scientificEditor_s'])." (eds.)";
+								$sci_eds = implode(', ', $contenu_publication['scientificEditor_s'])." (eds.)";
 							else
-								$sci_eds = implode(',', $contenu_publication['scientificEditor_s'])." (ed.)";
+								$sci_eds = implode(', ', $contenu_publication['scientificEditor_s'])." (ed.)";
 						} else
 							$sci_eds = $contenu_publication['scientificEditor_s']." (ed)";
 					}
@@ -202,7 +227,6 @@ function analyser_publications($json, $url_syndic='') {
 							elseif (isset($contenu_publication['subTitle_s'][0]))
 								$subTitle = $contenu_publication['subTitle_s'][0];
 						}
-						spip_log($subTitle, _LOG_ERREUR);
 						// Guillemets : if (!preg_match('/^ *(\x{AB}|\x{22}|\x{201A}|\x{201C}|\x{}201F)/i',...) 
 					}
 					// Numéro spécial de revue : on ajoute la référence du numéro
@@ -231,7 +255,6 @@ function analyser_publications($json, $url_syndic='') {
 						} elseif (isset($contenu_publication['volume_s']) && $contenu_publication['volume_s'] != "")
 							$infos_publication['citation_reference'] .= "vol. ".$contenu_publication['volume_s'];
 					}
-
 					if (isset ($subTitle)) {
 						if ($infos_publication['citation_reference'] != "")
 							$infos_publication['citation_reference'] .= ". ";
@@ -271,73 +294,141 @@ function analyser_publications($json, $url_syndic='') {
 						if (isset($contenu_publication['serie_s']) && is_array($contenu_publication['serie_s']))
 							$infos_publication['citation_reference'] .= implode(', ', $contenu_publication['serie_s']).", ";
 					}
-					if ($contenu_publication['inPress_bool'] == "true")
-						$infos_publication['citation_reference'] .= "à paraître";
-					elseif ($infos_publication['date_production_format'] == 'annee' || !$revue) {
-						$infos_publication['citation_reference'] .= substr($contenu_publication['producedDate_s'],0,4);
-						spip_log($infos_publication['citation_reference'], _LOG_ERREUR);
+					break;
+				case "ART":
+					$revue = true;
+					$infos_publication['citation_reference'] .= "<i>".$contenu_publication['journalTitle_s']."</i>, ";
+
+					if (isset($contenu_publication['serie_s']) && is_array($contenu_publication['serie_s'])) {
+						$titre_volume = implode(', ', $contenu_publication['serie_s']);
+						if (!preg_match('/^ *(numéro|(special)? issue).+$/i',$titre_volume)) {
+							if (preg_match('/^(.+)(, s[ée]rie )(.+)$/i',$titre_volume,$titre_volume_match)) {
+								$infos_publication['citation_reference'] .= "numéro spécial <i>".$titre_volume_match[1]."</i>".$titre_volume_match[2]."<i>".$titre_volume_match[3]."</i>, ";
+							} else
+								$infos_publication['citation_reference'] .= "numéro spécial <i>".$titre_volume."</i>, ";
+						} else
+							$infos_publication['citation_reference'] .= $titre_volume.", ";
 					}
-					elseif ($revue) {
-						if (preg_match('/^(\d{4})-(\d{2})-(\d{2}).+$/',$infos_publication['date_production'],$date_publi_match)) {
-							spip_log($infos_publication['date_production']." // ".$date_publi_match, _LOG_ERREUR);
-							switch ($date_publi_match[2]) {
-								case '01':
-									$infos_publication['citation_reference'] .= "janvier ".$date_publi_match[1];
-									break;
-								case '02':
-									$infos_publication['citation_reference'] .= "février ".$date_publi_match[1];
-									break;
-								case '03':
-									$infos_publication['citation_reference'] .= "mars ".$date_publi_match[1];
-									break;
-								case '04':
-									$infos_publication['citation_reference'] .= "avril ".$date_publi_match[1];
-									break;
-								case '05':
-									$infos_publication['citation_reference'] .= "mai ".$date_publi_match[1];
-									break;
-								case '06':
-									$infos_publication['citation_reference'] .= "juin ".$date_publi_match[1];
-									break;
-								case '07':
-									$infos_publication['citation_reference'] .= "juillet ".$date_publi_match[1];
-									break;
-								case '08':
-									$infos_publication['citation_reference'] .= "août ".$date_publi_match[1];
-									break;
-								case '09':
-									$infos_publication['citation_reference'] .= "septembre ".$date_publi_match[1];
-									break;
-								case '10':
-									$infos_publication['citation_reference'] .= "octobre ".$date_publi_match[1];
-									break;
-								case '11':
-									$infos_publication['citation_reference'] .= "novembre ".$date_publi_match[1];
-									break;
-								case '12':
-									$infos_publication['citation_reference'] .= "décembre ".$date_publi_match[1];
-									break;
-								default:
-									break;
-							}
+					if (isset($contenu_publication['scientificEditor_s'])) {
+						if (is_array($contenu_publication['scientificEditor_s'])) {
+							if (count($contenu_publication['scientificEditor_s']) > 1)
+								$infos_publication['citation_reference'] .= implode(', ', $contenu_publication['scientificEditor_s'])." (eds.), ";
+							else
+								$infos_publication['citation_reference'] .= implode(', ', $contenu_publication['scientificEditor_s'])." (ed.), ";
+						} else
+							$infos_publication['citation_reference'] .= $contenu_publication['scientificEditor_s']." (ed), ";
+					}
+					break;
+				case "COUV":
+					if (isset($contenu_publication['subTitle_s']) && (is_array($contenu_publication['subTitle_s']) || (strlen($contenu_publication['subTitle_s']) > 0))) {
+						// subTitle est un tableau : on ne prend que le sous-titre en français s'il existe
+						if (is_array($contenu_publication['subTitle_s'])) {
+							// à vérifier
+							if (isset($contenu_publication['subTitle_s']['fr']))
+								$infos_publication['citation_reference'] .= $contenu_publication['subTitle_s']['fr'].", ";
+							elseif (isset($contenu_publication['subTitle_s'][0]))
+								$infos_publication['citation_reference'] .= $contenu_publication['subTitle_s'][0].", ";
 						}
+						// Guillemets : if (!preg_match('/^ *(\x{AB}|\x{22}|\x{201A}|\x{201C}|\x{}201F)/i',...) 
 					}
-					if (isset($infos_publication['isbn'])) {
-						if ($revue)
-							$infos_publication['citation_reference'] .= ". ISSN ".$infos_publication['isbn'];
-						else
-							$infos_publication['citation_reference'] .= ". ISBN ".$infos_publication['isbn'];
+					$infos_publication['citation_reference'] .= "in ";
+
+					if (isset($contenu_publication['scientificEditor_s'])) {
+						if (is_array($contenu_publication['scientificEditor_s'])) {
+							if (count($contenu_publication['scientificEditor_s']) > 1)
+								$infos_publication['citation_reference'] .= implode(', ', $contenu_publication['scientificEditor_s'])." (eds.), ";
+							else
+								$infos_publication['citation_reference'] .= implode(', ', $contenu_publication['scientificEditor_s'])." (ed.), ";
+						} else
+							$infos_publication['citation_reference'] .= $contenu_publication['scientificEditor_s']." (ed), ";
 					}
-					if (isset($contenu_publication['publisherLink_s']) && is_array($contenu_publication['publisherLink_s'])) {
-						$infos_publication['citation_reference'] .= ". <a target=\"_blank\" href=\"".$contenu_publication['publisherLink_s'][0]."\">&#x3008;".$contenu_publication['publisherLink_s'][0]."&#x3009;</a>";
+					if (isset($contenu_publication['bookTitle_s']) && $contenu_publication['bookTitle_s'] != "") {
+						$infos_publication['citation_reference'] .= "<i>".$contenu_publication['bookTitle_s']."</i>, ";
 					}
 					break;
 				default:
 					$infos_publication['citation_reference'] = $contenu_publication['citationRef_s'];
 					break;
 			}
+			// Date commune à tous les types
+			if ($contenu_publication['inPress_bool'] == "true")
+				$infos_publication['citation_reference'] .= "à paraître";
+			elseif ($infos_publication['date_production_format'] == 'annee' || !$revue) {
+				$infos_publication['citation_reference'] .= substr($contenu_publication['producedDate_s'],0,4);
+				//spip_log($infos_publication['citation_reference'], _LOG_ERREUR);
+			}
+			elseif ($revue) {
+				if (preg_match('/^(\d{4})-(\d{2})-(\d{2}).+$/',$infos_publication['date_production'],$date_publi_match)) {
+					//spip_log($infos_publication['date_production']." // ".$date_publi_match, _LOG_ERREUR);
+					switch ($date_publi_match[2]) {
+						case '01':
+							$infos_publication['citation_reference'] .= "janvier ".$date_publi_match[1];
+							break;
+						case '02':
+							$infos_publication['citation_reference'] .= "février ".$date_publi_match[1];
+							break;
+						case '03':
+							$infos_publication['citation_reference'] .= "mars ".$date_publi_match[1];
+							break;
+						case '04':
+							$infos_publication['citation_reference'] .= "avril ".$date_publi_match[1];
+							break;
+						case '05':
+							$infos_publication['citation_reference'] .= "mai ".$date_publi_match[1];
+							break;
+						case '06':
+							$infos_publication['citation_reference'] .= "juin ".$date_publi_match[1];
+							break;
+						case '07':
+							$infos_publication['citation_reference'] .= "juillet ".$date_publi_match[1];
+							break;
+						case '08':
+							$infos_publication['citation_reference'] .= "août ".$date_publi_match[1];
+							break;
+						case '09':
+							$infos_publication['citation_reference'] .= "septembre ".$date_publi_match[1];
+							break;
+						case '10':
+							$infos_publication['citation_reference'] .= "octobre ".$date_publi_match[1];
+							break;
+						case '11':
+							$infos_publication['citation_reference'] .= "novembre ".$date_publi_match[1];
+							break;
+						case '12':
+							$infos_publication['citation_reference'] .= "décembre ".$date_publi_match[1];
+							break;
+						default:
+							break;
+					}
+				}
+			}
+
+			if (isset($contenu_publication['page_s']) && $contenu_publication['page_s'] != "") {
+				if (preg_match('/^[ p\.\—\–\-0-9]+$/',$contenu_publication['page_s'])) {
+					$pages = preg_replace('/^ *p+\.? */i','',$contenu_publication['page_s']);
+					if (preg_match('/[\—\–\-]/i',$pages))
+						$pages = "pp. ".$pages;
+					elseif ($docType == "ART" || $docType = "COUV")
+						$pages = "p. ".$pages;
+					else
+						$pages = $pages." p.";
+					$infos_publication['citation_reference'] .= ", ".$pages;
+				} else
+					$infos_publication['citation_reference'] .= ", ".$contenu_publication['page_s'];
+			}
+
+			if (isset($infos_publication['isbn'])) {
+				if ($revue)
+					$infos_publication['citation_reference'] .= ". ISSN ".$infos_publication['isbn'];
+				else
+					$infos_publication['citation_reference'] .= ". ISBN ".$infos_publication['isbn'];
+			}
+			if (isset($contenu_publication['publisherLink_s']) && is_array($contenu_publication['publisherLink_s'])) {
+				$infos_publication['citation_reference'] .= ". <a target=\"_blank\" href=\"".$contenu_publication['publisherLink_s'][0]."\">&#x3008;".$contenu_publication['publisherLink_s'][0]."&#x3009;</a>";
+			}
 			unset($sci_eds);
 			unset($subTitle);
+			unset($revue);
 
 			/**
 			 * On va chercher les ISBNs dans les citations (si le champs isbn est vide)
@@ -357,6 +448,7 @@ function analyser_publications($json, $url_syndic='') {
 			 */
 			$infos_publication['hal_complet'] = serialize($contenu_publication);
 			
+			spip_log($infos_publication['resume'], _LOG_ERREUR);
 			$publications[] = $infos_publication;
 		}
 	}

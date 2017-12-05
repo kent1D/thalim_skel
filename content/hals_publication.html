@@ -39,9 +39,11 @@
 		[(#DESCRIPTIF|concat{#CITATION_REFERENCE}|concat{#COMMENTAIRE}|strlen|>{600}|non)
 			[<div class="affiche"><a href="[(#LOGO_HALS_PUBLICATION|extraire_attribut{src})]" class="mediabox">(#LOGO_HALS_PUBLICATION|image_reduire{198,''}|inserer_attribut{itemprop,image})</a></div>]
 		]
-		[<div class="texte citation_complete surlignable">(#CITATION_COMPLETE|adaptive_images)</div>]
+		[(#REM)[<div class="texte citation_complete surlignable">(#CITATION_COMPLETE|adaptive_images)</div>]]
+		[<div class="texte citation_complete surlignable">(#CITATION_REFERENCE|adaptive_images)</div>]
 		[<div class="texte commentaire surlignable">(#COMMENTAIRE|adaptive_images)</div>]
 
+		[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#RESUME)</div>]]
 		[(#URL_PUBLICATION|oui)<p class="hyperlien">
 			<a href="[(#URL_PUBLICATION|match{http}|?{#URL_PUBLICATION,[http://(#URL_PUBLICATION)]})]" class="spip_out"><:hal:lien_notice_complete:></a>
 		</p>]
