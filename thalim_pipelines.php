@@ -164,9 +164,7 @@ function thalim_skel_editer_contenu_objet($flux){
 		/**
 		 * On récupère le type de publication
 		 */
-		$type_hal_old = sql_fetsel('hals.typdoc','spip_hals_publications as hals','hals.id_hals_publication='.intval($id_objet));
 		$type_hal = $flux['args']['contexte']['typdoc'];
-		echo "<h1>$type_hal</h1>";
 		/**
 		 * On définit les groupes de mots obligatoire en fonction du type
 		 */
