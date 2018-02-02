@@ -168,7 +168,7 @@ function thalim_skel_editer_contenu_objet($flux){
 		/**
 		 * On définit les groupes de mots obligatoire en fonction du type
 		 */
-		$mots_obligatoires = ($type_hal == 'COMM') ? array('8','10','13','3') : array('8','10','13','11');
+		$mots_obligatoires = ($type_hal == 'COMM') ? array('8','10','13','3') : array('8','10','13');
 
 		$valeurs_mots['id_groupes'] = $mots_obligatoires;
 		/**

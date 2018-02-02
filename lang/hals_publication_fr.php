@@ -3,8 +3,7 @@
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
-	// L
-	'label_date_production' => 'Date de publication',
+	// A
 	'abstract_aa' => 'Afar',
 	'abstract_ab' => 'Abkhaze',
 	'abstract_ae' => 'Avestique',
@@ -193,8 +192,14 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'abstract_zh' => 'Chinois',
 	'abstract_zu' => 'Zoulou',
 	
+	// L
+	'label_date_production' => 'Date de publication',
+
 	// T
-	'typdoc_art' => 'Article'
+	'typdoc_art' => 'Article',
+	'typdoc_comm' => 'Communication',
+	'typdoc_ouv' => 'Ouvrage'
+	
 );
 
 ?>

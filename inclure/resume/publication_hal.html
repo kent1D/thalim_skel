@@ -5,13 +5,18 @@
 
 ]
 <BOUCLE_publication_hal(HALS_PUBLICATIONS) {id_hals_publication} {statut?}>
-<BOUCLE_auteurs(AUTEURS){si #ENV{afficher_auteur}|!={non}}{id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
+<BOUCLE_auteurs(AUTEURS){id_objet = #ID_HAL}{objet=hal}{par nom}{0,1}>
 #SET{auteur,#NOM}
 #SET{url_auteur,<a href="#URL_AUTEUR">#NOM</a>}
 #SET{auteur_complet,<p class="lesauteurs"><a href="#URL_AUTEUR">#NOM</a></p>}
 </BOUCLE_auteurs>
 <article class="entry article vevent">
-	<div class="entry-title">[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC|=={DOUV}|oui)(dir.)], ]<a href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})]</a>[,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</div>
+	<div class="entry-title">
+		[(#ENV{afficher_auteur}|=={non}|non)
+		[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},#GET{url_auteur}})#SET{auteur_ok,ok}],#LESAUTEURS})[(#TYPDOC**|=={DOUV}|oui)(dir.)], ]]
+		[(#ENV{afficher_auteur}|=={non}|oui)
+		[(#LESAUTEURS|match{#GET{auteur}}|?{[(#LESAUTEURS|replace{#GET{auteur},''})],#LESAUTEURS})[(#TYPDOC**|=={DOUV}|oui)(dir.)], ]]		
+		<a href="#URL_HALS_PUBLICATION" rel="bookmark">[(#TYPDOC**|in_array{#LISTE{DOUV,OUV}}|?{<em>#TITRE</em>,&laquo;&nbsp;#TITRE&nbsp;&raquo;})]</a>[,(#TYPDOC**|=={COMM}|non)[(#CITATION_REFERENCE*|typo)]]</div>
 	[(#TYPDOC**|=={COMM}|oui)[<strong>(#DATE_PRODUCTION|agenda_affdate_debut_fin{#DATE_PRODUCTION,non,'hcal annee'})</strong>]]
 	[(#ENV{intro,oui}|=={non}|non)[<div class="#EDIT{intro} introduction entry-content">(#INTRODUCTION{#ENV{coupe,200},<:zcore:lire_la_suite:>})</div>]]
 	[(#GET{auteur_ok}|=={ok}|non)#GET{auteur_complet}]

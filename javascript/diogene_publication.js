@@ -1,6 +1,6 @@
 jQuery(document).ready(function(){
 	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
-	jQuery(".editer_groupe_11").detach().insertBefore('.editer_surtitre');
+	//jQuery(".editer_groupe_11").detach().insertBefore('.editer_surtitre');
 	jQuery(".editer_surtitre label").text('Titre de l’article ou du chapitre');
 	jQuery(".editer_titre label").text('Titre de l’ouvrage ou de la revue');
 	jQuery("#diogene_auteurs").detach().insertAfter('.editer_titre');
