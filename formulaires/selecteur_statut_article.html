@@ -1,0 +1,74 @@
+#CACHE{0}
+
+#SET{interface_simple, #WORKFLOW_SIMPLIFIE|=={on}|et{
+	#ENV{statut}|=={publie}
+	|ou{#AUTORISER{instituer,article,#ENV{id_article},'',#ARRAY{statut,publie}}|oui}
+	|ou{#AUTORISER{publierdans,diogene,#ENV{id_diogene}}|oui}
+	}|oui}
+	
+[(#GET{interface_simple}|non)
+<li class="fieldset diogene_selecteur_statut">
+<fieldset>
+	<legend><:diogene:legende_selecteur_statut:></legend>
+	<ul>
+		<li class="editer editer_statut">
+			<label for="statut"><:diogene:label_change_statut_normal:></label>
+			<select id="statut" name="statut">
+				[(#ENV{statut}|=={publie}|ou{#AUTORISER{instituer,article,#ENV{id_article},'',#ARRAY{statut,publie}}|oui}|ou{#AUTORISER{publierdans,diogene,#ENV{id_diogene}}|oui}|oui)
+				<option value="publie"[(#ENV{statut}|=={publie}|oui) selected="selected"]>
+					[(#ENV{statut}|=={publie}|oui)<:diogene:texte_statut_en_cours_publie_normal:>]
+					[(#ENV{statut}|=={publie}|non)<:diogene:texte_statut_publie_normal:>]
+				</option>]
+				[(#ENV{statut}|=={prop}|ou{#ENV{statut}|=={''}|oui}|ou{#AUTORISER{instituer,article,#ENV{id_article},'',#ARRAY{statut,prop}}|oui}|ou{#AUTORISER{publierdans,diogene,#ENV{id_diogene}}|oui}|oui)
+				<option value="prop"[(#ENV{statut}|=={prop}|ou{#ENV{statut}|non}|oui) selected="selected"]>
+					[(#ENV{statut}|=={prop}|oui)<:diogene:texte_statut_en_cours_prop_normal:>]
+					[(#ENV{statut}|=={prop}|non)<:diogene:texte_statut_prop_normal:>]
+				</option>]
+				[(#ENV{statut}|=={prepa}|ou{#ENV{statut}|=={''}|oui}|ou{#AUTORISER{instituer,article,#ENV{id_article},'',#ARRAY{statut,prepa}}|oui}|oui)
+				<option value="prepa"[(#ENV{statut}|=={prepa}|oui) selected="selected"]>
+					[(#ENV{statut}|=={prepa}|oui)<:diogene:texte_statut_en_cours_redaction:>]
+					[(#ENV{statut}|=={prepa}|non)
+						[(#ENV{statut}|oui)<:diogene:texte_statut_redaction:>]
+						[(#ENV{statut}|non)<:diogene:texte_statut_redaction_sans_statut:>]
+					]
+				</option>]
+				[(#ENV{statut}|oui)
+				[(#AUTORISER{instituer,article,#ENV{id_article},'',#ARRAY{statut,poubelle}}|oui)
+				<option value="poubelle"[(#ENV{statut}|=={poubelle}|oui) selected="selected"]>
+					[(#ENV{statut}|=={poubelle}|oui)<:diogene:texte_statut_en_cours_poubelle_normal:>]
+					[(#ENV{statut}|=={poubelle}|non)<:diogene:texte_statut_poubelle_normal:>]
+				</option>]]
+			</select>
+		</li>
+	</ul>
+</fieldset>
+</li>
+<script type="text/javascript">
+	var statut_defaut = "#ENV{statut}";
+	jQuery('#statut').change(function(){
+		if($(this).val() == statut_defaut){
+			jQuery(this).parents('form').unbind('form-pre-serialize');
+		}else if((statut_defaut != 'publie') && ($(this).val() != 'poubelle')){
+			jQuery(this).parents('form').unbind('form-pre-serialize');
+		}
+		else{
+			if(jQuery(this).val() == 'poubelle'){
+				var message = '<:diogene:message_confirm_poubelle:>';
+			}else if(statut_defaut == 'publie'){
+				var message = '<:diogene:message_confirm_depublier:>';
+			}
+			if (message) {
+				jQuery(this).parents('form').unbind('form-pre-serialize').bind('form-pre-serialize', function(event, $form, formOptions, veto){
+					if (!confirm(message)) {
+						jQuery(this).removeClass('loading');
+						veto.veto = true;
+					}
+				});
+			}
+		}
+	});
+</script>
+][(#GET{interface_simple}|oui)
+[(#REM) On force la valeur à "publie"]
+<input type='hidden' name='statut' value='publie' />
+]
