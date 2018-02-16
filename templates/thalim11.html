@@ -1,6 +1,6 @@
 #SET{affichage_duree,#ENV{affichage_duree,2}}
 #SET{affichage_debut,#CONFIG{agenda/affichage_debut,#ENV{affichage_debut,date_jour}}}
-#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}}
+#SET{date_debut,#ENV{date_debut,#ENV{date}}|affdate{'Y-m-01 H:i:00'}|agenda_date_debut_liste{#GET{affichage_debut}}|agenda_moisdecal{1}}
 #SET{date_debut_ouv,#GET{date_debut}|agenda_moisdecal{#GET{affichage_duree}|mult{-1},'Y-m-d 00:00:00'}}
 [(#REM)#SET{date_fin,#GET{date_debut}|agenda_dateplus{5184000,'Y-m-d 00:00:00'}}]
 [(#REM)(#ENV{id_rubrique}|in_array{#LISTE{250,270}}|oui)
@@ -55,7 +55,7 @@ a:hover {
         <tbody style="font-size:12pt;line-height:1.5em;font-family:'century_gothic','Century Gothic',Arial,sans-serif;color:#020202;background-color:#fff;max-width:600px;width:600px;margin:0px auto;" align="left">
             <tr><td colspan="3" style="background-color:#fff;height:20px;">&nbsp;</td></tr>
             <tr><td style="background-color:#fff;width:20px;text-align:left">&nbsp;</td><td style="text-align:left;background-color:#fff;max-width:560px;width:560px;">
-            <h1 class="ellipse" style="font-size:16pt;line-height: 1.1em;font-weight: normal;;overflow:hidden;border:none;max-width:200px;width:200px;margin:0px;height:36px;">
+            <h1 class="ellipse" style="font-size:16pt;line-height: 1.1em;font-weight: normal;overflow:hidden;border:none;max-width:200px;width:200px;margin:0px;height:36px;">
                 <img style="border:none;max-width:200px;width:200px;margin:0px;height:36px;" src="http://www.thalim.cnrs.fr/IMG/png/Titre_actualites_ellipse_200px.png" alt="Actualit&eacute;s">
             </h1>
             #SET{has_event,non}
