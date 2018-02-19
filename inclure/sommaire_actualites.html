@@ -109,14 +109,18 @@
 		</BOUCLE_ev3_21>
 	</BOUCLE_rubriques3>
 
+    #SET{depots,#ARRAY}
 	#SET{publications_ouvrages,#ARRAY}
 	#SET{mots_ouvrages,#LISTE{463,1053}}
     #SET{type_hal_ouvrages,#LISTE{OUV,DOUV}}
-    <BOUCLE_ev1(HALS_PUBLICATIONS){date_production >= #GET{date_debut_ouv}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+    <BOUCLE_depots(HALS){auteurs_liens.objet = "hal"}{auteurs.statut IN 0minirezo,1comite}>
+            #SET{depots, #GET{depots}|push{#ID_HAL}}
+    </BOUCLE_depots>
+    <BOUCLE_ev1(HALS_PUBLICATIONS hals){date_production >= #GET{date_debut_ouv}}{date_production < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production != 0000-00-00 00:00:00}{!par date_production}{id_hal IN #GET{depots}}{doublons hal_ouvrages}>
         [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
         [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev1>
-    <BOUCLE_ev2(HALS_PUBLICATIONS){date_ecriture >= #GET{date_debut_ouv}}{date_ecriture < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{doublons hal_ouvrages}>
+    <BOUCLE_ev2(HALS_PUBLICATIONS){date_ecriture >= #GET{date_debut_ouv}}{date_ecriture < #GET{date_fin}}{typdoc IN #GET{type_hal_ouvrages}}{date_production = 0000-00-00 00:00:00}{!par date_production}{id_hal IN #GET{depots}}{doublons hal_ouvrages}>
         [(#SET{cle,[(#DATE_PRODUCTION|!={'0000-00-00 00:00:00'}|?{#DATE_PRODUCTION,#DATE_ECRITURE}|replace{-,''}|replace{:,''}|replace{' ',''})_hal_#ID_HALS_PUBLICATION]})]
         [(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{#GET{cle},[(#INCLURE{fond=inclure/resume/publication_hal_sommaire,id_hals_publication,intro=non,env})]})]})]})]
 	</BOUCLE_ev2>
@@ -126,7 +130,7 @@
 			[(#SET{publications_ouvrages,[(#GET{publications_ouvrages}|array_merge{[(#ARRAY{[(#GET{cle})],[(#INCLURE{fond=inclure/resume/publication_sommaire,id_article,intro=non,env})]})]})]})]
 		</BOUCLE_ouvrages_pub>
 	</BOUCLE_rubriques_pub>
-
+    
     #SET{sout,#ARRAY}
     <BOUCLE_annee4(RUBRIQUES){id_rubrique=270}>
         <B_ev_soutenance>
