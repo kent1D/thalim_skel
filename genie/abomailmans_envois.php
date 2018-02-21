@@ -27,7 +27,7 @@ function genie_abomailmans_envois_dist($time) {
     $id_liste = sql_getfetsel("id_abomailman", "spip_abomailmans", $where, '', "date_envoi", "1"); */
     
     // périodicité revue!
-    $where = "((MINUTE(NOW())-MINUTE(`date_envoi`))>=1) || (MONTH(NOW())=2 && DAY(NOW())=28)";
+    $where = "`periodicite` NOT LIKE '' AND desactive='0' AND email!='' AND ((ABS(MONTH(NOW())-MONTH(`date_envoi`))>=`periodicite` AND DAY(NOW())=30) OR (MONTH(NOW())=2 AND DAY(NOW())=28))";
     $id_liste = sql_getfetsel("id_abomailman", "spip_abomailmans", $where, '', "date_envoi", "1");
 
 
