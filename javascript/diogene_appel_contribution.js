@@ -1,4 +1,5 @@
 jQuery(document).ready(function(){
+	jQuery(".editer_groupe_3").hide();
 	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery("#diogene_auteurs").detach().insertAfter('.editer_titre');
 	jQuery("#diogene_auteurs label").text('Auteurs/organisateurs');
