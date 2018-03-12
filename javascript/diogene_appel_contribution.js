@@ -3,7 +3,7 @@ jQuery(document).ready(function(){
 	jQuery('#titre').attr('placeholder','').addClass('inserer_barre_simple');;
 	jQuery("#diogene_auteurs").detach().insertAfter('.editer_titre');
 	jQuery("#diogene_auteurs label").text('Auteurs/organisateurs');
-	jQuery("#diogene_auteurs .editer_diogene_gerer_auteurs label[for='diogene_gerer_auteurs2'").text('Auteurs/organisateurs Associés');
+	jQuery("#diogene_auteurs .editer_diogene_gerer_auteurs label[for='diogene_gerer_auteurs2']").text('Auteurs/organisateurs associé(s)');
 	jQuery(".editer_autres_auteurs label").text('Autre(s) auteur(s)/organisateur(s)');
 	jQuery(".editer_autres_auteurs").detach().insertAfter('#diogene_auteurs');
 	jQuery(".editer_url_site label").text("Lien pour plus d'informations sur l'appel");
